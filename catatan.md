@@ -22,6 +22,12 @@
       royalti/kepemilikan master, bukan hal yang boleh dikarang)
 - [ ] Halaman detail per-artist (`/roster/db-project`) dan sub-route lain
       yang dilink dari halaman-halaman ini belum dibangun (masih 404)
+- [ ] Link tiap rilisan di section Katalog Home ("Yang lagi didengerin",
+      `src/app/page.tsx`) masih `href="#"` — **dikonfirmasi Kaiel 2026-08-20:
+      ini memang belum final, bukan bug.** Rencananya tiap rilisan bakal
+      punya halaman detail sendiri, dan di situ baru dipasang URL streaming
+      asli (Spotify/Apple Music dst). Jangan diisi `href="#"` -> URL platform
+      langsung tanpa halaman detail, itu bukan arahnya.
 
 ## Debug log — chip Record/Lantuns sempat kelihatan salah render
 Kaiel laporin chip "Record"/"Lantuns" di section manifesto keliatan solid
@@ -73,6 +79,14 @@ lebih gampang dibaca juga.
   di card, atau tetap link keluar seperti sekarang
 - SEO lengkap (openGraph, favicon set, sitemap.ts, robots.ts, JSON-LD) —
   ditunda sampai semua halaman fix strukturnya, biar gak bolak-balik
+
+## Klarifikasi Kaiel (2026-08-20)
+- Section "Past Roster" di halaman Roster (`Putri Clarantika`, `Suci
+  Arshinta`, keduanya `"2022 — 2024"`) — **data asli, bukan asumsi/tebakan.**
+  Dikonfirmasi Kaiel: mereka beneran udah nggak lagi di bawah Anka
+  Entertainment. Beda kasus sama kategori kepemilikan master di Katalog
+  yang masih asumsi (lihat di atas) — ini udah fix, jangan ditandai belum
+  dikonfirmasi lagi di sesi berikutnya.
 
 ## Sudah diselesaikan (dulu ditunda)
 - Treatment state "Submission CLOSED" — sekarang halaman `/submit` kasih
