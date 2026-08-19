@@ -215,15 +215,41 @@ prinsip buat section-section berikutnya: kalau kontennya cerita, bentuknya
 paragraf + chip aksen, bukan otomatis jadi card grid.
 
 ## Featured Artist (DB Project)
-Section ketiga di Home. Belum ada foto artist asli, jadi tetap jalur
-"tanpa gambar" (prioritas #1 AGENTS.md) — headline nama artist gede jadi
-elemen dominan, chip status (Live/Exclusive) di atas, satu baris quote
-di-bold sebagai statement, bukan italic-serif (itu di daftar haram).
-Sengaja TIDAK pakai gradient-card placeholder kayak draft hero pertama —
-biar gak jadi pola berulang cuma karena belum ada aset. Kalau nanti ada
-foto asli, itu yang jadi visual utama section ini, bukan tipografi lagi.
-Background gantian ke `bg-background` (section sebelumnya `bg-surface-2`)
-buat kasih ritme antar-section.
+Section ketiga di Home, dan section "Active Roster" di halaman Roster
+(pola/konten sama, reused). Headline nama artist gede + chip status
+(Live/Eksklusif), satu baris quote di-bold sebagai statement, bukan
+italic-serif (itu di daftar haram). Background gantian ke `bg-background`
+(section sebelumnya `bg-surface-2`) buat kasih ritme antar-section.
+
+**Revisi (setelah cek situs lama):** awalnya section ini "tanpa gambar"
+sepenuhnya (headline+chip doang, gak ada slot foto). Ternyata rencananya
+section ini BAKAL punya foto artist asli lewat Sanity CMS pas redesign
+jalan — cuma belum diisi sekarang. Jadi sekarang dua kolom: teks kiri,
+`ArtistPhotoPlaceholder` (`src/components/artist-photo-placeholder.tsx`)
+di kanan — rasio `aspect-[4/5]`, `rounded-xl`, border dashed + ikon
+`Image` (lucide) + teks "Foto X belum diupload". INI BEDA dari gradient
+placeholder yang dipakai situs lama (ungu-biru, ikut daftar haram
+"Gradient indigo → ungu") — kita jujur nunjukkin ini kosong pakai token
+netral, bukan nyamar jadi foto. **Kalau nanti foto asli masuk (dari
+Sanity), ganti `ArtistPhotoPlaceholder` jadi `<Image>` beneran di slot
+yang sama — jangan dibiarin nempel.**
+
+## Tombol platform streaming (Spotify/Apple Music dst.) — prioritas di atas link internal
+Di section Featured Artist/Active Roster, tombol platform streaming
+(Spotify, Apple Music) SEKARANG jadi CTA utama — dibikin chip/tombol
+(`PlatformLinks`, `src/components/platform-links.tsx`) dengan ikon custom
+(`SpotifyIcon`/`AppleMusicIcon` di `social-icons.tsx`, karena Lucide gak
+nyertain ikon brand). "Lihat profil lengkap" turun jadi link teks
+sekunder di bawahnya, BUKAN tombol filled-primary lagi — karena dengerin
+lagu itu aksi paling langsung buat visitor dari section ini, sementara
+`/roster/db-project` sendiri masih 404 (belum dibangun, lihat catatan.md).
+
+**Kenapa `PlatformLinks` nerima array, bukan 2 tombol hardcoded:** tiap
+artist bisa punya kombinasi platform yang beda (belum tentu semua ada di
+semua platform) — `flex-wrap` di komponennya harus tetap rapi baik cuma
+1 platform doang maupun lebih dari itu. Kalau nambah artist baru dengan
+platform berbeda, bikin array `Platform[]` baru, jangan modif
+`dbProjectPlatforms` yang sudah ada.
 
 ## Halaman Home — selesai (versi pertama)
 Urutan section final: Hero → Behind the Label → Featured Artist (DB

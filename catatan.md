@@ -2,9 +2,18 @@
 
 ## Belum dikerjakan
 - [ ] Foto/cover asli artist (DB Project, Suci Arshinta, Putri Clarantika)
-      — belum ada aset dikirim. Semua halaman sekarang jalur "tanpa
-      gambar" (tipografi doang, bukan gradient placeholder) sampai foto
-      beneran ada
+      — belum diupload ke project ini. **Update:** cover 3 single katalog
+      (Sedang Berjuang/Bilang/Terlambat Kau Kembali) TERNYATA udah ada
+      fotonya di situs lama (ankaentertainment.com) — bukan placeholder,
+      real `<img>` (portrait tiap artist + judul lagu di-overlay). Belum
+      diambil/diimport ke project ini, tapi asetnya udah ada, tinggal
+      disalin/re-source. Foto DB Project sendiri di situs lama masih
+      gradient placeholder ungu-biru (bukan foto asli) — jadi itu emang
+      belum ada dan nunggu diisi asli (Kaiel konfirmasi 2026-08-20),
+      rencananya lewat Sanity CMS pas redesign. Section Featured
+      Artist/Active Roster sekarang udah dikasih slot
+      `ArtistPhotoPlaceholder` buat DB Project, ganti ke `<Image>` beneran
+      begitu asetnya ada — lihat arah.md
 - [ ] Konfirmasi kategori kepemilikan master rilisan (Catalog/Production/
       Cover) — sekarang ketiganya di-assign "Catalog" semua sebagai
       ASUMSI di `CatalogList`, bukan data bisnis yang udah dikonfirmasi

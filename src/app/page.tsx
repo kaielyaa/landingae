@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { ArtistPhotoPlaceholder } from "@/components/artist-photo-placeholder";
 import { HeroChipField } from "@/components/hero-chip-field";
+import { dbProjectPlatforms, PlatformLinks } from "@/components/platform-links";
 import { ScrollCue } from "@/components/scroll-cue";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -134,57 +136,46 @@ export default function Home() {
              karena belum ada aset. ---------- */}
         <section className="border-t border-border bg-background py-20">
           <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <div className="max-w-[62ch]">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="chip chip-accent rounded-sm px-2 py-1 text-[12px]">
-                  Live
-                </span>
-                <span className="chip rounded-sm border-border px-2 py-1 text-[12px]">
-                  Eksklusif
-                </span>
+            <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+              <div className="max-w-[62ch]">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="chip chip-accent rounded-sm px-2 py-1 text-[12px]">
+                    Live
+                  </span>
+                  <span className="chip rounded-sm border-border px-2 py-1 text-[12px]">
+                    Eksklusif
+                  </span>
+                </div>
+
+                <h2 className="mt-5 text-[clamp(32px,5vw,64px)] font-bold leading-[1.05] tracking-tight">
+                  DB Project
+                </h2>
+                <p className="mt-2 text-[14px] font-semibold text-muted">
+                  Electronic · Sejak 2021
+                </p>
+
+                <p className="mt-6 text-[17px] leading-[1.8] text-muted">
+                  Project remix elektronik yang ngolah ulang lagu jadi versi
+                  baru. Tiap track di-rebuild dari instinct — gak ada
+                  formula, cuma vibe dan eksperimen.
+                </p>
+
+                <p className="mt-6 text-[22px] font-bold leading-[1.35]">
+                  &ldquo;Setiap lagu punya sisi yang belum dibunyikan.&rdquo;
+                </p>
+
+                <div className="mt-8">
+                  <PlatformLinks platforms={dbProjectPlatforms} />
+                  <Link
+                    href="/roster/db-project"
+                    className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:decoration-foreground"
+                  >
+                    Lihat profil lengkap →
+                  </Link>
+                </div>
               </div>
 
-              <h2 className="mt-5 text-[clamp(32px,5vw,64px)] font-bold leading-[1.05] tracking-tight">
-                DB Project
-              </h2>
-              <p className="mt-2 text-[14px] font-semibold text-muted">
-                Electronic · Sejak 2021
-              </p>
-
-              <p className="mt-6 text-[17px] leading-[1.8] text-muted">
-                Project remix elektronik yang ngolah ulang lagu jadi versi
-                baru. Tiap track di-rebuild dari instinct — gak ada
-                formula, cuma vibe dan eksperimen.
-              </p>
-
-              <p className="mt-6 text-[22px] font-bold leading-[1.35]">
-                &ldquo;Setiap lagu punya sisi yang belum dibunyikan.&rdquo;
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Link
-                  href="/roster/db-project"
-                  className="rounded-md bg-primary px-6 py-3 text-[14px] font-bold text-primary-foreground transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
-                >
-                  Lihat profil lengkap
-                </Link>
-                <a
-                  href="https://open.spotify.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[14px] font-semibold text-muted underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:text-foreground"
-                >
-                  Spotify
-                </a>
-                <a
-                  href="https://music.apple.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[14px] font-semibold text-muted underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:text-foreground"
-                >
-                  Apple Music
-                </a>
-              </div>
+              <ArtistPhotoPlaceholder name="DB Project" />
             </div>
           </div>
         </section>
