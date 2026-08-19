@@ -1,0 +1,325 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   LAPIS 1 — PRIMITIF
+   Jangkar: cara orang nge-tag lagu/artist di catatan pribadinya
+   sendiri (playlist, notes app) — bukan sistem kategori korporat.
+   Lihat arah.md untuk histori keputusan (jangkar lama: rig panggung,
+   diganti karena kesannya "produced/big-show", bukan personal).
+
+   Primary <- Anka Blue #38B6FF -> Cmax 0.150, hue 239
+   Accent  <- Anka Pink #CB6CE6 -> Cmax 0.194, hue 318
+   Ladder pakai tabel turunan resmi AGENTS.md (L tetap, C = pct * Cmax)
+   ============================================================ */
+:root {
+  --brand-50:  oklch(0.971 0.0150 239);
+  --brand-100: oklch(0.936 0.0285 239);
+  --brand-200: oklch(0.885 0.0510 239);
+  --brand-300: oklch(0.808 0.0840 239);
+  --brand-400: oklch(0.704 0.1260 239);
+  --brand-500: oklch(0.637 0.1500 239);
+  --brand-600: oklch(0.577 0.1470 239);
+  --brand-700: oklch(0.505 0.1305 239);
+  --brand-800: oklch(0.444 0.1095 239);
+  --brand-900: oklch(0.396 0.0900 239);
+  --brand-950: oklch(0.258 0.0630 239);
+
+  --pink-50:  oklch(0.971 0.0194 318);
+  --pink-100: oklch(0.936 0.0369 318);
+  --pink-200: oklch(0.885 0.0660 318);
+  --pink-300: oklch(0.808 0.1086 318);
+  --pink-400: oklch(0.704 0.1630 318);
+  --pink-500: oklch(0.637 0.1940 318);
+  --pink-600: oklch(0.577 0.1901 318);
+  --pink-700: oklch(0.505 0.1688 318);
+  --pink-800: oklch(0.444 0.1416 318);
+  --pink-900: oklch(0.396 0.1164 318);
+  --pink-950: oklch(0.258 0.0815 318);
+
+  /* Netral bertint hue 239, chroma sangat rendah — bukan abu-abu murni */
+  --n-0:   oklch(0.995 0.0030 239);
+  --n-50:  oklch(0.980 0.0040 239);
+  --n-100: oklch(0.955 0.0055 239);
+  --n-200: oklch(0.905 0.0075 239);
+  --n-300: oklch(0.830 0.0090 239);
+  --n-500: oklch(0.580 0.0120 239);
+  --n-700: oklch(0.360 0.0140 239);
+  --n-800: oklch(0.270 0.0140 239);
+  --n-850: oklch(0.210 0.0135 239);
+  --n-900: oklch(0.155 0.0130 239);
+  --n-950: oklch(0.105 0.0110 239);
+
+  --c-success: oklch(0.640 0.140 150);
+  --c-warning: oklch(0.750 0.150  80);
+  --c-danger:  oklch(0.600 0.190  25);
+
+  /* Disamakan dengan landinglantuns (sister project, Anka Group) biar
+     lebar konten konsisten di seluruh ekosistem — bukan angka baru. */
+  --content-max: 90rem;
+  --page-gutter: clamp(1.25rem, 3vw, 3rem);
+}
+
+@media (min-width: 1920px) {
+  :root { --content-max: 108rem; }
+}
+@media (min-width: 2560px) {
+  :root { --content-max: 132rem; }
+}
+
+/* ---------- LAPIS 2 — SEMANTIK — default LIGHT ---------- */
+:root {
+  --background: var(--n-0);
+  --surface:    oklch(1 0 0);
+  --surface-2:  var(--n-50);
+  --foreground: var(--n-950);
+  --muted:      var(--n-500);
+  --border:     var(--n-200);
+  --hover:      var(--n-100);
+  --ring:       var(--brand-600);
+
+  --primary:            var(--brand-600);
+  --primary-foreground: oklch(0.995 0.003 239);
+  --primary-subtle:     var(--brand-100);
+
+  --accent:             var(--pink-600);
+  --accent-foreground:  oklch(0.995 0.003 318);
+  --accent-subtle:      var(--pink-100);
+
+  --success:            var(--c-success);
+  --success-subtle:     oklch(0.945 0.045 150);
+  --warning:            var(--c-warning);
+  --warning-subtle:     oklch(0.955 0.050  80);
+  --destructive:        var(--c-danger);
+  --destructive-subtle: oklch(0.950 0.045  25);
+
+  --r-chip: 12px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+
+  --elev-sm: 0 1px 2px 0 oklch(0.155 0.013 239 / 0.06);
+  --elev-md: 0 8px 24px -6px oklch(0.155 0.013 239 / 0.12);
+  --elev-lg: 0 20px 48px -12px oklch(0.155 0.013 239 / 0.16);
+
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --ease-keluar: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- DARK — ngikut prefers-color-scheme sistem ---------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--n-950);
+    --surface:    var(--n-900);
+    --surface-2:  var(--n-850);
+    --foreground: oklch(0.965 0.005 239);
+    --muted:      oklch(0.640 0.012 239);
+    --border:     var(--n-800);
+    --hover:      var(--n-850);
+    --ring:       var(--brand-400);
+
+    /* Warna jenuh menyala berlebihan di latar gelap: naik L, turun C */
+    --primary:            var(--brand-400);
+    --primary-foreground: oklch(0.155 0.020 239);
+    --primary-subtle:     var(--brand-950);
+
+    --accent:             var(--pink-400);
+    --accent-foreground:  oklch(0.155 0.020 318);
+    --accent-subtle:      var(--pink-950);
+
+    --success-subtle:     oklch(0.280 0.055 150);
+    --warning-subtle:     oklch(0.300 0.060  80);
+    --destructive-subtle: oklch(0.295 0.065  25);
+
+    --elev-sm: 0 1px 2px 0 oklch(0 0 0 / 0.32);
+    --elev-md: 0 8px 24px -6px oklch(0 0 0 / 0.42);
+    --elev-lg: 0 20px 48px -12px oklch(0 0 0 / 0.55);
+  }
+}
+
+/* Toggle manual .dark (belum ada switch UI — override sengaja disiapkan
+   duluan biar gampang nambah tombol tema nanti, lihat catatan.md) */
+.dark {
+  --background: var(--n-950);
+  --surface:    var(--n-900);
+  --surface-2:  var(--n-850);
+  --foreground: oklch(0.965 0.005 239);
+  --muted:      oklch(0.640 0.012 239);
+  --border:     var(--n-800);
+  --hover:      var(--n-850);
+  --ring:       var(--brand-400);
+  --primary:            var(--brand-400);
+  --primary-foreground: oklch(0.155 0.020 239);
+  --primary-subtle:     var(--brand-950);
+  --accent:             var(--pink-400);
+  --accent-foreground:  oklch(0.155 0.020 318);
+  --accent-subtle:      var(--pink-950);
+  --success-subtle:     oklch(0.280 0.055 150);
+  --warning-subtle:     oklch(0.300 0.060  80);
+  --destructive-subtle: oklch(0.295 0.065  25);
+  --elev-sm: 0 1px 2px 0 oklch(0 0 0 / 0.32);
+  --elev-md: 0 8px 24px -6px oklch(0 0 0 / 0.42);
+  --elev-lg: 0 20px 48px -12px oklch(0 0 0 / 0.55);
+}
+.light {
+  --background: var(--n-0);
+  --surface:    oklch(1 0 0);
+  --surface-2:  var(--n-50);
+  --foreground: var(--n-950);
+  --muted:      var(--n-500);
+  --border:     var(--n-200);
+  --hover:      var(--n-100);
+  --ring:       var(--brand-600);
+  --primary:            var(--brand-600);
+  --primary-foreground: oklch(0.995 0.003 239);
+  --primary-subtle:     var(--brand-100);
+  --accent:             var(--pink-600);
+  --accent-foreground:  oklch(0.995 0.003 318);
+  --accent-subtle:      var(--pink-100);
+  --elev-sm: 0 1px 2px 0 oklch(0.155 0.013 239 / 0.06);
+  --elev-md: 0 8px 24px -6px oklch(0.155 0.013 239 / 0.12);
+  --elev-lg: 0 20px 48px -12px oklch(0.155 0.013 239 / 0.16);
+}
+
+/* ---------- PEMETAAN KE UTILITY TAILWIND ---------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface:    var(--surface);
+  --color-surface-2:  var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted:      var(--muted);
+  --color-border:     var(--border);
+  --color-hover:      var(--hover);
+  --color-ring:       var(--ring);
+
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-subtle:     var(--primary-subtle);
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+  --color-accent-subtle:      var(--accent-subtle);
+
+  --color-success:            var(--success);
+  --color-success-subtle:     var(--success-subtle);
+  --color-warning:            var(--warning);
+  --color-warning-subtle:     var(--warning-subtle);
+  --color-destructive:        var(--destructive);
+  --color-destructive-subtle: var(--destructive-subtle);
+
+  --radius-chip: var(--r-chip);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+
+  --shadow-sm: var(--elev-sm);
+  --shadow-md: var(--elev-md);
+  --shadow-lg: var(--elev-lg);
+
+  --transition-duration-fast: var(--dur-fast);
+  --transition-duration-base: var(--dur-base);
+  --transition-duration-slow: var(--dur-slow);
+  --ease-keluar: var(--ease-keluar);
+
+  /* Float halus — ganti animate-bounce Tailwind yang kerasa "lompat"
+     (easing cubic-bezier tajam). Amplitudo kecil, ease-in-out, lambat. */
+  --animate-float: float 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+
+  /* Idle sway — chip background hero tetap goyang santai walau kursor
+     jauh. Dipisah dari transform proximity (JS) lewat wrapper terpisah,
+     lihat HeroChipField. */
+  --animate-sway: sway 5s ease-in-out infinite;
+
+  /* Opacity "menunjuk ke bawah" — dipakai di icon ScrollCue. */
+  --animate-pulse-down: pulse-down 1.8s ease-in-out infinite;
+
+  /* Fontshare CDN sementara — belum next/font/local, lihat catatan.md */
+  --font-sans: "Cabinet Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: translateY(0) rotate(var(--base-rotate, 0deg)); }
+  50% {
+    transform: translateY(-5px)
+      rotate(calc(var(--base-rotate, 0deg) + 3deg));
+  }
+}
+
+@keyframes pulse-down {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.3; transform: translateY(3px); }
+}
+
+/* ---------- DASAR ---------- */
+@layer base {
+  *, *::before, *::after { border-color: var(--border); }
+  html { -webkit-text-size-adjust: 100%; color-scheme: light dark; }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color var(--dur-base) var(--ease-keluar);
+  }
+
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  ::selection { background-color: var(--primary); color: var(--primary-foreground); }
+
+  h1, h2, h3, .display { letter-spacing: -0.025em; line-height: 1.02; font-weight: 700; }
+  table td, .tabular { font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Tanda tangan: chip — default kalem/outline ("b aja"), nyala warna
+   pas jadi status penting atau di-hover ("asik" begitu didekati).
+   Dipakai untuk genre, status rilis, kategori katalog. Lihat arah.md. */
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--radius-chip);
+  border-width: 1px;
+  border-color: var(--border);
+  padding-inline: 14px;
+  padding-block: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  background-color: var(--surface);
+  transition: color var(--dur-fast) var(--ease-keluar),
+    background-color var(--dur-fast) var(--ease-keluar),
+    border-color var(--dur-fast) var(--ease-keluar);
+}
+@utility chip-primary {
+  border-color: transparent;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+@utility chip-accent {
+  border-color: transparent;
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+@utility themed-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
