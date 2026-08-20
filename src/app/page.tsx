@@ -1,23 +1,24 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArtistPhotoPlaceholder } from "@/components/artist-photo-placeholder";
 import { HeroChipField } from "@/components/hero-chip-field";
-import { dbProjectPlatforms, PlatformLinks } from "@/components/platform-links";
+import { InlineTag } from "@/components/inline-tag";
+import { buildPlatformLinks, PlatformLinks } from "@/components/platform-links";
+import { ReleaseCoverThumb } from "@/components/release-cover";
 import { ScrollCue } from "@/components/scroll-cue";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-
-const releases = [
-  { title: "Sedang Berjuang", artist: "Suci Arshinta", year: "2023" },
-  { title: "Bilang", artist: "Putri Clarantika", year: "2023" },
-  { title: "Terlambat Kau Kembali", artist: "Suci Arshinta", year: "2023" },
-];
-
-const pastRoster = [
-  { name: "Putri Clarantika", years: "2022 — 2024" },
-  { name: "Suci Arshinta", years: "2022 — 2024" },
-];
+import { collabRoster, featuredArtist, pastRoster } from "@/lib/artists";
+import { releases } from "@/lib/releases";
 
 export default function Home() {
+  // Invariant: harus selalu ada 1 artist exclusive dengan featured:true di
+  // src/lib/artists.ts. Kalau ini throw, itu bug data, bukan kasus yang
+  // wajar ditangani UI (bukan "belum ada data dari user").
+  if (!featuredArtist) {
+    throw new Error("Home: tidak ada artist dengan featured:true di src/lib/artists.ts");
+  }
+
   return (
     <>
       <SiteHeader />
@@ -111,19 +112,13 @@ export default function Home() {
                   Develop
                 </span>
                 , lanjut ke{" "}
-                <span className="mx-0.5 inline-flex items-center gap-1.5 rounded-sm bg-foreground px-2 py-1 text-[13px] font-semibold leading-[1.05] text-background">
-                  Record
-                </span>{" "}
+                <InlineTag>Record</InlineTag>{" "}
                 yang kualitasnya dijaga ketat, ditutup dengan{" "}
                 <span className="chip chip-accent mx-0.5 rounded-sm px-2 py-1 leading-[1.05] text-[13px]">
                   Release
                 </span>{" "}
                 yang dipikirin matang — bukan sekadar upload. Distribusi
-                Musik ditangani sister company kami,{" "}
-                <span className="mx-0.5 inline-flex items-center gap-1.5 rounded-sm bg-foreground px-2 py-1 text-[13px] font-semibold leading-[1.05] text-background">
-                  Lantuns
-                </span>
-                .
+                Musik ditangani sister company kami, <InlineTag>Lantuns</InlineTag>.
               </p>
             </div>
           </div>
@@ -148,26 +143,31 @@ export default function Home() {
                 </div>
 
                 <h2 className="mt-5 text-[clamp(32px,5vw,64px)] font-bold leading-[1.05] tracking-tight">
-                  DB Project
+                  {featuredArtist.name}
                 </h2>
                 <p className="mt-2 text-[14px] font-semibold text-muted">
-                  Electronic · Sejak 2021
+                  {featuredArtist.genre?.join(", ")}
+                  {featuredArtist.yearStart
+                    ? ` · Sejak ${featuredArtist.yearStart}`
+                    : ""}
                 </p>
 
                 <p className="mt-6 text-[17px] leading-[1.8] text-muted">
-                  Project remix elektronik yang ngolah ulang lagu jadi versi
-                  baru. Tiap track di-rebuild dari instinct — gak ada
-                  formula, cuma vibe dan eksperimen.
+                  {featuredArtist.shortBio ?? (
+                    <span className="italic">Belum ada bio buat artist ini.</span>
+                  )}
                 </p>
 
-                <p className="mt-6 text-[22px] font-bold leading-[1.35]">
-                  &ldquo;Setiap lagu punya sisi yang belum dibunyikan.&rdquo;
-                </p>
+                {featuredArtist.bioAccent ? (
+                  <p className="mt-6 text-[22px] font-bold leading-[1.35]">
+                    &ldquo;{featuredArtist.bioAccent}&rdquo;
+                  </p>
+                ) : null}
 
                 <div className="mt-8">
-                  <PlatformLinks platforms={dbProjectPlatforms} />
+                  <PlatformLinks platforms={buildPlatformLinks(featuredArtist)} />
                   <Link
-                    href="/roster/db-project"
+                    href={`/roster/${featuredArtist.slug}`}
                     className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:decoration-foreground"
                   >
                     Lihat profil lengkap →
@@ -175,7 +175,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <ArtistPhotoPlaceholder name="DB Project" />
+              <ArtistPhotoPlaceholder name={featuredArtist.name} />
             </div>
           </div>
         </section>
@@ -189,14 +189,10 @@ export default function Home() {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="max-w-[50ch]">
                 <h2 className="text-[clamp(26px,3.4vw,40px)] font-bold leading-[1.15]">
-                  Yang lagi didengerin.
+                  Dari katalog kami.
                 </h2>
                 <p className="mt-3 text-[15px] leading-[1.7] text-muted">
-                  Distribusi Musik via{" "}
-                  <span className="mx-0.5 inline-flex items-center gap-1.5 rounded-sm bg-foreground px-2 py-0.5 text-[13px] font-semibold leading-[1.05] text-background">
-                    Lantuns
-                  </span>
-                  .
+                  Distribusi Musik via <InlineTag>Lantuns</InlineTag>.
                 </p>
               </div>
               <Link
@@ -209,40 +205,45 @@ export default function Home() {
 
             <ul className="mt-10 divide-y divide-border border-t border-border">
               {releases.map((r, i) => (
-                <li key={r.title}>
-                  <a
-                    href="#"
+                <li key={r.slug}>
+                  <Link
+                    href={`/catalog/${r.slug}`}
                     className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-keluar hover:bg-hover"
                   >
                     <div className="flex min-w-0 items-center gap-5">
                       <span className="tabular w-6 flex-none text-[13px] font-bold text-muted">
                         {String(i + 1).padStart(2, "0")}
                       </span>
+                      <ReleaseCoverThumb />
                       <div className="min-w-0">
                         <p className="truncate text-[16px] font-bold">
                           {r.title}
                         </p>
                         <p className="truncate text-[13px] text-muted">
-                          {r.artist} · Single · {r.year}
+                          {r.artist} · {r.releaseType} · {r.year}
                         </p>
                       </div>
                     </div>
                     <span className="chip chip-accent hidden flex-none rounded-sm px-2 py-1 text-[11px] sm:inline-flex">
-                      Sedang Streaming
+                      {r.tag}
                     </span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        {/* ---------- ROSTER LAIN — past roster, list singkat aja. ---------- */}
+        {/* ---------- ROSTER LAIN — Collaboration (pill) + Past Roster
+             (list), adaptive: 2 kolom kalau dua-duanya ada isinya, full
+             width kalau salah satu kosong. Mekanik diambil dari situs
+             lama (section gabungan yang sama), radius pill tetap ikut
+             sistem kita (chip rounded-sm). ---------- */}
         <section className="border-t border-border bg-background py-20">
           <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <h2 className="text-[clamp(26px,3.4vw,40px)] font-bold leading-[1.15]">
-                Yang pernah jadi bagian.
+                Roster lain.
               </h2>
               <Link
                 href="/roster"
@@ -252,17 +253,57 @@ export default function Home() {
               </Link>
             </div>
 
-            <ul className="mt-10 divide-y divide-border border-t border-border">
-              {pastRoster.map((p) => (
-                <li
-                  key={p.name}
-                  className="flex items-center justify-between gap-4 py-5"
-                >
-                  <p className="text-[18px] font-bold">{p.name}</p>
-                  <p className="tabular text-[13px] text-muted">{p.years}</p>
-                </li>
-              ))}
-            </ul>
+            <div
+              className={`mt-10 grid gap-10 ${
+                collabRoster.length > 0 && pastRoster.length > 0
+                  ? "lg:grid-cols-2"
+                  : "grid-cols-1"
+              }`}
+            >
+              {collabRoster.length > 0 ? (
+                <div>
+                  <h3 className="text-[13px] font-bold uppercase tracking-wide text-muted">
+                    Kolaborasi
+                  </h3>
+                  <p className="mt-1 text-[13px] text-muted">
+                    Project-based, bukan roster eksklusif.
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {collabRoster.map((c) => (
+                      <span
+                        key={c.slug}
+                        className="chip rounded-sm px-3 py-1.5 text-[13px]"
+                      >
+                        {c.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {pastRoster.length > 0 ? (
+                <div>
+                  <h3 className="text-[13px] font-bold uppercase tracking-wide text-muted">
+                    Pernah jadi bagian
+                  </h3>
+                  <ul className="mt-5 divide-y divide-border border-t border-border">
+                    {pastRoster.map((p) => (
+                      <li key={p.slug}>
+                        <Link
+                          href={`/roster/${p.slug}`}
+                          className="flex items-center justify-between gap-4 py-4 transition-colors duration-fast ease-keluar hover:bg-hover"
+                        >
+                          <p className="text-[16px] font-bold">{p.name}</p>
+                          <p className="tabular text-[13px] text-muted">
+                            {p.yearStart} — {p.yearEnd}
+                          </p>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
           </div>
         </section>
 
@@ -275,9 +316,20 @@ export default function Home() {
 
             <div className="mt-10 grid gap-5 md:grid-cols-2">
               <div className="rounded-xl border border-border bg-surface p-7">
-                <span className="chip chip-primary rounded-sm px-2 py-1 text-[11px]">
-                  Label · Indonesia
-                </span>
+                <div className="flex items-center gap-4">
+                  <div className="flex h-14 w-14 flex-none items-center justify-center rounded-lg border border-border bg-foreground/[0.03] p-2.5">
+                    <Image
+                      src="/apple-touch-icon.png"
+                      alt="Anka Entertainment"
+                      width={36}
+                      height={36}
+                      className="rounded-sm"
+                    />
+                  </div>
+                  <span className="chip chip-primary rounded-sm px-2 py-1 text-[11px]">
+                    Label · Indonesia
+                  </span>
+                </div>
                 <h3 className="mt-4 text-[22px] font-bold">
                   Anka Entertainment
                 </h3>
@@ -288,9 +340,20 @@ export default function Home() {
               </div>
 
               <div className="rounded-xl border border-border bg-surface p-7">
-                <span className="chip chip-accent rounded-sm px-2 py-1 text-[11px]">
-                  Distribusi · Global
-                </span>
+                <div className="flex items-center gap-4">
+                  <div className="flex h-14 w-14 flex-none items-center justify-center rounded-lg border border-border bg-foreground/[0.03] p-2.5">
+                    <Image
+                      src="/lantunsicon.png"
+                      alt="Lantuns"
+                      width={36}
+                      height={36}
+                      className="rounded-sm"
+                    />
+                  </div>
+                  <span className="chip chip-accent rounded-sm px-2 py-1 text-[11px]">
+                    Distribusi · Global
+                  </span>
+                </div>
                 <h3 className="mt-4 text-[22px] font-bold">Lantuns</h3>
                 <p className="mt-2 text-[14px] leading-[1.7] text-muted">
                   Distribusi musik ke 150+ platform streaming. Katalog
@@ -357,7 +420,7 @@ export default function Home() {
                   rel="noreferrer"
                   className="mt-5 inline-block rounded-md bg-foreground px-5 py-2.5 text-[13px] font-bold text-background transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
                 >
-                  Hubungi Kami
+                  Kunjungi Lantuns
                 </a>
               </div>
             </div>

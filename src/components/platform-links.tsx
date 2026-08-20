@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { AppleMusicIcon, SpotifyIcon } from "@/components/social-icons";
+import { AppleMusicIcon, SpotifyIcon, YoutubeIcon } from "@/components/social-icons";
 
 type IconProps = { className?: string };
 
@@ -9,19 +9,31 @@ export type Platform = {
   Icon: ComponentType<IconProps>;
 };
 
-/** Daftar per-artist, bukan satu daftar global — tiap artist bisa punya
- * kombinasi platform beda (belum tentu semua ada di semua platform).
- * `PlatformLinks` sengaja dibikin `flex-wrap` biar tetap rapi baik cuma
- * 1 platform maupun lebih dari itu, gak ada layout yang di-hardcode buat
- * 2 tombol doang. */
-export const dbProjectPlatforms: Platform[] = [
-  { label: "Spotify", href: "https://open.spotify.com", Icon: SpotifyIcon },
-  {
-    label: "Apple Music",
-    href: "https://music.apple.com",
-    Icon: AppleMusicIcon,
-  },
-];
+/** Bangun daftar link platform streaming dari field opsional di data
+ * artist/rilisan (`spotify`/`appleMusic`/`youtube`) — dipakai di mana pun
+ * ada entity yang punya field-field ini (artist, release), biar gak ada
+ * lagi if/push manual yang ke-copy-paste per halaman. */
+export function buildPlatformLinks(entity: {
+  spotify?: string;
+  appleMusic?: string;
+  youtube?: string;
+}): Platform[] {
+  const platforms: Platform[] = [];
+  if (entity.spotify) {
+    platforms.push({ label: "Spotify", href: entity.spotify, Icon: SpotifyIcon });
+  }
+  if (entity.appleMusic) {
+    platforms.push({
+      label: "Apple Music",
+      href: entity.appleMusic,
+      Icon: AppleMusicIcon,
+    });
+  }
+  if (entity.youtube) {
+    platforms.push({ label: "YouTube", href: entity.youtube, Icon: YoutubeIcon });
+  }
+  return platforms;
+}
 
 export function PlatformLinks({ platforms }: { platforms: Platform[] }) {
   if (platforms.length === 0) return null;

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { InlineTag } from "@/components/inline-tag";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -57,6 +58,14 @@ export default function SubmitPage() {
                   update, atau lihat roster yang sedang aktif.
                 </div>
                 <div className="mt-4 flex flex-wrap gap-3">
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
+                  >
+                    Follow Instagram
+                  </a>
                   <Link
                     href="/roster"
                     className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
@@ -106,11 +115,7 @@ export default function SubmitPage() {
           <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
             <p className="max-w-[52ch] text-[15px] leading-[1.7] text-muted">
               Anka Entertainment fokus penuh sebagai label. Distribusi
-              musik ditangani sister company kami,{" "}
-              <span className="mx-0.5 inline-flex items-center gap-1.5 rounded-sm bg-foreground px-2 py-0.5 text-[13px] font-semibold leading-[1.05] text-background">
-                Lantuns
-              </span>
-              .
+              musik ditangani sister company kami, <InlineTag>Lantuns</InlineTag>.
             </p>
           </div>
         </section>

@@ -1,42 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
+import { ReleaseCoverThumb } from "@/components/release-cover";
+import { releases, type ReleaseCategory } from "@/lib/releases";
 
-type Category = "catalog" | "production" | "cover";
-
-type Release = {
-  title: string;
-  artist: string;
-  year: string;
-  category: Category;
-};
-
-/** Kategori kepemilikan master (Catalog/Production/Cover) untuk 3 rilisan
- * ini masih ASUMSI (semua di-tandain "catalog") — belum ada konfirmasi
- * data asli dari Kaiel soal siapa pemilik master tiap lagu. Lihat
- * catatan.md. Jangan dianggap fakta bisnis final. */
-const releases: Release[] = [
-  {
-    title: "Sedang Berjuang",
-    artist: "Suci Arshinta",
-    year: "2023",
-    category: "catalog",
-  },
-  {
-    title: "Bilang",
-    artist: "Putri Clarantika",
-    year: "2023",
-    category: "catalog",
-  },
-  {
-    title: "Terlambat Kau Kembali",
-    artist: "Suci Arshinta",
-    year: "2023",
-    category: "catalog",
-  },
-];
-
-const filters: { key: Category | "all"; label: string }[] = [
+const filters: { key: ReleaseCategory | "all"; label: string }[] = [
   { key: "all", label: "Semua Rilisan" },
   { key: "catalog", label: "Katalog" },
   { key: "production", label: "Produksi" },
@@ -44,7 +13,7 @@ const filters: { key: Category | "all"; label: string }[] = [
 ];
 
 export function CatalogList() {
-  const [active, setActive] = useState<Category | "all">("all");
+  const [active, setActive] = useState<ReleaseCategory | "all">("all");
 
   const filtered =
     active === "all" ? releases : releases.filter((r) => r.category === active);
@@ -91,28 +60,29 @@ export function CatalogList() {
       ) : (
         <ul className="mt-4 divide-y divide-border border-t border-border">
           {filtered.map((r, i) => (
-            <li key={r.title}>
-              <a
-                href="#"
+            <li key={r.slug}>
+              <Link
+                href={`/catalog/${r.slug}`}
                 className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-keluar hover:bg-hover"
               >
                 <div className="flex min-w-0 items-center gap-5">
                   <span className="tabular w-6 flex-none text-[13px] font-bold text-muted">
                     {String(i + 1).padStart(2, "0")}
                   </span>
+                  <ReleaseCoverThumb />
                   <div className="min-w-0">
                     <p className="truncate text-[16px] font-bold">
                       {r.title}
                     </p>
                     <p className="truncate text-[13px] text-muted">
-                      {r.artist} · Single · {r.year}
+                      {r.artist} · {r.releaseType} · {r.year}
                     </p>
                   </div>
                 </div>
                 <span className="chip chip-accent hidden flex-none rounded-sm px-2 py-1 text-[11px] sm:inline-flex">
-                  Sedang Streaming
+                  {r.tag}
                 </span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

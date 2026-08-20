@@ -231,7 +231,10 @@ export default function ServicesPage() {
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[16px] font-bold">
                   Apa beda Anka Entertainment dengan distribusi musik
                   biasa?
-                  <span className="flex-none text-muted transition-transform duration-fast ease-keluar group-open:rotate-45">
+                  <span
+                    aria-hidden
+                    className="flex-none text-muted transition-transform duration-fast ease-keluar group-open:rotate-45"
+                  >
                     +
                   </span>
                 </summary>

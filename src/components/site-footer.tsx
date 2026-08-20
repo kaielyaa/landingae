@@ -6,6 +6,7 @@ import {
   TikTokIcon,
   YoutubeIcon,
 } from "@/components/social-icons";
+import { SocialIconLinks } from "@/components/social-links";
 
 const socials = [
   { label: "Instagram", href: "https://instagram.com", Icon: InstagramIcon },
@@ -85,20 +86,7 @@ export function SiteFooter() {
               <br />
               Sejak 2021.
             </p>
-            <div className="mt-5 flex items-center gap-2.5">
-              {socials.map(({ label, href, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-md border border-border text-muted transition-colors duration-fast ease-keluar hover:bg-hover hover:text-foreground"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
+            <SocialIconLinks links={socials} className="mt-5" />
           </div>
 
           <FooterColumn title="Tentang" links={tentangLinks} />
