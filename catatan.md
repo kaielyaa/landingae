@@ -15,6 +15,16 @@ domain generik, BUKAN handle asli Anka Entertainment. Perlu diganti ke
 URL profil beneran sebelum deploy — belum ada satu pun tempat nyimpen
 handle asli, semua masih hardcode placeholder di kode.
 
+## Selesai 2026-08-20 — Halaman legal + cookie banner + .env.example
+- `/privacy`, `/terms`, `/cookies` dibangun (dulu 404 dari footer).
+  Kontennya porting dari situs lama, disesuaikan nada ("kamu"). **Perlu
+  direview ulang isinya** sebelum deploy — ini konten hasil porting,
+  bukan yang udah direview pengacara buat versi baru ini
+- Cookie consent banner terpasang di semua halaman (`src/components/cookie-banner.tsx`)
+- `.env.example` dibuat di root project — isinya SMTP (buat form Submit
+  nanti) + Sanity (buat migrasi CMS nanti). Isi `.env.local` sendiri
+  (gitignored) pas ada credential asli, jangan taruh di `.env.example`
+
 ## Belum dikerjakan
 - [ ] Foto/cover asli artist (DB Project, Suci Arshinta, Putri Clarantika)
       — belum diupload ke project ini. **Update:** cover 3 single katalog

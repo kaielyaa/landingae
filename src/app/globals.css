@@ -323,3 +323,64 @@
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
+
+/* Isi legal (Privasi/Ketentuan/Cookie) ditulis sebagai HTML semantik
+   polos (h2/h3/p/ul/a) di dalam LegalPageLayout, bukan className
+   berulang di tiap elemen — teksnya panjang (12-14 section per
+   halaman), nulis class Tailwind di tiap tag bakal jadi noise yang
+   nutupin isi. Utility lintas-halaman ini satu-satunya tempat yang sah
+   buat itu sesuai aturan globals.css. */
+@utility legal-content {
+  & h2 {
+    margin-top: 2.5rem;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  & h2:first-child {
+    margin-top: 0;
+  }
+  & h3 {
+    margin-top: 1.5rem;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  & p {
+    margin-top: 0.875rem;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  & ul {
+    margin-top: 0.875rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  & li + li {
+    margin-top: 0.375rem;
+  }
+  & a {
+    color: var(--foreground);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 4px;
+    transition: text-decoration-color var(--dur-fast) var(--ease-keluar);
+  }
+  & a:hover {
+    text-decoration-color: var(--foreground);
+  }
+  & strong {
+    color: var(--foreground);
+    font-weight: 700;
+  }
+  & .closing {
+    margin-top: 2rem;
+    font-weight: 700;
+    color: var(--foreground);
+  }
+}

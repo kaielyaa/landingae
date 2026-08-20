@@ -568,6 +568,30 @@ Sebelumnya cuma chip+teks, gak ada logo. Ditambahin (2026-08-20):
   putih" di dalam container, itu dari file asetnya sendiri, bukan
   ditambahin lagi di CSS
 
+## Halaman legal + cookie banner (2026-08-20)
+`/privacy`, `/terms`, `/cookies` dibangun — sebelumnya link footer ke
+situ 404 semua. `LegalPageLayout` (`src/components/legal-page-layout.tsx`)
+reusable buat ketiganya: TOC sticky di desktop (mekanik diambil dari
+situs lama), stack biasa di mobile. Isi konten pakai HTML semantik polos
+(h2/h3/p/ul/a), di-style lewat `.legal-content` (`@utility` baru di
+globals.css) — bukan className berulang di tiap tag, karena teksnya
+panjang (9-14 section per halaman) dan bakal jadi noise.
+
+Konten legal-nya sendiri di-porting dari situs lama (`aelama`) — itu
+konten asli yang emang udah pernah live di production Anka
+Entertainment sebelumnya, bukan karangan baru. Nada disamain ke "kamu"
+(bukan "lo", situs lama pakai "lo"). Referensi Sanity CMS ditandain
+"(rencana, belum aktif)" karena emang belum connect.
+
+**Cookie banner** (`src/components/cookie-banner.tsx`) — muncul sekali
+di kunjungan pertama (delay 800ms), tersimpan di localStorage
+(`anka-cookie-consent`, versioned). Mekanik & timing diambil dari situs
+lama, TAPI animasinya CSS transition polos (`translate-y` + `opacity`),
+BUKAN `motion/react` — dependency itu gak ada di project ini, gak nambah
+buat 1 komponen doang. Cuma 2 pilihan (Terima Semua/Tolak Opsional),
+versi lama punya "Atur preferensi" granular tapi belum relevan sekarang
+(belum ada cookie non-esensial beneran, analitik belum kepasang).
+
 ## Aset sementara
 - Font masih via CDN Fontshare, belum self-hosted (`next/font/local`)
 - Cover artist DB Project masih placeholder gradient, belum foto asli
