@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { PageHero } from "@/components/page-hero";
-import { StampSticker } from "@/components/stamp-sticker";
+import { PathList } from "@/components/path-list";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { StampSticker } from "@/components/stamp-sticker";
+import { ButtonLink } from "@/components/ui/button";
+import { Section, SectionHeading, TextLink } from "@/components/ui/section";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Layanan — Anka Entertainment",
@@ -13,83 +16,55 @@ export const metadata: Metadata = {
 
 const stages = [
   {
-    num: "01",
     tag: "Develop",
     tone: "primary" as const,
-    title: "Pengembangan Artist",
+    title: "Pengembangan artist",
     lede: "Sebelum rekaman, ada perjalanan.",
-    body: "Pengembangan artist bukan tentang ngubah kamu jadi orang lain. Ini tentang bantu nemuin versi terbaik dari diri kamu sebagai musisi — sound, identitas, posisi di scene. Kami nggak punya formula; tiap artist datang dari titik yang beda.",
+    body: "Pengembangan artist bukan tentang mengubah kamu jadi orang lain. Ini tentang membantu menemukan versi terbaik dirimu sebagai musisi — sound, identitas, posisi di scene. Kami tidak punya formula; tiap artist datang dari titik yang berbeda.",
     items: [
-      {
-        label: "Sound",
-        desc: "Sesi diskusi rutin tentang arah musik, referensi, dan eksperimen yang layak dicoba.",
-      },
-      {
-        label: "Identitas",
-        desc: "Bantuan membangun persona artistik yang konsisten di musik, visual, dan komunikasi.",
-      },
-      {
-        label: "Strategi",
-        desc: "Perencanaan karier jangka panjang — bukan cuma single berikutnya, tapi 3-5 tahun ke depan.",
-      },
+      { label: "Sound", desc: "Sesi diskusi rutin tentang arah musik, referensi, dan eksperimen yang layak dicoba." },
+      { label: "Identitas", desc: "Membangun persona artistik yang konsisten di musik, visual, dan komunikasi." },
+      { label: "Strategi", desc: "Perencanaan karier jangka panjang — bukan cuma single berikutnya, tapi 3–5 tahun ke depan." },
     ],
   },
   {
-    num: "02",
     tag: "Record",
-    tone: "neutral" as const,
-    title: "Rekaman & Produksi",
+    tone: "invert" as const,
+    title: "Rekaman & produksi",
     lede: "Studio bukan ruangan, tapi pikiran.",
-    body: "Tahap rekaman adalah di mana ide diterjemahkan jadi suara. Kami punya akses ke studio dan tim produksi yang ngerti visi musik kamu — dari recording engineer, mixing, sampai mastering. Kualitas suara itu tidak bisa ditawar.",
+    body: "Tahap rekaman adalah tempat ide diterjemahkan jadi suara. Kami punya akses ke studio dan tim produksi yang mengerti visi musikmu — dari recording engineer, mixing, sampai mastering. Kualitas suara tidak bisa ditawar.",
     items: [
-      {
-        label: "Akses Studio",
-        desc: "Akses studio recording dengan engineer berpengalaman, di kota kamu maupun luar kota.",
-      },
-      {
-        label: "Produksi",
-        desc: "Tim produser yang bisa disesuaikan per project — beda artist, beda kecocokan.",
-      },
-      {
-        label: "Mix & Master",
-        desc: "Sesuai standar streaming platform dan rilisan fisik.",
-      },
-      {
-        label: "Sesi",
-        desc: "Sesi live, rekaman B-side, atau versi alternatif, semua bisa dieksplorasi.",
-      },
+      { label: "Akses studio", desc: "Studio rekaman dengan engineer berpengalaman, di kotamu maupun luar kota." },
+      { label: "Produksi", desc: "Tim produser yang disesuaikan per project — beda artist, beda kecocokan." },
+      { label: "Mix & master", desc: "Sesuai standar platform streaming dan rilisan fisik." },
+      { label: "Sesi", desc: "Sesi live, rekaman B-side, atau versi alternatif — semua bisa dieksplorasi." },
     ],
   },
   {
-    num: "03",
     tag: "Release",
     tone: "accent" as const,
-    title: "Release & Distribution",
+    title: "Rilis & distribusi",
     lede: "Rilis bukan akhir. Itu permulaan.",
-    body: "Buat kami, rilis adalah momen kulminasi yang dipikirin matang — strategi timing, channel, audience, dan post-release activation. Distribusi Musik ditangani sister company kami, Lantuns, ke 150+ platform streaming di seluruh dunia.",
+    body: "Buat kami, rilis adalah momen yang dipikirkan matang — strategi waktu, kanal, audiens, dan aktivasi setelah rilis. Distribusi musik ditangani sister company kami, Lantuns, ke 150+ platform streaming di seluruh dunia.",
     items: [
-      { label: "Distribusi", desc: "Global via Lantuns (150+ platform)." },
-      {
-        label: "Pra-Rilis",
-        desc: "Strategi teaser, pitching playlist, jangkauan editorial, perencanaan timeline.",
-      },
-      {
-        label: "Pemasaran",
-        desc: "Aset visual dan kampanye sosmed yang selaras sama vibe rilisan.",
-      },
-      {
-        label: "Pasca-Rilis",
-        desc: "Pelacakan performa, kampanye lanjutan, evaluasi untuk era berikutnya.",
-      },
+      { label: "Distribusi", desc: "Global lewat Lantuns, 150+ platform." },
+      { label: "Pra-rilis", desc: "Strategi teaser, pitching playlist, jangkauan editorial, perencanaan timeline." },
+      { label: "Pemasaran", desc: "Aset visual dan kampanye media sosial yang selaras dengan rilisannya." },
+      { label: "Pasca-rilis", desc: "Pelacakan performa, kampanye lanjutan, evaluasi untuk era berikutnya." },
     ],
   },
 ];
 
-const toneChip = {
-  primary: "chip-primary",
-  accent: "chip-accent",
-  neutral: "",
-};
+/** FAQ: hanya pertanyaan yang punya jawaban asli dari situs lama. Pertanyaan
+ * soal royalti, kepemilikan master, dan timeline sengaja TIDAK ditampilkan
+ * sampai ada jawaban resmi — fakta bisnis, tidak boleh dikarang
+ * (catatan.md). */
+const faqs = [
+  {
+    q: "Apa beda Anka Entertainment dengan layanan distribusi musik biasa?",
+    a: "Layanan distribusi (seperti DistroKid atau TuneCore) cuma mengunggah lagumu ke platform streaming. Kami label — kami terlibat di proses kreatif, produksi, strategi rilis, sampai dukungan setelah rilis. Distribusi hanya salah satu bagian dari yang kami kerjakan.",
+  },
+];
 
 export default function ServicesPage() {
   return (
@@ -107,149 +82,135 @@ export default function ServicesPage() {
               ke pendengar.
             </>
           }
-          description="Apa yang kami sebut layanan sebenarnya bukan paket — ini cara kami kerja sama dengan setiap artist yang masuk ke roster. Dari pengembangan suara, ke proses rekaman, sampai musik sampai ke telinga pendengar."
+          description="Yang kami sebut layanan sebenarnya bukan paket — ini cara kami kerja sama dengan setiap artist yang masuk ke roster. Dari pengembangan suara, proses rekaman, sampai musik sampai ke telinga pendengar."
         />
 
+        {/* TIGA TAHAP — satu section per tahap, stiker tahap ditempel saat
+            masuk layar. */}
         {stages.map((s, i) => (
-          <section
-            key={s.num}
-            className={`border-b border-border py-16 ${i % 2 === 0 ? "bg-background" : "bg-surface-2"}`}
+          <Section
+            key={s.tag}
+            tone={i % 2 === 0 ? "base" : "sunken"}
+            space="normal"
           >
-            <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-              <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <span className="tabular text-[13px] font-bold text-muted">
-                      {s.num}
-                    </span>
-                    <span
-                      className={`chip ${toneChip[s.tone]} rounded-sm px-2 py-1 text-[11px]`}
-                    >
-                      {s.tag}
-                    </span>
-                  </div>
-                  <h2 className="mt-4 text-[clamp(24px,3vw,34px)] font-bold leading-[1.15]">
-                    {s.title}
-                  </h2>
-                  <p className="mt-3 text-[16px] font-semibold text-muted">
-                    {s.lede}
-                  </p>
-                  <p className="mt-4 text-[15px] leading-[1.75] text-muted">
-                    {s.body}
-                  </p>
+            <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+              <div>
+                <div className="flex items-center gap-4">
+                  <span className="text-[13px] font-medium text-muted tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <StampSticker tone={s.tone} size="inline">
+                    {s.tag}
+                  </StampSticker>
                 </div>
+                <h2 className="mt-6 text-[clamp(32px,4.6vw,60px)] font-bold leading-[1.05] tracking-tight">
+                  {s.title}
+                </h2>
+                <p className="mt-5 max-w-[26ch] text-[clamp(20px,2vw,24px)] font-bold leading-[1.35]">
+                  {s.lede}
+                </p>
+                <p className="mt-5 max-w-[56ch] text-[17px] leading-[1.8] text-muted">
+                  {s.body}
+                </p>
+              </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  {s.items.map((it) => (
-                    <div key={it.label}>
-                      <p className="text-[13px] font-bold uppercase tracking-wide">
-                        {it.label}
-                      </p>
-                      <p className="mt-1.5 text-[14px] leading-[1.65] text-muted">
-                        {it.desc}
-                      </p>
-                    </div>
+              <div>
+                <h3 className="text-[13px] font-bold uppercase tracking-[0.05em] text-muted">
+                  Yang dikerjakan
+                </h3>
+                <ol className="mt-4 divide-y divide-border border-y border-border">
+                  {s.items.map((it, j) => (
+                    <li key={it.label} className="flex gap-4 py-5">
+                      <span className="w-6 flex-none pt-1 text-[13px] font-medium text-muted tabular-nums">
+                        {String(j + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <p className="text-[17px] font-bold">{it.label}</p>
+                        <p className="mt-1 max-w-[52ch] text-[15px] leading-[1.7] text-muted">
+                          {it.desc}
+                        </p>
+                      </div>
+                    </li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
-          </section>
+          </Section>
         ))}
 
-        {/* ---------- MULAI DARI MANA ---------- */}
-        <section className="bg-background py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <h2 className="text-[clamp(24px,3vw,34px)] font-bold leading-[1.15]">
-              Mulai dari mana?
-            </h2>
-            <p className="mt-3 max-w-[50ch] text-[15px] leading-[1.7] text-muted">
-              Setiap perjalanan start dari titik yang beda.
-            </p>
+        {/* MULAI DARI MANA — pola jalur bernomor yang sama dengan Home. */}
+        <Section tone="sunken" space="loose">
+          <SectionHeading
+            title={
+              <>
+                Mulai dari{" "}
+                <StampSticker tone="accent" tilt="right">
+                  mana
+                </StampSticker>
+                ?
+              </>
+            }
+            lead="Setiap perjalanan mulai dari titik yang berbeda."
+          />
+          <PathList
+            className="mt-12"
+            paths={[
+              {
+                title: "Belum punya rilisan",
+                description:
+                  "Kamu punya lagu, tapi belum tahu cara merilisnya. Mulai dari sini — kami dampingi dari nol.",
+                action: (
+                  <ButtonLink href="/submit" size="lg">
+                    Kirim Demo
+                  </ButtonLink>
+                ),
+              },
+              {
+                title: "Punya katalog atau fanbase",
+                description:
+                  "Kamu sudah pernah rilis, sekarang mencari rumah atau partner yang lebih serius. Mari ngobrol.",
+                action: (
+                  <ButtonLink href="/submit" variant="invert" size="lg">
+                    Hubungi Kami
+                  </ButtonLink>
+                ),
+              },
+            ]}
+          />
+        </Section>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              <div className="rounded-xl border border-border bg-surface p-7">
-                <span className="chip chip-primary rounded-sm px-2 py-1 text-[11px]">
-                  Baru mulai
-                </span>
-                <h3 className="mt-4 text-[18px] font-bold">
-                  Belum punya rilisan
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.7] text-muted">
-                  Kamu punya lagu, tapi belum tau gimana ngerilisnya. Mulai
-                  dari sini, kami support dari nol.
-                </p>
-                <Link
-                  href="/submit"
-                  className="mt-5 inline-block rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-out hover:-translate-y-0.5"
-                >
-                  Kirim Demo
-                </Link>
-              </div>
-
-              <div className="rounded-xl border border-border bg-surface p-7">
-                <span className="chip chip-accent rounded-sm px-2 py-1 text-[11px]">
-                  Udah jalan
-                </span>
-                <h3 className="mt-4 text-[18px] font-bold">
-                  Punya katalog atau fanbase
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.7] text-muted">
-                  Kamu udah pernah rilis, sekarang cari rumah atau partner
-                  yang lebih serius. Mari ngobrol.
-                </p>
-                <Link
-                  href="/submit"
-                  className="mt-5 inline-block rounded-md bg-foreground px-5 py-2.5 text-[13px] font-bold text-background transition-transform duration-fast ease-out hover:-translate-y-0.5"
-                >
-                  Hubungi Kami
-                </Link>
-              </div>
+        {/* FAQ — <details> bawaan: keyboard & pembaca layar gratis. */}
+        <Section tone="base" space="normal">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+            <SectionHeading
+              title="Pertanyaan yang sering muncul."
+              lead={
+                <>
+                  Belum terjawab di sini?{" "}
+                  <TextLink href={`mailto:${site.contactEmail}`}>Email kami.</TextLink>
+                </>
+              }
+            />
+            <div className="border-y border-border">
+              {faqs.map((f) => (
+                <details key={f.q} className="group border-b border-border py-5 last:border-b-0">
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-[17px] font-bold">
+                    {f.q}
+                    <span
+                      aria-hidden
+                      className="flex-none text-[20px] leading-none text-muted transition-transform duration-base ease-out group-open:rotate-45"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 max-w-[60ch] text-[15px] leading-[1.75] text-muted">
+                    {f.a}
+                  </p>
+                </details>
+              ))}
             </div>
           </div>
-        </section>
-
-        {/* ---------- FAQ — cuma 1 pertanyaan yang emang ada jawabannya
-             dari copy situs lama. Sisanya sengaja gak diisi ngarang,
-             karena nyangkut fakta bisnis (royalti, kepemilikan master,
-             timeline) — lihat catatan.md. ---------- */}
-        <section className="border-t border-border bg-surface-2 py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <div className="max-w-[62ch]">
-              <h2 className="text-[clamp(24px,3vw,34px)] font-bold leading-[1.15]">
-                Pertanyaan yang sering muncul.
-              </h2>
-              <p className="mt-3 text-[15px] leading-[1.7] text-muted">
-                Belum kejawab di sini?{" "}
-                <a
-                  href="mailto:hello@ankaentertainment.com"
-                  className="font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
-                >
-                  Email kami.
-                </a>
-              </p>
-
-              <details className="group mt-8 border-t border-border py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[16px] font-bold">
-                  Apa beda Anka Entertainment dengan distribusi musik
-                  biasa?
-                  <span
-                    aria-hidden
-                    className="flex-none text-muted transition-transform duration-fast ease-out group-open:rotate-45"
-                  >
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 text-[15px] leading-[1.75] text-muted">
-                  Distribusi musik (kayak DistroKid, TuneCore) cuma upload
-                  lagu kamu ke platform streaming. Kami label — kami
-                  terlibat di proses kreatif, produksi, strategi rilis,
-                  sampai post-release support. Distribusi cuma salah satu
-                  bagian dari yang kami lakukan.
-                </p>
-              </details>
-            </div>
-          </div>
-        </section>
+        </Section>
       </main>
 
       <SiteFooter />

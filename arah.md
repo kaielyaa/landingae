@@ -228,6 +228,7 @@ komponen baru. Primitif di `src/components/ui/`, pola tanda tangan di
 | `Card` | — | Hanya untuk membandingkan hal sejajar. `rounded-lg`, border |
 | `Section` / `SectionHeading` / `TextLink` | tone `base` · `sunken`; space `tight` · `normal` · `loose` | Lihat Layout & ritme |
 | `Tracklist` | — | Tanda tangan 2. Daftar bernomor + hover ▶ (Gerak #4) |
+| `PathList` | — | Pilihan jalur bernomor rata kiri + tombol (Home, Layanan) |
 | `CreditList` | `people` · `facts` | Tanda tangan 2. Kiri ··· kanan (garis titik), baris ber-`href` bisa diklik |
 
 `Field` (label + input + error) dibuat saat form Submit dikerjakan — belum
@@ -257,6 +258,15 @@ dengan fallback seluruh katalog supaya HTML statis lengkap.
 garis cabang tergambar saat masuk layar) → satu blok per brand bernomor
 (nama besar, peran = stiker, tagline, isi, daftar "Yang dikerjakan") → visi +
 fakta. Dua brand saja; tidak ada angka hiasan.
+
+**Layanan** — `PageHero` → satu section per tahap (nomor + stiker tahap
+ditempel, judul besar, lede tebal, isi; kanan: daftar bernomor "Yang
+dikerjakan") → Mulai dari mana (`PathList`) → FAQ (`<details>`, hanya
+pertanyaan yang punya jawaban asli).
+
+**Tentang** — `PageHero` → cerita (judul kiri, prosa kanan dengan 2 stiker
+inline berurutan, ditutup kutipan besar ber-garis kiri) → empat prinsip
+bernomor dua kolom → penutup rata kiri (stiker "ngobrol", Kirim Demo + Email).
 
 **Detail artist / rilisan** — tautan kembali → chip → **h1 = elemen terbesar**
 (`clamp(48–56px … 120–144px)`, `w-fit` untuk morph) → kiri: kutipan/bio atau

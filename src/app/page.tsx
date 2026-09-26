@@ -4,6 +4,7 @@ import { ArtistFeature, artistNameVT } from "@/components/artist-feature";
 import { CreditList } from "@/components/credit-list";
 import { Hero } from "@/components/home/hero";
 import { InlineTag } from "@/components/inline-tag";
+import { PathList } from "@/components/path-list";
 import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -179,34 +180,37 @@ export default function Home() {
             }
             lead="Dua jalur. Pilih yang sesuai posisi kamu sekarang."
           />
-          <ol className="mt-12 divide-y divide-border border-y border-border">
-            <PathRow
-              n={1}
-              title="Gabung sebagai artist"
-              description="Mau jadi bagian dari roster Anka Entertainment? Kirim demo, kita ngobrol soal arah dan kerja sama jangka panjang."
-              action={
-                <ButtonLink href="/submit" size="lg">
-                  Kirim Demo
-                </ButtonLink>
-              }
-            />
-            <PathRow
-              n={2}
-              title="Distribusi musik"
-              description="Mau rilis ke 150+ platform streaming? Distribusi ditangani sister company kami, Lantuns."
-              action={
-                <ButtonLink
-                  href="https://lantuns.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  variant="invert"
-                  size="lg"
-                >
-                  Kunjungi Lantuns
-                </ButtonLink>
-              }
-            />
-          </ol>
+          <PathList
+            className="mt-12"
+            paths={[
+              {
+                title: "Gabung sebagai artist",
+                description:
+                  "Mau jadi bagian dari roster Anka Entertainment? Kirim demo, kita ngobrol soal arah dan kerja sama jangka panjang.",
+                action: (
+                  <ButtonLink href="/submit" size="lg">
+                    Kirim Demo
+                  </ButtonLink>
+                ),
+              },
+              {
+                title: "Distribusi musik",
+                description:
+                  "Mau rilis ke 150+ platform streaming? Distribusi ditangani sister company kami, Lantuns.",
+                action: (
+                  <ButtonLink
+                    href="https://lantuns.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    variant="invert"
+                    size="lg"
+                  >
+                    Kunjungi Lantuns
+                  </ButtonLink>
+                ),
+              },
+            ]}
+          />
         </Section>
       </main>
 
@@ -254,33 +258,5 @@ function BrandCard({
       </p>
       <div className="mt-6">{footer}</div>
     </Card>
-  );
-}
-
-function PathRow({
-  n,
-  title,
-  description,
-  action,
-}: {
-  n: number;
-  title: string;
-  description: string;
-  action: ReactNode;
-}) {
-  return (
-    <li className="grid gap-4 py-8 md:grid-cols-[3rem_1fr_auto] md:items-start md:gap-8">
-      {/* pt-2: sejajarkan nomor dengan baris pertama judul, bukan tengah blok. */}
-      <span className="text-[13px] font-medium text-muted tabular-nums md:pt-2">
-        {String(n).padStart(2, "0")}
-      </span>
-      <div className="max-w-[56ch]">
-        <h3 className="text-[clamp(22px,2.4vw,28px)] font-bold leading-tight">
-          {title}
-        </h3>
-        <p className="mt-2 text-[15px] leading-[1.7] text-muted">{description}</p>
-      </div>
-      <div className="md:self-center">{action}</div>
-    </li>
   );
 }
