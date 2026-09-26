@@ -86,7 +86,13 @@ export function SiteHeader() {
   }, []);
 
   function openMenu() {
-    dialogRef.current?.showModal();
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    dialog.showModal();
+    // Bawaan showModal() memfokuskan tautan pertama (logo), dan di HP itu
+    // tampil sebagai logo yang ter-highlight. Fokus ditaruh di dialog-nya;
+    // Tab berikutnya tetap masuk ke tautan pertama.
+    dialog.focus();
     setMenuOpen(true);
   }
 
@@ -162,8 +168,9 @@ export function SiteHeader() {
         ref={dialogRef}
         id="menu-mobile"
         aria-label="Menu"
+        tabIndex={-1}
         onClose={() => setMenuOpen(false)}
-        className="m-0 h-dvh max-h-none w-full max-w-none bg-background p-0 text-foreground open:flex open:animate-menu-in open:flex-col backdrop:bg-transparent md:hidden"
+        className="m-0 h-dvh max-h-none w-full max-w-none bg-background p-0 text-foreground outline-none open:flex open:animate-menu-in open:flex-col backdrop:bg-transparent md:hidden"
       >
         <div className="flex h-16 flex-none items-center gap-6 border-b border-border px-[var(--page-gutter)]">
           <Wordmark onNavigate={closeMenu} />
