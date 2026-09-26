@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Clock } from "lucide-react";
+import { CreditList } from "@/components/credit-list";
 import { InlineTag } from "@/components/inline-tag";
 import { PageHero } from "@/components/page-hero";
-import { StampSticker } from "@/components/stamp-sticker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { StampSticker } from "@/components/stamp-sticker";
+import { ButtonLink } from "@/components/ui/button";
+import { Chip } from "@/components/ui/chip";
+import { Section, SectionHeading, TextLink } from "@/components/ui/section";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Kirim Demo — Anka Entertainment",
   description:
-    "Dua cara masuk ke ekosistem Anka. Gabung sebagai artist, atau distribusi musik lewat Lantuns.",
+    "Dua cara masuk ke ekosistem Anka: gabung sebagai artist, atau distribusi musik lewat Lantuns.",
 };
 
 export default function SubmitPage() {
@@ -29,98 +33,110 @@ export default function SubmitPage() {
               .
             </>
           }
-          description="Dua cara untuk masuk ke ekosistem Anka. Pilih yang sesuai posisi kamu sekarang — setiap submission kami baca dan respond, meski kadang butuh waktu."
+          description="Dua cara untuk masuk ke ekosistem Anka. Pilih yang sesuai posisimu sekarang — setiap submission kami baca dan balas, meski kadang butuh waktu."
         />
 
-        <section className="border-b border-border bg-background py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <div className="grid gap-5 md:grid-cols-2">
-              {/* Jalur 01 — CLOSED. Statusnya jelas tertulis, bukan cuma
-                  opacity-50 (AGENTS.md: nonaktif harus jelas tapi tetap
-                  terbaca). */}
-              <div className="rounded-xl border border-border bg-surface p-7">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="chip chip-primary rounded-sm px-2 py-1 text-[11px]">
-                    Jalur 01
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-sm border border-warning/40 bg-warning-subtle px-2 py-1 text-[11px] font-bold text-warning">
-                    Tutup
-                  </span>
-                </div>
-                <h2 className="mt-4 text-[20px] font-bold">
-                  Gabung dengan Anka Entertainment
-                </h2>
-                <p className="mt-2 text-[14px] leading-[1.7] text-muted">
-                  Submission lagi tutup sementara. Kami akan membuka
-                  kembali setelah review batch sebelumnya selesai —
-                  terima kasih atas pengertiannya.
-                </p>
-                <div className="mt-5 rounded-md border border-dashed border-border px-4 py-3 text-[13px] text-muted">
-                  Sambil nunggu, kamu bisa follow Instagram kami buat
-                  update, atau lihat roster yang sedang aktif.
-                </div>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <a
-                    href={site.social.instagram}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
-                  >
-                    Follow Instagram
-                  </a>
-                  <Link
-                    href="/roster"
-                    className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
-                  >
-                    Lihat roster
-                  </Link>
-                  <a
-                    href="mailto:hello@ankaentertainment.com"
-                    className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
-                  >
-                    Ada pertanyaan?
-                  </a>
-                </div>
+        {/* JALUR 01 — gabung roster. Status dari satu saklar
+            (site.openCall). Tutup = teks + ikon, bukan cuma warna; selalu
+            ada jalan keluar. Form untuk keadaan buka dibangun di Fase 7. */}
+        <Section tone="base" space="normal">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-[13px] font-medium text-muted tabular-nums">01</span>
+                {site.openCall.active ? (
+                  <Chip tone="primary">Buka</Chip>
+                ) : (
+                  <Chip tone="warning" className="gap-1.5">
+                    <Clock aria-hidden className="h-3.5 w-3.5" />
+                    Tutup sementara
+                  </Chip>
+                )}
               </div>
+              <SectionHeading className="mt-6" title="Gabung dengan Anka Entertainment." />
+            </div>
 
-              {/* Jalur 02 — terbuka, ke Lantuns. */}
-              <div className="rounded-xl border border-border bg-surface p-7">
-                <span className="chip chip-accent rounded-sm px-2 py-1 text-[11px]">
-                  Jalur 02
-                </span>
-                <h2 className="mt-4 text-[20px] font-bold">
-                  Distribusi via Lantuns
-                </h2>
-                <p className="mt-2 text-[14px] leading-[1.7] text-muted">
-                  Buat siapa pun yang cuma butuh distribusi musik ke 150+
-                  platform global. Mandiri, master tetap di kamu.
-                </p>
-                <ul className="mt-5 space-y-2 text-[14px] text-muted">
-                  <li>150+ platform streaming di seluruh dunia</li>
-                  <li>Manajemen royalti & analitik</li>
-                  <li>Terbuka untuk artist & label eksternal</li>
-                </ul>
-                <a
-                  href="https://lantuns.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-5 inline-block rounded-md bg-foreground px-6 py-3 text-[14px] font-bold text-background transition-transform duration-fast ease-out hover:-translate-y-0.5"
-                >
-                  Kunjungi Lantuns
-                </a>
-              </div>
+            <div className="max-w-[60ch]">
+              <p className="text-[17px] leading-[1.8]">{site.openCall.closedMessage}</p>
+              <p className="mt-5 text-[17px] leading-[1.8] text-muted">
+                Sambil menunggu, kamu bisa mengikuti kabar terbaru kami, atau
+                kenalan dulu dengan roster yang sedang aktif.
+              </p>
+              <CreditList
+                className="mt-10"
+                title="Sambil menunggu"
+                credits={[
+                  { name: "Kabar open call", value: "Instagram", href: site.social.instagram },
+                  { name: "Roster aktif", value: "Lihat roster", href: "/roster" },
+                  { name: "Pertanyaan", value: site.contactEmail, href: `mailto:${site.contactEmail}` },
+                ]}
+              />
             </div>
           </div>
-        </section>
+        </Section>
 
-        <section className="bg-surface-2 py-16">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <p className="max-w-[52ch] text-[15px] leading-[1.7] text-muted">
-              Anka Entertainment fokus penuh sebagai label. Distribusi
-              musik ditangani sister company kami, <InlineTag>Lantuns</InlineTag>.
-            </p>
+        {/* JALUR 02 — distribusi, selalu terbuka, lewat Lantuns. */}
+        <Section tone="sunken" space="normal">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-[13px] font-medium text-muted tabular-nums">02</span>
+                <Chip tone="accent">Selalu buka</Chip>
+              </div>
+              <SectionHeading
+                className="mt-6"
+                title={
+                  <>
+                    Distribusi lewat{" "}
+                    <StampSticker tone="accent" tilt="right">
+                      Lantuns
+                    </StampSticker>
+                    .
+                  </>
+                }
+              />
+            </div>
+
+            <div className="max-w-[60ch]">
+              <p className="text-[17px] leading-[1.8]">
+                Untuk siapa pun yang butuh distribusi musik ke 150+ platform
+                global. Mandiri, dan master tetap milikmu.
+              </p>
+              <ol className="mt-8 divide-y divide-border border-y border-border">
+                {[
+                  "150+ platform streaming di seluruh dunia",
+                  "Manajemen royalti & analitik",
+                  "Terbuka untuk artist & label di luar Anka",
+                ].map((item, i) => (
+                  <li key={item} className="flex items-baseline gap-4 py-3.5">
+                    <span className="w-6 flex-none text-[13px] font-medium text-muted tabular-nums">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-[17px] font-bold">{item}</span>
+                  </li>
+                ))}
+              </ol>
+              <ButtonLink
+                href="https://lantuns.com"
+                target="_blank"
+                rel="noreferrer"
+                variant="invert"
+                size="lg"
+                className="mt-8"
+              >
+                Kunjungi Lantuns
+              </ButtonLink>
+            </div>
           </div>
-        </section>
+        </Section>
+
+        <Section tone="base" space="tight">
+          <p className="max-w-[56ch] text-[15px] leading-[1.7] text-muted">
+            Anka Entertainment fokus penuh sebagai label. Distribusi musik
+            ditangani sister company kami, <InlineTag>Lantuns</InlineTag>.{" "}
+            <TextLink href="/anka-group">Tentang Anka Group</TextLink>
+          </p>
+        </Section>
       </main>
 
       <SiteFooter />

@@ -47,23 +47,34 @@ export function releaseTracks(
  * cover miring 2°, baris menyala. */
 export function Tracklist({
   tracks,
+  covers = true,
   className,
 }: {
   tracks: Track[];
+  /** false = tanpa kolom cover (mis. daftar tujuan di 404). */
+  covers?: boolean;
   className?: string;
 }) {
   return (
     <ol className={cn("divide-y divide-border border-y border-border", className)}>
       {tracks.map((t, i) => (
         <li key={t.href}>
-          <TrackRow track={t} n={i + 1} />
+          <TrackRow track={t} n={i + 1} cover={covers} />
         </li>
       ))}
     </ol>
   );
 }
 
-export function TrackRow({ track: t, n }: { track: Track; n: number }) {
+export function TrackRow({
+  track: t,
+  n,
+  cover = true,
+}: {
+  track: Track;
+  n: number;
+  cover?: boolean;
+}) {
   // inline-block + w-fit: lebar kotak judul mengikuti teksnya, supaya
   // morph ke h1 detail berskala sebanding dengan ukuran hurufnya.
   const title = (
@@ -87,19 +98,21 @@ export function TrackRow({ track: t, n }: { track: Track; n: number }) {
         />
       </span>
 
-      <span className="flex-none transition-[rotate] duration-fast ease-out group-hover:rotate-2 group-focus-visible:rotate-2">
-        {t.cover ? (
-          <Image
-            src={t.cover}
-            alt=""
-            width={48}
-            height={48}
-            className="h-12 w-12 rounded-md object-cover"
-          />
-        ) : (
-          <CoverBlank />
-        )}
-      </span>
+      {cover ? (
+        <span className="flex-none transition-[rotate] duration-fast ease-out group-hover:rotate-2 group-focus-visible:rotate-2">
+          {t.cover ? (
+            <Image
+              src={t.cover}
+              alt=""
+              width={48}
+              height={48}
+              className="h-12 w-12 rounded-md object-cover"
+            />
+          ) : (
+            <CoverBlank />
+          )}
+        </span>
+      ) : null}
 
       <span className="min-w-0 flex-1">
         {t.vtName ? (

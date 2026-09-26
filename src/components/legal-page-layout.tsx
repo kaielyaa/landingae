@@ -1,21 +1,17 @@
-"use client";
-
-import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { TextLink } from "@/components/ui/section";
+import { site } from "@/lib/site";
 
 type TocItem = { id: string; label: string };
 
-/** Reusable buat 3 halaman legal (Privasi/Ketentuan/Cookie) — sama
- * pola kayak PageHero (header fixed, gak makan ruang layout, jadi
- * section pertama wajib pt-32/md:pt-40), plus TOC yang sticky di
- * desktop, stack biasa di mobile.
+/** Tiga halaman legal (Privasi, Ketentuan, Cookie). Judul memakai pola
+ * `PageHero` (naik saat dibuka, `pt-32 md:pt-40` karena header fixed);
+ * daftar isi sticky di desktop, bertumpuk di mobile.
  *
- * Mekanik TOC-sticky + scroll-to-section ini diambil dari situs lama
- * (`LegalPageLayout`), gaya visualnya (glow-orb, gradient, font-serif-
- * italic) SENGAJA dibuang — diganti token & tipografi sistem kita.
- * Isi tiap section ditulis HTML semantik polos (`.legal-content` di
- * globals.css yang nanganin styling-nya), bukan className berulang —
- * teksnya panjang, class Tailwind di tiap tag bakal jadi noise. */
+ * Daftar isi = tautan anchor biasa (`#id`), bukan tombol JS — bisa dibuka
+ * di tab baru, dibagikan, dan jalan tanpa JavaScript. Jarak dari header
+ * lewat `scroll-margin` di `.legal-content section` (globals.css). Isi
+ * ditulis HTML semantik polos, digayakan `.legal-content`. */
 export function LegalPageLayout({
   title,
   lastUpdated,
@@ -29,85 +25,74 @@ export function LegalPageLayout({
   toc: TocItem[];
   children: ReactNode;
 }) {
-  function scrollToSection(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
   return (
     <>
       <section className="border-b border-border bg-surface-2 pb-16 pt-32 md:pt-40">
         <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
           <div className="max-w-[62ch]">
-            <p className="tabular text-[13px] font-bold text-muted">
+            <p className="rise-on-load text-[13px] font-medium text-muted tabular-nums">
               Terakhir diperbarui · {lastUpdated}
             </p>
-            <h1 className="mt-3 text-[clamp(32px,5vw,56px)] font-bold leading-[1.05] tracking-tight">
+            <h1
+              className="rise-on-load mt-3 text-[clamp(32px,5vw,64px)] font-bold leading-[1.1] tracking-tight"
+              style={{ "--rise-delay": "80ms" } as CSSProperties}
+            >
               {title}
             </h1>
-            <p className="mt-5 text-[16px] leading-[1.8] text-muted">
+            <p
+              className="rise-on-load mt-5 text-[17px] leading-[1.8] text-muted"
+              style={{ "--rise-delay": "160ms" } as CSSProperties}
+            >
               {description}
             </p>
           </div>
         </div>
       </section>
 
-      <section className="bg-background py-16">
+      <section className="bg-background py-16 md:py-20">
         <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.6fr]">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.6fr] lg:gap-20">
             <aside>
-              <div className="lg:sticky lg:top-28">
-                <p className="text-[13px] font-bold uppercase tracking-wide text-muted">
+              <div className="lg:sticky lg:top-24">
+                <h2 className="text-[13px] font-bold uppercase tracking-[0.05em] text-muted">
                   Daftar isi
-                </p>
-                <nav className="mt-4">
-                  <ul className="space-y-1">
+                </h2>
+                <nav aria-label="Daftar isi" className="mt-4">
+                  <ol className="border-y border-border">
                     {toc.map((item, i) => (
                       <li key={item.id}>
-                        <button
-                          type="button"
-                          onClick={() => scrollToSection(item.id)}
-                          className="flex w-full items-baseline gap-3 rounded-md px-3 py-2 text-left transition-colors duration-fast ease-out hover:bg-hover"
+                        <a
+                          href={`#${item.id}`}
+                          className="-mx-3 flex items-baseline gap-3 rounded-sm px-3 py-2 transition-colors duration-fast ease-out hover:bg-hover"
                         >
-                          <span className="tabular flex-none text-[11px] text-muted">
+                          <span className="w-6 flex-none text-[12px] text-muted tabular-nums">
                             {String(i + 1).padStart(2, "0")}
                           </span>
-                          <span className="text-[14px] text-foreground">
-                            {item.label}
-                          </span>
-                        </button>
+                          <span className="text-[14px]">{item.label}</span>
+                        </a>
                       </li>
                     ))}
-                  </ul>
+                  </ol>
                 </nav>
 
-                <div className="mt-6 border-t border-border pt-5">
-                  <p className="text-[13px] leading-[1.7] text-muted">
-                    Ada pertanyaan?{" "}
-                    <a
-                      href="mailto:hello@ankaentertainment.com"
-                      className="font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
-                    >
-                      hello@ankaentertainment.com
-                    </a>
-                  </p>
-                </div>
+                <p className="mt-6 text-[14px] leading-[1.7] text-muted">
+                  Ada pertanyaan?{" "}
+                  <TextLink href={`mailto:${site.contactEmail}`}>
+                    {site.contactEmail}
+                  </TextLink>
+                </p>
               </div>
             </aside>
 
-            <article className="legal-content max-w-[70ch]">
-              {children}
-            </article>
+            <article className="legal-content max-w-[70ch]">{children}</article>
           </div>
 
-          <div className="mt-16 flex items-center justify-between border-t border-border pt-8">
-            <Link
-              href="/"
-              className="text-[13px] font-bold text-muted underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:text-foreground hover:decoration-foreground"
-            >
+          <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8">
+            <TextLink href="/" className="text-[13px] text-muted hover:text-foreground">
               ← Kembali ke beranda
-            </Link>
-            <span className="tabular text-[12px] text-muted">
-              v · {lastUpdated}
+            </TextLink>
+            <span className="text-[12px] text-muted tabular-nums">
+              Versi · {lastUpdated}
             </span>
           </div>
         </div>

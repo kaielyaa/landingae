@@ -443,6 +443,10 @@
    nutupin isi. Utility lintas-halaman ini satu-satunya tempat yang sah
    buat itu sesuai aturan globals.css. */
 @utility legal-content {
+  /* Lompatan dari daftar isi tidak tertutup header fixed (h-16). */
+  & section {
+    scroll-margin-top: 6rem;
+  }
   & h2 {
     margin-top: 2.5rem;
     font-size: 22px;

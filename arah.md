@@ -268,6 +268,12 @@ pertanyaan yang punya jawaban asli).
 inline berurutan, ditutup kutipan besar ber-garis kiri) → empat prinsip
 bernomor dua kolom → penutup rata kiri (stiker "ngobrol", Kirim Demo + Email).
 
+**Submit** — dua jalur bernomor (judul kiri, isi kanan). Status open call
+dari `site.openCall` (tutup = chip warning + ikon + pesan + `CreditList`
+jalan keluar). **Legal** — judul `rise-on-load`, daftar isi = anchor `#id`
+(bukan tombol JS). **404** — "Track 404", stiker "daftar", `Tracklist
+covers={false}` ke tujuan utama.
+
 **Detail artist / rilisan** — tautan kembali → chip → **h1 = elemen terbesar**
 (`clamp(48–56px … 120–144px)`, `w-fit` untuk morph) → kiri: kutipan/bio atau
 deskripsi + tombol platform; kanan: foto/cover kalau ada + `CreditList facts`
