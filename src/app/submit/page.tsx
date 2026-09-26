@@ -4,6 +4,7 @@ import { InlineTag } from "@/components/inline-tag";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Kirim Demo — Anka Entertainment",
@@ -59,7 +60,7 @@ export default function SubmitPage() {
                 </div>
                 <div className="mt-4 flex flex-wrap gap-3">
                   <a
-                    href="https://instagram.com"
+                    href={site.social.instagram}
                     target="_blank"
                     rel="noreferrer"
                     className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
@@ -102,7 +103,7 @@ export default function SubmitPage() {
                   href="https://lantuns.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-5 inline-block rounded-md bg-foreground px-6 py-3 text-[14px] font-bold text-background transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+                  className="mt-5 inline-block rounded-md bg-foreground px-6 py-3 text-[14px] font-bold text-background transition-transform duration-fast ease-out hover:-translate-y-0.5"
                 >
                   Kunjungi Lantuns
                 </a>

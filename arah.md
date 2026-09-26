@@ -4,7 +4,7 @@ Keputusan visual yang **masih berlaku**. Mengikat. Riwayat dan alasan keputusan
 lama ada di `arah-riwayat.md` (tidak mengikat). Rencana kerja & fase di
 `rencana.md`.
 
-Tanda **[Fase 1]** = sudah diputuskan, kodenya belum disesuaikan. Sampai
+Tanda **[Fase N]** = sudah diputuskan, kodenya belum disesuaikan. Sampai
 fase itu jalan, kode lama masih berbeda — yang benar yang tertulis di sini.
 
 Dipadatkan 2026-09-27.
@@ -42,19 +42,23 @@ Mode        : light + dark. Default ikut sistem, toggle manual (`next-themes`)
 Tangga lengkap di `globals.css`. Primitif (`--brand-*`, `--pink-*`, `--n-*`)
 tidak pernah dipakai langsung di komponen.
 
-**[Fase 1] Penyesuaian token ke kontrak standar:**
-- `--surface` light masih `oklch(1 0 0)` → jadi `oklch(0.995 0.003 239)`
-- `--ease-keluar` → `--ease-out`; tambah `--info` + `--info-subtle`
-- Alias `--radius-chip` / `--r-chip` dihapus, cukup `--radius-sm/md/lg/xl`
+Token mengikuti kontrak standar (dirapikan 2026-09-27): `--surface` light =
+`--background` (`n-0`, bukan putih murni) — kartu dibedakan border, section
+dibedakan `--surface-2`. Gerak: `--duration-fast/base/slow`, `--ease-out`.
+Status lengkap termasuk `--info` (hue 265).
 
 ## Tipografi
 
 Keluarga    : **Cabinet Grotesk** saja, untuk judul maupun isi — grotesk tegas
               yang tetap ramah; satu keluarga dengan permainan ketebalan
               lebih rapi daripada dua. Fontshare, lisensi web gratis
-Ketebalan   : 400 isi · 500 label · 700 judul · 800 display (total 4)
-Sumber      : sekarang CDN Fontshare. **[Fase 1]** self-host via
-              `next/font/local`
+Ketebalan   : 400 isi · 500 label · 700 judul & display (total 3). 800
+              dicopot karena tidak dipakai; boleh ditambah lagi kalau perlu.
+              `font-semibold` (600) masih ada di kode tapi tidak dimuat —
+              browser menampilkan 700. Saat halaman dibangun ulang, ganti ke
+              `font-medium` atau `font-bold` sesuai maksudnya
+Sumber      : self-host `next/font/local`, berkas di `src/app/fonts/`.
+              Lisensi ITF Free Font License (Fontshare), boleh komersial
 Display     : hero `clamp(34px, 7vw, 96px)`, bold, tracking rapat
 Isi         : 16–17px, line-height 1.65–1.8, maks ±62ch
 Label kecil : 13px bold uppercase tracking-wide `text-muted` (sub-heading
@@ -70,12 +74,13 @@ dari tinggi. Di atas itu terbaca pill, di bawah itu kaku.
 |---|---|---|
 | ±20–30px | stiker inline di paragraf, badge, strip kecil | `rounded-sm` 8px |
 | ±32–56px | tombol, chip mandiri, stiker di judul hero, thumbnail 48px, wadah logo | `rounded-md` 12px |
-| panel/kartu besar | kartu, lembar menu mobile | `rounded-xl` |
+| kartu | kartu pembanding (`Card`) | `rounded-lg` 16px |
+| panel besar | lembar menu mobile, foto besar | `rounded-xl` 20px |
 
 - `rounded-full` **haram** kecuali Kaiel minta eksplisit
 - Elemen setinggi sama wajib radius sama, apa pun fungsinya
-- **[Fase 1]** `--radius-xl` di kode 22px, padahal kartu dimaksudkan 16px.
-  Diputuskan saat komponen `Card` dibuat, lalu baris ini diperbarui
+- Kode lama masih memakai `rounded-xl` untuk kartu — diganti ke `Card` /
+  `rounded-lg` saat halamannya dibangun ulang
 
 ## Tanda tangan
 
@@ -87,8 +92,9 @@ dari tinggi. Di atas itu terbaca pill, di bawah itu kaku.
    - Aksen — `bg-accent text-accent-foreground`
    - Invert — `bg-foreground text-background`. **Solid dan berbalik antar
      tema** (light: hitam, dark: putih) — bukan abu, bukan outline
-   Di paragraf pakai komponen `InlineTag` (invert) / chip kecil `py-1`;
-   jangan tulis span manual.
+   Pakai komponen `Sticker` (`src/components/ui/sticker.tsx`):
+   `size="display"` di judul, `size="inline"` di paragraf. `InlineTag` =
+   pintasan stiker invert inline. Jangan tulis span manual.
 2. **Tata liner notes** — daftar bernomor, metadata rapat kecil
    (`Single · 2023 · Catalog`), kredit berkolom. Dipakai di katalog, roster,
    detail rilisan/artist, footer. Katalog & roster = **daftar**, bukan grid
@@ -146,9 +152,10 @@ menghalangi klik, teks sudah ada di HTML sejak awal):
 judul section boleh "menempel" sekali saat pertama terlihat, maksimal satu
 per halaman.
 
-**Dibuang [Fase 1]:** Lenis smooth scroll (dependency dicopot) · goyang
-terus-menerus di chip latar & chip manifesto · washi tape & foto berayun ·
-tombol scroll yang melompat · animasi scroll di tiap elemen.
+**Sudah dibuang (2026-09-27):** Lenis smooth scroll (dependency dicopot,
+scroll native) · goyang terus-menerus di chip latar · chip melayang di
+manifesto · foto berayun · tombol scroll yang melompat (sekarang diam, bereaksi
+saat hover). **Jangan dikembalikan.** Animasi scroll di tiap elemen tetap haram.
 
 ## Header — [Fase 1] didesain ulang
 
@@ -163,6 +170,21 @@ tombol scroll yang melompat · animasi scroll di tiap elemen.
   fokus terkunci
 - Header `fixed` — halaman yang hero-nya bukan `min-h-dvh` wajib punya
   `pt-32 md:pt-40` di section pertama (sudah di `PageHero`)
+
+## Komponen dasar — `src/components/ui/`
+
+Pakai ini dulu sebelum menulis class manual. Beda kecil = varian, bukan
+komponen baru.
+
+| Komponen | Varian | Catatan |
+|---|---|---|
+| `Button` / `ButtonLink` / `buttonStyles()` | `primary` · `invert` · `outline`; `sm` h-9 · `md` h-11 · `lg` h-12 | Radius md. Hover naik 2px. `<button>` untuk aksi, `ButtonLink` untuk pindah halaman |
+| `Sticker` | `primary` · `accent` · `invert`; `display` · `inline`; tilt `left` · `right` · `none` | Tanda tangan 1. Satu-satunya elemen yang boleh miring |
+| `Chip` | `neutral` · `primary` · `accent` · `warning`; `sm` · `md` · `lg` | Label data (genre, status, kategori). Status selalu dengan teks |
+| `Card` | — | Hanya untuk membandingkan hal sejajar |
+
+`Field` (label + input + error) dibuat saat form Submit dikerjakan — belum
+ada pemakainya.
 
 ## Gambar & aset
 
@@ -199,10 +221,7 @@ tombol scroll yang melompat · animasi scroll di tiap elemen.
 
 ## Aset sementara
 
-- Font dari CDN Fontshare (belum self-host)
 - Foto artist & cover rilisan belum ada di project; cover 3 single ada di
   situs lama, belum diimport
 - Link Spotify/Apple Music artist & rilisan masih placeholder
-- Link sosmed AE masih placeholder di kode (link asli sudah ketemu, lihat
-  `rencana.md` bagian 9, dipasang Fase 1)
 - `favicon.ico` kemungkinan masih bawaan Next.js

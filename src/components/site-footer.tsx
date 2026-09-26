@@ -7,12 +7,13 @@ import {
   YoutubeIcon,
 } from "@/components/social-icons";
 import { SocialIconLinks } from "@/components/social-links";
+import { site } from "@/lib/site";
 
 const socials = [
-  { label: "Instagram", href: "https://instagram.com", Icon: InstagramIcon },
-  { label: "TikTok", href: "https://tiktok.com", Icon: TikTokIcon },
-  { label: "YouTube", href: "https://youtube.com", Icon: YoutubeIcon },
-  { label: "LinkedIn", href: "https://linkedin.com", Icon: LinkedinIcon },
+  { label: "Instagram", href: site.social.instagram, Icon: InstagramIcon },
+  { label: "TikTok", href: site.social.tiktok, Icon: TikTokIcon },
+  { label: "YouTube", href: site.social.youtube, Icon: YoutubeIcon },
+  { label: "LinkedIn", href: site.social.linkedin, Icon: LinkedinIcon },
 ];
 
 const tentangLinks = [
@@ -51,7 +52,7 @@ function FooterColumn({
           <li key={l.label}>
             <Link
               href={l.href}
-              className="text-[14px] text-foreground/90 transition-colors duration-fast ease-keluar hover:text-foreground"
+              className="text-[14px] text-foreground/90 transition-colors duration-fast ease-out hover:text-foreground"
             >
               {l.label}
             </Link>
@@ -100,7 +101,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href="mailto:hello@ankaentertainment.com"
-                  className="text-[14px] text-foreground/90 transition-colors duration-fast ease-keluar hover:text-foreground"
+                  className="text-[14px] text-foreground/90 transition-colors duration-fast ease-out hover:text-foreground"
                 >
                   hello@ankaentertainment.com
                 </a>
@@ -109,7 +110,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/submit"
-                  className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:decoration-foreground"
+                  className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
                 >
                   Kirim Demo
                 </Link>
@@ -130,7 +131,7 @@ export function SiteFooter() {
               <Link
                 key={l.label}
                 href={l.href}
-                className="transition-colors duration-fast ease-keluar hover:text-foreground"
+                className="transition-colors duration-fast ease-out hover:text-foreground"
               >
                 {l.label}
               </Link>

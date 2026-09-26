@@ -75,7 +75,7 @@ export default async function ReleaseDetailPage({
           <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
             <Link
               href="/catalog"
-              className="text-[13px] font-bold text-muted underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:text-foreground hover:decoration-foreground"
+              className="text-[13px] font-bold text-muted underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:text-foreground hover:decoration-foreground"
             >
               ← Kembali ke Katalog
             </Link>
@@ -161,7 +161,7 @@ export default async function ReleaseDetailPage({
                   <li key={r.slug}>
                     <Link
                       href={`/catalog/${r.slug}`}
-                      className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-keluar hover:bg-hover"
+                      className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-out hover:bg-hover"
                     >
                       <div className="flex min-w-0 items-center gap-5">
                         <ReleaseCoverThumb />

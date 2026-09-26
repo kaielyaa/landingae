@@ -8,6 +8,8 @@ import { ReleaseCoverThumb } from "@/components/release-cover";
 import { ScrollCue } from "@/components/scroll-cue";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { ButtonLink } from "@/components/ui/button";
+import { Sticker } from "@/components/ui/sticker";
 import { collabRoster, featuredArtist, pastRoster } from "@/lib/artists";
 import { releases } from "@/lib/releases";
 
@@ -33,20 +35,13 @@ export default function Home() {
 
           <div className="relative z-10 mx-auto max-w-[80rem] px-[var(--page-gutter)] text-center">
             <h1 className="text-[clamp(34px,7vw,96px)] font-bold leading-[1.3] tracking-tight">
-              Label musik{" "}
-              <span className="inline-block -rotate-1 rounded-md bg-primary px-3 py-0.5 leading-[1.05] text-primary-foreground">
-                independen
-              </span>
+              Label musik <Sticker tone="primary">independen</Sticker>
               , <br className="hidden sm:block" />
               dari{" "}
-              <span className="inline-block rotate-1 rounded-md bg-accent px-3 py-0.5 leading-[1.05] text-accent-foreground">
+              <Sticker tone="accent" tilt="right">
                 pop
-              </span>{" "}
-              sampai{" "}
-              <span className="inline-block -rotate-1 rounded-md bg-foreground px-3 py-0.5 leading-[1.05] text-background">
-                electronic
-              </span>
-              .
+              </Sticker>{" "}
+              sampai <Sticker tone="invert">electronic</Sticker>.
             </h1>
             <p className="mx-auto mt-7 max-w-[46ch] text-[16px] leading-[1.65] text-muted">
               Roster kecil, kontrak panjang. Sejak 2021, kami develop,
@@ -54,18 +49,12 @@ export default function Home() {
               Distribusi Musik ditangani sister company kami, Lantuns.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/submit"
-                className="rounded-md bg-primary px-6 py-3 text-[14px] font-bold text-primary-foreground transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
-              >
+              <ButtonLink href="/submit" size="lg">
                 Kirim Demo
-              </Link>
-              <Link
-                href="/roster"
-                className="rounded-md bg-foreground px-6 py-3 text-[14px] font-bold text-background transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
-              >
+              </ButtonLink>
+              <ButtonLink href="/roster" variant="invert" size="lg">
                 Lihat Roster
-              </Link>
+              </ButtonLink>
             </div>
           </div>
 
@@ -82,23 +71,6 @@ export default function Home() {
           id="manifesto"
           className="relative overflow-hidden border-t border-border bg-surface-2 py-16"
         >
-          {/* Residu dari energi hero — 2 chip aja, bukan full field. Biar
-              section ini nyambung, bukan tiba-tiba mati abis hero yang
-              padat. Idle sway doang, gak ada proximity-cursor (itu
-              signature khusus hero). */}
-          <span
-            className="chip absolute right-[12%] top-[10%] hidden text-sm opacity-70 animate-sway shadow-sm md:inline-flex"
-            style={{ "--base-rotate": "-4deg" } as React.CSSProperties}
-          >
-            Sejak 2021
-          </span>
-          <span
-            className="chip chip-accent absolute bottom-[12%] right-[22%] hidden text-sm opacity-70 animate-sway shadow-sm md:inline-flex"
-            style={{ "--base-rotate": "5deg", animationDelay: "-2s" } as React.CSSProperties}
-          >
-            Roster kecil
-          </span>
-
           <div className="relative z-10 mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
             <div className="max-w-[62ch]">
               <h2 className="text-[clamp(28px,3.8vw,46px)] font-bold leading-[1.15]">
@@ -168,7 +140,7 @@ export default function Home() {
                   <PlatformLinks platforms={buildPlatformLinks(featuredArtist)} />
                   <Link
                     href={`/roster/${featuredArtist.slug}`}
-                    className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:decoration-foreground"
+                    className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
                   >
                     Lihat profil lengkap →
                   </Link>
@@ -197,7 +169,7 @@ export default function Home() {
               </div>
               <Link
                 href="/catalog"
-                className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:decoration-foreground"
+                className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
               >
                 Lihat semua katalog
               </Link>
@@ -208,7 +180,7 @@ export default function Home() {
                 <li key={r.slug}>
                   <Link
                     href={`/catalog/${r.slug}`}
-                    className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-keluar hover:bg-hover"
+                    className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-out hover:bg-hover"
                   >
                     <div className="flex min-w-0 items-center gap-5">
                       <span className="tabular w-6 flex-none text-[13px] font-bold text-muted">
@@ -247,7 +219,7 @@ export default function Home() {
               </h2>
               <Link
                 href="/roster"
-                className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:decoration-foreground"
+                className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
               >
                 Lihat semua roster
               </Link>
@@ -291,7 +263,7 @@ export default function Home() {
                       <li key={p.slug}>
                         <Link
                           href={`/roster/${p.slug}`}
-                          className="flex items-center justify-between gap-4 py-4 transition-colors duration-fast ease-keluar hover:bg-hover"
+                          className="flex items-center justify-between gap-4 py-4 transition-colors duration-fast ease-out hover:bg-hover"
                         >
                           <p className="text-[16px] font-bold">{p.name}</p>
                           <p className="tabular text-[13px] text-muted">
@@ -363,7 +335,7 @@ export default function Home() {
                   href="https://lantuns.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:decoration-foreground"
+                  className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
                 >
                   Kunjungi Lantuns
                 </a>
@@ -397,7 +369,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/submit"
-                  className="mt-5 inline-block rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+                  className="mt-5 inline-block rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-out hover:-translate-y-0.5"
                 >
                   Kirim Demo
                 </Link>
@@ -418,7 +390,7 @@ export default function Home() {
                   href="https://lantuns.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-5 inline-block rounded-md bg-foreground px-5 py-2.5 text-[13px] font-bold text-background transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+                  className="mt-5 inline-block rounded-md bg-foreground px-5 py-2.5 text-[13px] font-bold text-background transition-transform duration-fast ease-out hover:-translate-y-0.5"
                 >
                   Kunjungi Lantuns
                 </a>

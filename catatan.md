@@ -27,6 +27,11 @@ Pekerjaan terencana (fase 1–8) ada di `rencana.md`, tidak diulang di sini.
   yang menunjuk ke SVG/PNG logo AE
 - `npm run build` belum pernah dijalankan — SSG semua halaman belum
   terverifikasi. Dijalankan di Fase 8 saja
+- Konsol dev: "Encountered a script tag while rendering React component" —
+  dari `next-themes` 0.4.6 (menyuntik `<script>` anti-kedip tema) dengan
+  React 19. Peringatan dev saja, tema tetap jalan. Sudah ada sebelum
+  2026-09-27. Beres kalau `next-themes` rilis perbaikan — menaikkan versi
+  perlu izin
 
 ## Keputusan yang ditunda
 - Embed pemutar Spotify/Apple Music di halaman detail, atau tetap link

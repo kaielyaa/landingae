@@ -179,7 +179,7 @@ export default function ServicesPage() {
                 </p>
                 <Link
                   href="/submit"
-                  className="mt-5 inline-block rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+                  className="mt-5 inline-block rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-out hover:-translate-y-0.5"
                 >
                   Kirim Demo
                 </Link>
@@ -198,7 +198,7 @@ export default function ServicesPage() {
                 </p>
                 <Link
                   href="/submit"
-                  className="mt-5 inline-block rounded-md bg-foreground px-5 py-2.5 text-[13px] font-bold text-background transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+                  className="mt-5 inline-block rounded-md bg-foreground px-5 py-2.5 text-[13px] font-bold text-background transition-transform duration-fast ease-out hover:-translate-y-0.5"
                 >
                   Hubungi Kami
                 </Link>
@@ -233,7 +233,7 @@ export default function ServicesPage() {
                   biasa?
                   <span
                     aria-hidden
-                    className="flex-none text-muted transition-transform duration-fast ease-keluar group-open:rotate-45"
+                    className="flex-none text-muted transition-transform duration-fast ease-out group-open:rotate-45"
                   >
                     +
                   </span>

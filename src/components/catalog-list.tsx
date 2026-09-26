@@ -37,7 +37,7 @@ export function CatalogList() {
               className={
                 isActive
                   ? "chip chip-primary rounded-sm px-3 py-1.5 text-[13px]"
-                  : "chip rounded-sm px-3 py-1.5 text-[13px] transition-colors duration-fast ease-keluar hover:bg-hover"
+                  : "chip rounded-sm px-3 py-1.5 text-[13px] transition-colors duration-fast ease-out hover:bg-hover"
               }
             >
               {f.label}
@@ -63,7 +63,7 @@ export function CatalogList() {
             <li key={r.slug}>
               <Link
                 href={`/catalog/${r.slug}`}
-                className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-keluar hover:bg-hover"
+                className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-out hover:bg-hover"
               >
                 <div className="flex min-w-0 items-center gap-5">
                   <span className="tabular w-6 flex-none text-[13px] font-bold text-muted">

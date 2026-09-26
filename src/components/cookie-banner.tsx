@@ -78,7 +78,7 @@ export function CookieBanner() {
       role="dialog"
       aria-label="Preferensi cookie"
       aria-hidden={!visible}
-      className={`fixed inset-x-3 bottom-3 z-40 transition-all duration-slow ease-keluar md:inset-x-6 md:bottom-6 ${
+      className={`fixed inset-x-3 bottom-3 z-40 transition-all duration-slow ease-out md:inset-x-6 md:bottom-6 ${
         visible
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-8 opacity-0"
@@ -100,14 +100,14 @@ export function CookieBanner() {
             <button
               type="button"
               onClick={() => setConsent("declined")}
-              className="rounded-md border border-border px-4 py-2.5 text-[13px] font-bold text-foreground transition-colors duration-fast ease-keluar hover:bg-hover"
+              className="rounded-md border border-border px-4 py-2.5 text-[13px] font-bold text-foreground transition-colors duration-fast ease-out hover:bg-hover"
             >
               Tolak Opsional
             </button>
             <button
               type="button"
               onClick={() => setConsent("accepted")}
-              className="rounded-md bg-primary px-4 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+              className="rounded-md bg-primary px-4 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-out hover:-translate-y-0.5"
             >
               Terima Semua
             </button>

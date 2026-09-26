@@ -31,7 +31,7 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={isDark ? "Pakai mode terang" : "Pakai mode gelap"}
-      className="flex h-9 w-9 flex-none items-center justify-center rounded-md border border-border text-foreground transition-colors duration-fast ease-keluar hover:bg-hover"
+      className="flex h-9 w-9 flex-none items-center justify-center rounded-md border border-border text-foreground transition-colors duration-fast ease-out hover:bg-hover"
     >
       {isDark ? <Sun size={16} aria-hidden /> : <Moon size={16} aria-hidden />}
     </button>

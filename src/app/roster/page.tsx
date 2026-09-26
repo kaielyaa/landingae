@@ -72,7 +72,7 @@ export default function RosterPage() {
                     <PlatformLinks platforms={buildPlatformLinks(artist)} />
                     <Link
                       href={`/roster/${artist.slug}`}
-                      className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:decoration-foreground"
+                      className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
                     >
                       Lihat profil lengkap →
                     </Link>
@@ -141,7 +141,7 @@ export default function RosterPage() {
                 <li key={p.slug}>
                   <Link
                     href={`/roster/${p.slug}`}
-                    className="flex items-center justify-between gap-4 py-5 transition-colors duration-fast ease-keluar hover:bg-hover"
+                    className="flex items-center justify-between gap-4 py-5 transition-colors duration-fast ease-out hover:bg-hover"
                   >
                     <p className="text-[18px] font-bold">{p.name}</p>
                     <p className="tabular text-[13px] text-muted">

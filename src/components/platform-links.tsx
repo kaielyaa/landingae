@@ -46,7 +46,7 @@ export function PlatformLinks({ platforms }: { platforms: Platform[] }) {
           href={href}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2.5 text-[14px] font-semibold text-foreground transition-colors duration-fast ease-keluar hover:bg-hover"
+          className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2.5 text-[14px] font-semibold text-foreground transition-colors duration-fast ease-out hover:bg-hover"
         >
           <Icon className="h-4 w-4" />
           {label}

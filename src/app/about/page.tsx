@@ -133,13 +133,13 @@ export default function AboutPage() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/submit"
-                className="rounded-md bg-primary px-6 py-3 text-[14px] font-bold text-primary-foreground transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+                className="rounded-md bg-primary px-6 py-3 text-[14px] font-bold text-primary-foreground transition-transform duration-fast ease-out hover:-translate-y-0.5"
               >
                 Kirim Demo
               </Link>
               <a
                 href="mailto:hello@ankaentertainment.com"
-                className="rounded-md bg-foreground px-6 py-3 text-[14px] font-bold text-background transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+                className="rounded-md bg-foreground px-6 py-3 text-[14px] font-bold text-background transition-transform duration-fast ease-out hover:-translate-y-0.5"
               >
                 Email Kami
               </a>

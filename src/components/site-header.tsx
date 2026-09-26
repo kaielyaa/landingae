@@ -29,7 +29,7 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-base ease-keluar",
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-base ease-out",
         scrolled
           ? "border-border bg-background/85 backdrop-blur-md"
           : "border-transparent bg-transparent"
@@ -52,7 +52,7 @@ export function SiteHeader() {
             <Link
               key={l.href}
               href={l.href}
-              className="transition-colors duration-fast ease-keluar hover:text-foreground aria-[current=page]:text-foreground"
+              className="transition-colors duration-fast ease-out hover:text-foreground aria-[current=page]:text-foreground"
               aria-current={pathname === l.href ? "page" : undefined}
             >
               {l.label}
@@ -63,7 +63,7 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/submit"
-            className="rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-keluar hover:-translate-y-0.5"
+            className="rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-out hover:-translate-y-0.5"
           >
             Kirim Demo
           </Link>

@@ -66,7 +66,7 @@ export function LegalPageLayout({
                         <button
                           type="button"
                           onClick={() => scrollToSection(item.id)}
-                          className="flex w-full items-baseline gap-3 rounded-md px-3 py-2 text-left transition-colors duration-fast ease-keluar hover:bg-hover"
+                          className="flex w-full items-baseline gap-3 rounded-md px-3 py-2 text-left transition-colors duration-fast ease-out hover:bg-hover"
                         >
                           <span className="tabular flex-none text-[11px] text-muted">
                             {String(i + 1).padStart(2, "0")}
@@ -102,7 +102,7 @@ export function LegalPageLayout({
           <div className="mt-16 flex items-center justify-between border-t border-border pt-8">
             <Link
               href="/"
-              className="text-[13px] font-bold text-muted underline decoration-border underline-offset-4 transition-colors duration-fast ease-keluar hover:text-foreground hover:decoration-foreground"
+              className="text-[13px] font-bold text-muted underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:text-foreground hover:decoration-foreground"
             >
               ← Kembali ke beranda
             </Link>
