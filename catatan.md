@@ -36,6 +36,11 @@ Pekerjaan terencana (fase 1–8) ada di `rencana.md`, tidak diulang di sini.
 - Tautan "Anka Group" di header & footer masih 404 sampai halamannya
   dibangun di Fase 4
 
+- Turbopack dev kadang menyajikan versi LAMA rute dinamis (`[slug]`) setelah
+  berkasnya diubah — tanpa error di log. Kalau tampilan tidak berubah padahal
+  berkas sudah benar: restart dev server (bukan bug kode). Kejadian
+  2026-09-27 di `/roster/[slug]`
+
 ## Keputusan yang ditunda
 - Embed pemutar Spotify/Apple Music di halaman detail, atau tetap link
   keluar — butuh keputusan Kaiel, bawaan: link keluar

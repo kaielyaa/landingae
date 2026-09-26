@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArtistPhotoPlaceholder } from "@/components/artist-photo-placeholder";
+import { ArtistFeature } from "@/components/artist-feature";
+import { CreditList } from "@/components/credit-list";
 import { PageHero } from "@/components/page-hero";
-import { buildPlatformLinks, PlatformLinks } from "@/components/platform-links";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { StampSticker } from "@/components/stamp-sticker";
+import { Section, SectionHeading, TextLink } from "@/components/ui/section";
 import { activeRoster, collabRoster, pastRoster } from "@/lib/artists";
 
 export const metadata: Metadata = {
@@ -23,136 +24,82 @@ export default function RosterPage() {
           title={
             <>
               Bukan tentang{" "}
-              <span className="inline-block -rotate-1 rounded-md bg-primary px-3 py-0.5 leading-[1.05] text-primary-foreground">
+              <StampSticker trigger="load" tone="primary" delay={320}>
                 banyak
-              </span>
+              </StampSticker>
               . Tentang yang{" "}
-              <span className="inline-block rotate-1 rounded-md bg-accent px-3 py-0.5 leading-[1.05] text-accent-foreground">
+              <StampSticker trigger="load" tone="accent" tilt="right" delay={480}>
                 tepat
-              </span>
+              </StampSticker>
               .
             </>
           }
           description="Anka Entertainment menjaga roster tetap kecil. Setiap artist yang masuk lewat seleksi yang teliti — bukan soal popularitas, tapi soal kesiapan tumbuh bareng."
         />
 
-        {/* ---------- ACTIVE ROSTER ---------- */}
-        {activeRoster.map((artist) => (
-          <section
-            key={artist.slug}
-            className="border-b border-border bg-background py-20"
-          >
-            <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-              <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-                <div className="max-w-[62ch]">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="chip chip-accent rounded-sm px-2 py-1 text-[12px]">
-                      Live
-                    </span>
-                    <span className="chip rounded-sm px-2 py-1 text-[12px]">
-                      Eksklusif
-                    </span>
-                  </div>
+        {/* AKTIF — blok profil yang sama dengan Home, nama jadi elemen
+            terbesar tiap blok. */}
+        {activeRoster.length > 0 ? (
+          activeRoster.map((artist) => (
+            <Section key={artist.slug} tone="base" space="loose">
+              <ArtistFeature
+                artist={artist}
+                label="Roster aktif"
+                footer={
+                  <TextLink href={`/roster/${artist.slug}`}>
+                    Lihat profil lengkap
+                  </TextLink>
+                }
+              />
+            </Section>
+          ))
+        ) : (
+          <Section tone="base" space="normal">
+            <p className="max-w-[56ch] text-[17px] leading-[1.8] text-muted">
+              Belum ada artist aktif yang bisa ditampilkan. Kabar roster baru
+              diumumkan lewat Instagram kami.
+            </p>
+          </Section>
+        )}
 
-                  <h2 className="mt-5 text-[clamp(32px,5vw,64px)] font-bold leading-[1.05] tracking-tight">
-                    {artist.name}
-                  </h2>
-                  <p className="mt-2 text-[14px] font-semibold text-muted">
-                    {artist.genre?.join(", ")}
-                    {artist.yearStart ? ` · Sejak ${artist.yearStart}` : ""}
-                  </p>
-
-                  <p className="mt-6 text-[17px] leading-[1.8] text-muted">
-                    {artist.shortBio ?? (
-                      <span className="italic">Belum ada bio buat artist ini.</span>
-                    )}
-                  </p>
-
-                  <div className="mt-8">
-                    <PlatformLinks platforms={buildPlatformLinks(artist)} />
-                    <Link
-                      href={`/roster/${artist.slug}`}
-                      className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
-                    >
-                      Lihat profil lengkap →
-                    </Link>
-                  </div>
-                </div>
-
-                <ArtistPhotoPlaceholder name={artist.name} />
-              </div>
-            </div>
-          </section>
-        ))}
-
-        {/* ---------- COLLABORATION — project-based, bukan tenure, dan
-             BUKAN bagian dari roster (Kaiel: "kalau artis kolaborasi mah
-             bukan bagian gua"). Pill SENGAJA non-clickable — gak ada
-             halaman profil buat tier ini (lihat /roster/[slug]), beda
-             dari Active/Past Roster yang emang dilink. Cuma nama sebagai
-             penanda, gak ada tanggal (gak relevan buat project-based).
-             Mekanik pill diambil dari situs lama (`CollaborationsAlumniClient`),
-             radius-nya tetap ikut sistem kita (chip rounded-sm), bukan
-             rounded-full kayak situs lama. Rilisan yang melibatkan
-             kolaborator TETAP bisa diakses normal lewat Katalog — cuma
-             profil artist-nya yang gak ada.
-             DUMMY, lihat komentar di src/lib/artists.ts. ---------- */}
+        {/* KOLABORASI — project-based, bukan bagian roster (Kaiel
+            2026-08-20). Nama saja, tidak bisa diklik, tidak ada profil.
+            Disembunyikan kalau kosong. DUMMY — lihat src/lib/artists.ts. */}
         {collabRoster.length > 0 ? (
-          <section className="border-b border-border bg-background py-20">
-            <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-              <div className="max-w-[62ch]">
-                <h2 className="text-[clamp(24px,3vw,34px)] font-bold leading-[1.15]">
-                  Kolaborasi.
-                </h2>
-                <p className="mt-3 text-[15px] leading-[1.7] text-muted">
-                  Project-based, bukan bagian dari roster eksklusif.
-                </p>
-              </div>
-
-              <div className="mt-7 flex flex-wrap gap-2">
-                {collabRoster.map((c) => (
-                  <span
-                    key={c.slug}
-                    className="chip rounded-sm px-3 py-1.5 text-[13px]"
-                  >
-                    {c.name}
-                  </span>
-                ))}
-              </div>
+          <Section tone="sunken" space="tight">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+              <SectionHeading
+                title="Kolaborasi."
+                lead="Project-based, bukan bagian dari roster eksklusif."
+              />
+              <CreditList
+                credits={collabRoster.map((a) => ({
+                  name: a.name,
+                  value: "Project-based",
+                }))}
+              />
             </div>
-          </section>
+          </Section>
         ) : null}
 
-        {/* ---------- PAST ROSTER ---------- */}
-        <section className="bg-surface-2 py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <div className="max-w-[62ch]">
-              <h2 className="text-[clamp(24px,3vw,34px)] font-bold leading-[1.15]">
-                Pernah jadi bagian.
-              </h2>
-              <p className="mt-3 text-[15px] leading-[1.7] text-muted">
-                Tidak setiap perjalanan harus berakhir di tempat yang sama.
-                Mereka membentuk apa yang Anka Entertainment jadi hari ini.
-              </p>
+        {/* ALUMNI — bisa diklik ke profil. */}
+        {pastRoster.length > 0 ? (
+          <Section tone={collabRoster.length > 0 ? "base" : "sunken"} space="normal">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+              <SectionHeading
+                title="Pernah jadi bagian."
+                lead="Tidak setiap perjalanan harus berakhir di tempat yang sama. Mereka membentuk apa yang Anka Entertainment jadi hari ini."
+              />
+              <CreditList
+                credits={pastRoster.map((a) => ({
+                  name: a.name,
+                  value: `${a.yearStart} — ${a.yearEnd}`,
+                  href: `/roster/${a.slug}`,
+                }))}
+              />
             </div>
-
-            <ul className="mt-10 divide-y divide-border border-t border-border">
-              {pastRoster.map((p) => (
-                <li key={p.slug}>
-                  <Link
-                    href={`/roster/${p.slug}`}
-                    className="flex items-center justify-between gap-4 py-5 transition-colors duration-fast ease-out hover:bg-hover"
-                  >
-                    <p className="text-[18px] font-bold">{p.name}</p>
-                    <p className="tabular text-[13px] text-muted">
-                      {p.yearStart} — {p.yearEnd}
-                    </p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+          </Section>
+        ) : null}
       </main>
 
       <SiteFooter />

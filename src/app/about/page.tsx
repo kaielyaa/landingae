@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/page-hero";
+import { StampSticker } from "@/components/stamp-sticker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -43,9 +44,9 @@ export default function AboutPage() {
           title={
             <>
               Kami percaya musik yang{" "}
-              <span className="inline-block -rotate-1 rounded-md bg-primary px-3 py-0.5 leading-[1.05] text-primary-foreground">
+              <StampSticker trigger="load" tone="primary" delay={320}>
                 baik
-              </span>{" "}
+              </StampSticker>{" "}
               butuh waktu.
             </>
           }

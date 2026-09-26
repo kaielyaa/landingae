@@ -231,7 +231,10 @@ komponen baru. Primitif di `src/components/ui/`, pola tanda tangan di
 |---|---|---|
 | `Button` / `ButtonLink` / `buttonStyles()` | `primary` · `invert` · `outline`; `sm` h-9 · `md` h-11 · `lg` h-12 | Radius md. Hover naik 2px. `<button>` untuk aksi, `ButtonLink` untuk pindah halaman |
 | `Sticker` / `stickerTones()` | `primary` · `accent` · `invert`; `display` · `inline`; tilt `left` · `right` · `none` | Tanda tangan 1. Satu-satunya elemen yang boleh miring |
-| `StampSticker` | seperti `Sticker` | Stiker judul section, ditempel saat masuk layar (Gerak #3) |
+| `StampSticker` | seperti `Sticker` + `trigger` `view` · `group` · `load`, `delay` | `view` judul section (masuk layar), `group` ikut `<Reveal>` (berurutan), `load` judul halaman (saat dibuka, mulai ±320ms) |
+| `Reveal` | — | Pemicu masuk layar untuk grup stiker & `CreditList` |
+| `PageHero` | — | Judul halaman: `rise-on-load` (naik saat dibuka), deskripsi menyusul 160ms |
+| `ArtistFeature` | `nameAs` h1/h2 | Blok profil artist — satu komponen di Home, Roster, detail. Nama `clamp(56px,10vw,144px)`, fakta per tier (`artistFacts`), foto hanya kalau ada |
 | `Chip` | `neutral` · `primary` · `accent` · `warning`; `sm` · `md` · `lg` | Label data (genre, status, kategori). Status selalu dengan teks |
 | `Card` | — | Hanya untuk membandingkan hal sejajar. `rounded-lg`, border |
 | `Section` / `SectionHeading` / `TextLink` | tone `base` · `sunken`; space `tight` · `normal` · `loose` | Lihat Layout & ritme |
@@ -253,13 +256,24 @@ ada pemakainya.
 | Ekosistem | sunken · normal | Dua `Card` brand (satu-satunya kartu di Home) |
 | Dua jalur | base · loose | Stiker "didengar", dua baris bernomor, tombol di kanan — bukan kartu rata tengah |
 
+## Roster — susunan (Fase 3a, 2026-09-27)
+
+- `/roster`: `PageHero` (stiker "banyak", "tepat") → tiap artist aktif =
+  `ArtistFeature` (base · loose) → Kolaborasi (sunken · tight, judul kiri +
+  `CreditList` kanan, tidak bisa diklik) → Pernah jadi bagian (judul kiri +
+  `CreditList` bisa diklik). Kolaborasi/alumni disembunyikan kalau kosong;
+  aktif kosong = kalimat penjelas + arahan ke Instagram
+- `/roster/[slug]`: tautan kembali → `ArtistFeature` dengan nama sebagai
+  **h1 = elemen terbesar halaman** (`rise-on-load`) + ikon sosmed → Rilisan
+  (`Tracklist`, disembunyikan kalau kosong). Field kosong ditulis jujur
+  ("Belum ada bio", "Link streaming belum dipasang")
+
 ## Gambar & aset
 
 - **Foto hanya tampil kalau ada.** Belum ada foto = layout tipografi penuh,
-  bukan kotak "foto belum diupload" di production. Home sudah begini.
-  **[Fase 3]** placeholder washi tape (`ArtistPhotoPlaceholder`,
-  `ReleaseCoverPlaceholder`, `PinnedPlaceholder`) di Roster & Katalog
-  diganti dengan pola yang sama, lalu komponennya dihapus
+  bukan kotak "foto belum diupload" di production. Home & Roster sudah
+  begini (`ArtistPhotoPlaceholder` dihapus). **[Fase 3b]**
+  `ReleaseCoverPlaceholder` + `PinnedPlaceholder` di Katalog menyusul
 - Foto artist kalau ada: `max-w-[420px]` di kolom samping supaya rasio 4:5
   tidak meledak di layar lebar
 - Cover rilisan: kotak 48px (`rounded-md`) di daftar, besar di detail

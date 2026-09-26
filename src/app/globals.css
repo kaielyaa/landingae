@@ -319,6 +319,25 @@
   }
 }
 
+/* Versi saat halaman dibuka (judul halaman): stiker ditempel & judul naik.
+   Tanpa jeda kalau gerak dikurangi. */
+@media (prefers-reduced-motion: no-preference) {
+  .stamp-on-load {
+    background-image: linear-gradient(var(--sweep), var(--sweep));
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    animation: stamp-in 760ms var(--ease-out) backwards;
+    animation-delay: var(--stamp-delay, 0ms);
+  }
+  .rise-on-load {
+    animation: rise-in 620ms var(--ease-out) backwards;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+}
+@keyframes rise-in {
+  from { opacity: 0; translate: 0 0.35em; }
+}
+
 [data-reveal="wait"] [data-leader] {
   scale: 0 1;
 }

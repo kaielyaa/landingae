@@ -1,10 +1,10 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { ArtistFeature } from "@/components/artist-feature";
 import { CreditList } from "@/components/credit-list";
 import { Hero } from "@/components/home/hero";
 import { InlineTag } from "@/components/inline-tag";
 import { Reveal } from "@/components/reveal";
-import { buildPlatformLinks, PlatformLinks } from "@/components/platform-links";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StampSticker } from "@/components/stamp-sticker";
@@ -45,20 +45,20 @@ export default function Home() {
               <p className="text-[17px] leading-[1.8] text-muted">
                 Kami label yang serius — roster kecil, kontrak panjang, fokus
                 ke artist yang siap tumbuh bareng. Tiap rilisan mulai dari{" "}
-                <StampSticker grouped tone="primary" size="inline">
+                <StampSticker trigger="group" tone="primary" size="inline">
                   Develop
                 </StampSticker>
                 , lanjut ke{" "}
-                <StampSticker grouped tone="invert" size="inline" delay={180}>
+                <StampSticker trigger="group" tone="invert" size="inline" delay={180}>
                   Record
                 </StampSticker>{" "}
                 yang kualitasnya dijaga ketat, ditutup dengan{" "}
-                <StampSticker grouped tone="accent" size="inline" delay={360}>
+                <StampSticker trigger="group" tone="accent" size="inline" delay={360}>
                   Release
                 </StampSticker>{" "}
                 yang dipikirin matang — bukan sekadar upload. Distribusi Musik
                 ditangani sister company kami,{" "}
-                <StampSticker grouped tone="invert" size="inline" delay={540}>
+                <StampSticker trigger="group" tone="invert" size="inline" delay={540}>
                   Lantuns
                 </StampSticker>
                 .
@@ -73,59 +73,15 @@ export default function Home() {
         {/* ARTIST UTAMA — nama artist jadi elemen terbesar section ini.
             Foto hanya kalau ada; kalau belum, layout tipografi penuh. */}
         <Section tone="base" space="loose">
-          <div className="flex flex-wrap items-center gap-2">
-            <Chip tone="accent">Live</Chip>
-            <Chip>Eksklusif</Chip>
-            <span className="ml-1 text-[13px] font-medium text-muted">
-              Artist utama
-            </span>
-          </div>
-
-          <h2 className="mt-6 text-[clamp(56px,10vw,144px)] font-bold leading-[0.95] tracking-[-0.04em]">
-            {featuredArtist.name}
-          </h2>
-
-          <div className="mt-12 grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
-            <div>
-              {featuredArtist.bioAccent ? (
-                <p className="max-w-[24ch] text-[clamp(22px,2.4vw,30px)] font-bold leading-[1.3]">
-                  &ldquo;{featuredArtist.bioAccent}&rdquo;
-                </p>
-              ) : null}
-              <p className="mt-6 max-w-[56ch] text-[17px] leading-[1.8] text-muted">
-                {featuredArtist.shortBio ?? "Belum ada bio untuk artist ini."}
-              </p>
-            </div>
-
-            <div>
-              {featuredArtist.photo ? (
-                <Image
-                  src={featuredArtist.photo}
-                  alt={`Foto ${featuredArtist.name}`}
-                  width={480}
-                  height={600}
-                  className="mb-10 aspect-[4/5] w-full max-w-[420px] rounded-xl object-cover"
-                />
-              ) : null}
-              <CreditList
-                variant="facts"
-                credits={[
-                  { name: "Genre", value: featuredArtist.genre?.join(", ") },
-                  {
-                    name: "Aktif sejak",
-                    value: featuredArtist.yearStart?.toString(),
-                  },
-                  { name: "Status", value: "Roster eksklusif" },
-                ].filter((c) => c.value)}
-              />
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-                <PlatformLinks platforms={buildPlatformLinks(featuredArtist)} />
-                <TextLink href={`/roster/${featuredArtist.slug}`}>
-                  Lihat profil lengkap
-                </TextLink>
-              </div>
-            </div>
-          </div>
+          <ArtistFeature
+            artist={featuredArtist}
+            label="Artist utama"
+            footer={
+              <TextLink href={`/roster/${featuredArtist.slug}`}>
+                Lihat profil lengkap
+              </TextLink>
+            }
+          />
         </Section>
 
         {/* KATALOG — tracklist bernomor. */}
@@ -294,7 +250,7 @@ function BrandCard({
         <div>
           <h3 className="text-[22px] font-bold leading-tight">{name}</h3>
           <span className="mt-1.5 block">
-            <StampSticker grouped tone={tone} size="inline" delay={delay}>
+            <StampSticker trigger="group" tone={tone} size="inline" delay={delay}>
               {role}
             </StampSticker>
           </span>

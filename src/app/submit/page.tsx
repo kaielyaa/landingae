@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { InlineTag } from "@/components/inline-tag";
 import { PageHero } from "@/components/page-hero";
+import { StampSticker } from "@/components/stamp-sticker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { site } from "@/lib/site";
@@ -22,9 +23,9 @@ export default function SubmitPage() {
           title={
             <>
               Mari{" "}
-              <span className="inline-block rotate-1 rounded-md bg-accent px-3 py-0.5 leading-[1.05] text-accent-foreground">
+              <StampSticker trigger="load" tone="accent" tilt="right" delay={320}>
                 ngobrol
-              </span>
+              </StampSticker>
               .
             </>
           }

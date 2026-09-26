@@ -14,22 +14,24 @@ const sweep: Record<Tone, string> = {
  * terbaca sejak awal, cuma warna yang menyapu lalu stiker miring dan
  * kembali.
  *
- * - Sendirian (bawaan): punya pemicu sendiri — dipakai di judul section
- * - `grouped`: ikut pemicu `<Reveal>` terdekat di atasnya, dengan `delay`
- *   supaya beberapa stiker ditempel berurutan (mis. di satu paragraf) */
+ * `trigger`:
+ * - `view` (bawaan): pemicu sendiri saat masuk layar — judul section
+ * - `group`: ikut `<Reveal>` terdekat di atasnya; `delay` supaya beberapa
+ *   stiker ditempel berurutan (mis. di satu paragraf)
+ * - `load`: saat halaman dibuka — judul halaman (`PageHero`, detail) */
 export function StampSticker({
   tone = "primary",
   size = "display",
   tilt = size === "display" ? "left" : "none",
   delay = 0,
-  grouped = false,
+  trigger = "view",
   children,
 }: {
   tone?: Tone;
   size?: "display" | "inline";
   tilt?: "left" | "right" | "none";
   delay?: number;
-  grouped?: boolean;
+  trigger?: "view" | "group" | "load";
   children: ReactNode;
 }) {
   const sticker = (
@@ -37,7 +39,8 @@ export function StampSticker({
       tone={tone}
       size={size}
       tilt={tilt}
-      data-stamp=""
+      data-stamp={trigger === "load" ? undefined : ""}
+      className={trigger === "load" ? "stamp-on-load" : undefined}
       style={
         {
           "--sweep": sweep[tone],
@@ -50,6 +53,6 @@ export function StampSticker({
     </Sticker>
   );
 
-  if (grouped) return sticker;
+  if (trigger !== "view") return sticker;
   return <Reveal as="span">{sticker}</Reveal>;
 }
