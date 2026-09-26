@@ -21,6 +21,12 @@ const sizes: Record<Size, string> = {
 
 const tilts = { left: "-rotate-1", right: "rotate-1", none: "" };
 
+/** Kelas stiker tanpa elemennya — untuk elemen lain yang perlu tampil
+ * sebagai stiker (mis. item nav yang sedang aktif). */
+export function stickerTones(tone: Tone) {
+  return tones[tone];
+}
+
 /** Tanda tangan 1: stiker kata — blok warna solid di belakang kata kunci,
  * seolah ditempel tangan. Maksimal satu per judul (kecuali hero Home).
  * Rotasi hanya boleh di sini, tidak di elemen lain. */

@@ -75,7 +75,7 @@ dari tinggi. Di atas itu terbaca pill, di bawah itu kaku.
 | ±20–30px | stiker inline di paragraf, badge, strip kecil | `rounded-sm` 8px |
 | ±32–56px | tombol, chip mandiri, stiker di judul hero, thumbnail 48px, wadah logo | `rounded-md` 12px |
 | kartu | kartu pembanding (`Card`) | `rounded-lg` 16px |
-| panel besar | lembar menu mobile, foto besar | `rounded-xl` 20px |
+| panel besar | foto besar, panel lepas | `rounded-xl` 20px |
 
 - `rounded-full` **haram** kecuali Kaiel minta eksplisit
 - Elemen setinggi sama wajib radius sama, apa pun fungsinya
@@ -157,34 +157,26 @@ scroll native) · goyang terus-menerus di chip latar · chip melayang di
 manifesto · foto berayun · tombol scroll yang melompat (sekarang diam, bereaksi
 saat hover). **Jangan dikembalikan.** Animasi scroll di tiap elemen tetap haram.
 
-## Header — [Fase 1] didesain ulang
+## Header — `src/components/site-header.tsx`
 
 - Logo + wordmark = tautan ke Home. Tidak ada item "Beranda"
-- Nav: Roster · Katalog · Layanan · Tentang · Anka Group
-- Halaman aktif ditandai stiker invert kecil; hover garis bawah tipis
-- Kirim Demo tombol primary di kanan, **tampil di semua ukuran layar**
-- Transparan di atas hero; setelah scroll jadi latar solid + border tipis
-  (tanpa blur kaca). Scroll turun → menyingkir, naik → muncul
-- `<768px`: `[logo + nama] [Kirim Demo] [Menu]`. Menu = lembar layar penuh,
-  nav besar bernomor ala tracklist, tombol tema di dalamnya, Esc menutup,
-  fokus terkunci
+- Nav: Roster · Katalog · Layanan · Tentang · Anka Group. Aktif juga untuk
+  sub-halaman (`/roster/db-project` → Roster)
+- Halaman aktif = stiker invert (`stickerTones("invert")` + `-rotate-1`),
+  tinggi 32px `rounded-sm`. Hover: teks menguat + garis bawah
+- Kirim Demo = `ButtonLink size="sm"`, **tampil di semua ukuran layar**
+- Tinggi `h-16`. Transparan di atas; setelah scroll >8px latar solid
+  `bg-background` + border (tanpa blur kaca). Turun lewat 120px → menyingkir,
+  naik → muncul. Fokus keyboard di dalam header selalu memunculkannya
+- `<768px`: `[logo + nama] [Kirim Demo] [Menu]`; di bawah 360px nama brand
+  disembunyikan visual (tetap terbaca pembaca layar)
+- Menu mobile = `<dialog>` modal layar penuh, **tanpa radius** (menutup
+  seluruh layar). Baris atas sama dengan header (tombol Menu jadi Tutup di
+  posisi yang sama). Nav 34px bold bernomor 01–05 ala tracklist, masuk
+  berjenjang 40ms. Bawah: tombol tema berlabel + email. Esc menutup, fokus
+  terkunci, halaman belakang tidak ikut scroll
 - Header `fixed` — halaman yang hero-nya bukan `min-h-dvh` wajib punya
   `pt-32 md:pt-40` di section pertama (sudah di `PageHero`)
-
-## Komponen dasar — `src/components/ui/`
-
-Pakai ini dulu sebelum menulis class manual. Beda kecil = varian, bukan
-komponen baru.
-
-| Komponen | Varian | Catatan |
-|---|---|---|
-| `Button` / `ButtonLink` / `buttonStyles()` | `primary` · `invert` · `outline`; `sm` h-9 · `md` h-11 · `lg` h-12 | Radius md. Hover naik 2px. `<button>` untuk aksi, `ButtonLink` untuk pindah halaman |
-| `Sticker` | `primary` · `accent` · `invert`; `display` · `inline`; tilt `left` · `right` · `none` | Tanda tangan 1. Satu-satunya elemen yang boleh miring |
-| `Chip` | `neutral` · `primary` · `accent` · `warning`; `sm` · `md` · `lg` | Label data (genre, status, kategori). Status selalu dengan teks |
-| `Card` | — | Hanya untuk membandingkan hal sejajar |
-
-`Field` (label + input + error) dibuat saat form Submit dikerjakan — belum
-ada pemakainya.
 
 ## Gambar & aset
 

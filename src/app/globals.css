@@ -235,8 +235,19 @@
   --transition-duration-slow: var(--duration-slow);
 
 
+  /* Menu mobile: lembar masuk, lalu item menyusul berjenjang. */
+  --animate-menu-in: menu-in var(--duration-slow) var(--ease-out);
+  --animate-menu-item-in: menu-item-in var(--duration-slow) var(--ease-out) both;
+
   /* Cabinet Grotesk self-host via next/font/local (layout.tsx) */
   --font-sans: var(--font-cabinet), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes menu-item-in {
+  from { opacity: 0; transform: translateY(12px); }
 }
 
 /* ---------- DASAR ---------- */
@@ -254,6 +265,8 @@
   }
 
   :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  /* Menu mobile (<dialog> modal) terbuka: halaman di belakang tidak ikut scroll. */
+  html:has(dialog[open]) { overflow: hidden; }
   ::selection { background-color: var(--primary); color: var(--primary-foreground); }
 
   h1, h2, h3, .display { letter-spacing: -0.025em; line-height: 1.02; font-weight: 700; }
