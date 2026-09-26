@@ -5,7 +5,7 @@ Nilai visual (warna, font, radius) tetap di `arah.md`. Temuan kecil tetap di
 `catatan.md`. Kalau rencana ini bertentangan dengan `arah.md`, yang dipakai
 yang lebih baru, lalu salah satunya diperbarui.
 
-Ditulis 2026-09-27. Status: **Fase 0–4 selesai (2026-09-27). Berikutnya Fase 5: SEO & 404 (+ rapikan Submit & legal ke pola baru).** Jawaban Kaiel sudah masuk
+Ditulis 2026-09-27. Status: **Fase 0–5 selesai (2026-09-27). Berikutnya Fase 6 (aset & Sanity — butuh izin paket), Fase 7 (form Submit — ditunda), Fase 8 (pra-deploy).** Jawaban Kaiel sudah masuk
 (bagian 9).
 
 ---

@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: "Katalog — Anka Entertainment",
   description:
     "Setiap rilisan punya ceritanya. Katalog Anka Entertainment, dibagi berdasarkan kepemilikan master.",
+  // Filter ?kategori= menampilkan halaman yang sama — satu URL kanonik.
+  alternates: { canonical: "/catalog" },
 };
 
 export default function CatalogPage() {

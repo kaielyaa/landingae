@@ -4,9 +4,6 @@ Keputusan visual yang **masih berlaku**. Mengikat. Riwayat dan alasan keputusan
 lama ada di `arah-riwayat.md` (tidak mengikat). Rencana kerja & fase di
 `rencana.md`.
 
-Tanda **[Fase N]** = sudah diputuskan, kodenya belum disesuaikan. Sampai
-fase itu jalan, kode lama masih berbeda — yang benar yang tertulis di sini.
-
 Dipadatkan 2026-09-27.
 
 ---
@@ -42,21 +39,17 @@ Mode        : light + dark. Default ikut sistem, toggle manual (`next-themes`)
 Tangga lengkap di `globals.css`. Primitif (`--brand-*`, `--pink-*`, `--n-*`)
 tidak pernah dipakai langsung di komponen.
 
-Token mengikuti kontrak standar (dirapikan 2026-09-27): `--surface` light =
-`--background` (`n-0`, bukan putih murni) — kartu dibedakan border, section
-dibedakan `--surface-2`. Gerak: `--duration-fast/base/slow`, `--ease-out`.
-Status lengkap termasuk `--info` (hue 265).
+`--surface` light = `--background` (`n-0`) — kartu dibedakan border, section
+dibedakan `--surface-2`. `--info` hue 265. Gambar OG (`opengraph-image.tsx`)
+memakai hex hasil konversi token mode gelap — ubah bersama kalau token berubah.
 
 ## Tipografi
 
 Keluarga    : **Cabinet Grotesk** saja, untuk judul maupun isi — grotesk tegas
               yang tetap ramah; satu keluarga dengan permainan ketebalan
               lebih rapi daripada dua. Fontshare, lisensi web gratis
-Ketebalan   : 400 isi · 500 label · 700 judul & display (total 3). 800
-              dicopot karena tidak dipakai; boleh ditambah lagi kalau perlu.
-              `font-semibold` (600) masih ada di kode tapi tidak dimuat —
-              browser menampilkan 700. Saat halaman dibangun ulang, ganti ke
-              `font-medium` atau `font-bold` sesuai maksudnya
+Ketebalan   : 400 isi · 500 label · 700 judul, display, chip (total 3). 600
+              tidak dimuat — jangan pakai `font-semibold`
 Sumber      : self-host `next/font/local`, berkas di `src/app/fonts/`.
               Lisensi ITF Free Font License (Fontshare), boleh komersial
 Display     : hero `clamp(34px, 7vw, 96px)`, bold, tracking rapat
@@ -289,9 +282,8 @@ rilisan: tampil walau kosong, dengan penjelasan) dan daftar rilisan terkait
 - Foto artist kalau ada: `max-w-[420px]` di kolom samping supaya rasio 4:5
   tidak meledak di layar lebar
 - Cover rilisan: kotak 48px (`rounded-md`) di daftar, besar di detail
-- Logo AE = `/apple-touch-icon.png` di mana pun. Logo Lantuns =
-  `/lantunsicon.png`. Keduanya PNG berlatar putih; di wadah `h-14 w-14
-  rounded-md border p-2.5 bg-foreground/[0.03]`
+- Logo AE `/apple-touch-icon.png`, Lantuns `/lantunsicon.png` (PNG latar
+  putih) — di wadah `h-14 w-14 rounded-md border p-2.5 bg-foreground/[0.03]`
 - Ikon UI: Lucide. Logo brand (sosmed, Spotify, Apple Music): `react-icons`,
   **monokrom** `currentColor`, bukan warna brand aslinya
 
@@ -308,10 +300,8 @@ rilisan: tampil walau kosong, dengan penjelasan) dan daftar rilisan terkait
 
 ## Referensi luar
 
-- **Situs lama** (`../aelama`, ankaentertainment.com) — diambil: copy, skema
-  data, struktur halaman, mekanik (TOC legal, cookie banner, form submit,
-  gabungan kolaborasi+alumni). Dibuang: glass, glow orb, gradient text,
-  serif italic, gradient placeholder ungu-biru
+- **Situs lama** (`../aelama`) — diambil: copy, skema, struktur, mekanik.
+  Dibuang: glass, glow orb, gradient text, serif italic, placeholder gradient
 - **`landinglantuns`** — diambil: lebar konten & gutter
 
 ## Aset sementara

@@ -16,6 +16,26 @@ import { Chip } from "@/components/ui/chip";
 import { Section, SectionHeading, TextLink } from "@/components/ui/section";
 import { collabRoster, featuredArtist, pastRoster } from "@/lib/artists";
 import { releases } from "@/lib/releases";
+import { site } from "@/lib/site";
+
+/** Data terstruktur (schema.org) — profil label untuk mesin pencari. */
+const organizationLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.name,
+  url: site.url,
+  logo: `${site.url}/web-app-manifest-512x512.png`,
+  description: site.description,
+  email: site.contactEmail,
+  foundingDate: "2021",
+  areaServed: "ID",
+  sameAs: Object.values(site.social),
+  parentOrganization: {
+    "@type": "Organization",
+    name: "Anka Group",
+    legalName: "PT Anka Sembilan Delapan",
+  },
+};
 
 export default function Home() {
   // Invariant: harus selalu ada 1 artist exclusive dengan featured:true di
@@ -29,6 +49,11 @@ export default function Home() {
   // bergantian. Urutan sengaja bukan hero→fitur→testimoni→CTA.
   return (
     <>
+      <script
+        type="application/ld+json"
+        // JSON statis dari data sendiri, bukan input pengguna.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+      />
       <SiteHeader />
 
       <main>

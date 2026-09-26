@@ -413,7 +413,7 @@
   padding-inline: 14px;
   padding-block: 7px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--muted);
   background-color: var(--surface);
   transition: color var(--duration-fast) var(--ease-out),

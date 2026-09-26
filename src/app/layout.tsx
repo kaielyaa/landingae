@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { CookieBanner } from "@/components/cookie-banner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { site } from "@/lib/site";
 
 // Cabinet Grotesk (Fontshare, ITF Free Font License) — di-host sendiri,
 // bukan CDN, biar gak gantung uptime Fontshare. Tiga ketebalan (batas
@@ -18,9 +19,16 @@ const cabinet = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: "Anka Entertainment — Label Musik Independen Indonesia",
-  description:
-    "Label musik independen Indonesia sejak 2021. Develop, record, release.",
+  description: site.description,
+  applicationName: site.name,
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    locale: "id_ID",
+  },
+  twitter: { card: "summary_large_image" },
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },

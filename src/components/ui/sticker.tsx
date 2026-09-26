@@ -16,7 +16,7 @@ const sizes: Record<Size, string> = {
   display: "inline-block rounded-md px-3 py-0.5 leading-[1.05]",
   // Di tengah paragraf: tinggi ±22px, radius sm (8px ≈ 36%).
   inline:
-    "mx-0.5 inline-flex items-center gap-1.5 rounded-sm px-2 py-1 text-[13px] font-semibold leading-[1.05]",
+    "mx-0.5 inline-flex items-center gap-1.5 rounded-sm px-2 py-1 text-[13px] font-bold leading-[1.05]",
 };
 
 const tilts = { left: "-rotate-1", right: "rotate-1", none: "" };

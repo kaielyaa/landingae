@@ -6,6 +6,12 @@
  * footer, belum dipastikan. */
 export const site = {
   name: "Anka Entertainment",
+  /** Alamat produksi untuk metadata, sitemap, OpenGraph. Bisa ditimpa
+   * `SITE_URL` (.env.example). Domain lama expired — pastikan sebelum
+   * deploy (catatan.md). */
+  url: process.env.SITE_URL ?? "https://ankaentertainment.com",
+  description:
+    "Label musik independen Indonesia sejak 2021. Roster kecil, kontrak panjang — develop, record, release lintas genre.",
   contactEmail: "hello@ankaentertainment.com",
   social: {
     instagram: "https://www.instagram.com/anka_entertainment/",
