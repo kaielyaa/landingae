@@ -61,6 +61,23 @@ export default async function ReleaseDetailPage({
     { name: "Kategori", value: CATEGORY_LABEL[release.category] },
   ];
 
+  const story = (
+    <>
+      <p className="max-w-[56ch] text-[17px] leading-[1.8] text-muted">
+        {release.description ?? "Belum ada deskripsi untuk rilisan ini."}
+      </p>
+      <div className="mt-8">
+        {platforms.length > 0 ? (
+          <PlatformLinks platforms={platforms} />
+        ) : (
+          <p className="text-[14px] text-muted">
+            Link streaming untuk rilisan ini belum dipasang.
+          </p>
+        )}
+      </div>
+    </>
+  );
+
   return (
     <>
       <SiteHeader />
@@ -85,35 +102,29 @@ export default async function ReleaseDetailPage({
               </h1>
             </ViewTransition>
 
-            <div className="mt-12 grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
-              <div>
-                <p className="max-w-[56ch] text-[17px] leading-[1.8] text-muted">
-                  {release.description ?? "Belum ada deskripsi untuk rilisan ini."}
-                </p>
-                <div className="mt-8">
-                  {platforms.length > 0 ? (
-                    <PlatformLinks platforms={platforms} />
-                  ) : (
-                    <p className="text-[14px] text-muted">
-                      Link streaming untuk rilisan ini belum dipasang.
-                    </p>
-                  )}
+            {/* Pola sama dengan ArtistFeature: ada cover = cover besar kiri,
+                teks bertumpuk kanan; tanpa cover = deskripsi kiri, fakta
+                kanan. */}
+            {release.cover ? (
+              <div className="mt-12 grid gap-10 md:grid-cols-[minmax(0,420px)_1fr] md:gap-14 lg:gap-20">
+                <Image
+                  src={release.cover}
+                  alt={`Cover ${release.title} — ${release.artist}`}
+                  width={480}
+                  height={480}
+                  className="aspect-square w-full max-w-[420px] rounded-xl object-cover"
+                />
+                <div>
+                  {story}
+                  <CreditList className="mt-10" variant="facts" credits={facts} />
                 </div>
               </div>
-
-              <div>
-                {release.cover ? (
-                  <Image
-                    src={release.cover}
-                    alt={`Cover ${release.title} — ${release.artist}`}
-                    width={480}
-                    height={480}
-                    className="mb-10 aspect-square w-full max-w-[420px] rounded-xl object-cover"
-                  />
-                ) : null}
+            ) : (
+              <div className="mt-12 grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+                <div>{story}</div>
                 <CreditList variant="facts" credits={facts} />
               </div>
-            </div>
+            )}
           </div>
         </section>
 

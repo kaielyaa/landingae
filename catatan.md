@@ -7,6 +7,11 @@ Pekerjaan terencana (fase 1–8) ada di `rencana.md`, tidak diulang di sini.
 - [ ] **Data dummy:** entri kolaborasi "Kaia Ramadhan" di `src/lib/artists.ts`
       itu nama KARANGAN buat preview (izin Kaiel 2026-08-20). Ganti ke
       kolaborator asli atau hapus
+- [ ] **Foto & cover DUMMY** (2026-09-27, untuk cek tampilan): `public/dummy/`
+      + `devDummy()` di `src/lib/artists.ts` (DB Project, Suci Arshinta) dan
+      `src/lib/releases.ts` (3 rilisan). Hanya tampil di `next dev` — build
+      produksi otomatis kosong — tapi tetap hapus berkas, pemanggilan, dan
+      `src/lib/dummy.ts` sebelum serah terima
 - [ ] **Link streaming** Spotify/Apple Music DB Project & tiap rilisan masih
       generik (`open.spotify.com`). Tidak ada di source situs lama — dulu di
       data Sanity lama

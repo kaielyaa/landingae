@@ -71,6 +71,38 @@ export function ArtistFeature({
   const platforms = buildPlatformLinks(artist);
   const socials = buildSocialLinks(artist);
 
+  const story = (
+    <>
+      {artist.bioAccent ? (
+        <p className="mb-6 max-w-[24ch] text-[clamp(22px,2.4vw,30px)] font-bold leading-[1.3]">
+          &ldquo;{artist.bioAccent}&rdquo;
+        </p>
+      ) : null}
+      <p className="max-w-[56ch] text-[17px] leading-[1.8] text-muted">
+        {artist.shortBio ?? "Belum ada bio untuk artist ini."}
+      </p>
+    </>
+  );
+
+  const details = (
+    <>
+      <CreditList variant="facts" credits={artistFacts(artist)} />
+      <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+        {platforms.length > 0 ? (
+          <PlatformLinks platforms={platforms} />
+        ) : (
+          <p className="text-[14px] text-muted">
+            Link streaming untuk {artist.name} belum dipasang.
+          </p>
+        )}
+        {footer}
+      </div>
+      {showSocials && socials.length > 0 ? (
+        <SocialIconLinks links={socials} className="mt-6" />
+      ) : null}
+    </>
+  );
+
   return (
     <>
       <div className="flex flex-wrap items-center gap-2">
@@ -90,44 +122,31 @@ export function ArtistFeature({
         </Name>
       </ViewTransition>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
-        <div>
-          {artist.bioAccent ? (
-            <p className="mb-6 max-w-[24ch] text-[clamp(22px,2.4vw,30px)] font-bold leading-[1.3]">
-              &ldquo;{artist.bioAccent}&rdquo;
-            </p>
-          ) : null}
-          <p className="max-w-[56ch] text-[17px] leading-[1.8] text-muted">
-            {artist.shortBio ?? "Belum ada bio untuk artist ini."}
-          </p>
-        </div>
-
-        <div>
-          {artist.photo ? (
-            <Image
-              src={artist.photo}
-              alt={`Foto ${artist.name}`}
-              width={480}
-              height={600}
-              className="mb-10 aspect-[4/5] w-full max-w-[420px] rounded-xl object-cover"
-            />
-          ) : null}
-          <CreditList variant="facts" credits={artistFacts(artist)} />
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-            {platforms.length > 0 ? (
-              <PlatformLinks platforms={platforms} />
-            ) : (
-              <p className="text-[14px] text-muted">
-                Link streaming untuk {artist.name} belum dipasang.
-              </p>
-            )}
-            {footer}
+      {/* Dua susunan (dicek dengan foto dummy 2026-09-27):
+          - ada foto: foto besar di kiri, semua teks bertumpuk di kanan —
+            kalau foto ditaruh di atas fakta, kolom kanan jauh lebih tinggi
+            dan kolom kiri menyisakan ruang kosong besar
+          - tanpa foto: kutipan + bio kiri, fakta + tautan kanan */}
+      {artist.photo ? (
+        <div className="mt-12 grid gap-10 md:grid-cols-[minmax(0,420px)_1fr] md:gap-14 lg:gap-20">
+          <Image
+            src={artist.photo}
+            alt={`Foto ${artist.name}`}
+            width={480}
+            height={600}
+            className="aspect-[4/5] w-full max-w-[420px] rounded-xl object-cover"
+          />
+          <div className="flex flex-col">
+            {story}
+            <div className="mt-10">{details}</div>
           </div>
-          {showSocials && socials.length > 0 ? (
-            <SocialIconLinks links={socials} className="mt-6" />
-          ) : null}
         </div>
-      </div>
+      ) : (
+        <div className="mt-12 grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+          <div>{story}</div>
+          <div>{details}</div>
+        </div>
+      )}
     </>
   );
 }

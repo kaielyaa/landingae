@@ -1,3 +1,5 @@
+import { devDummy } from "@/lib/dummy";
+
 export type ReleaseCategory = "catalog" | "production" | "cover";
 
 /** Label kategori kepemilikan master — satu sumber untuk filter Katalog,
@@ -54,6 +56,7 @@ export type Release = {
 export const releases: Release[] = [
   {
     slug: "sedang-berjuang",
+    cover: devDummy("/dummy/cover-sedang-berjuang.png"), // DUMMY, dev saja
     title: "Sedang Berjuang",
     artist: "Suci Arshinta",
     year: "2023",
@@ -63,6 +66,7 @@ export const releases: Release[] = [
   },
   {
     slug: "bilang",
+    cover: devDummy("/dummy/cover-bilang.png"), // DUMMY, dev saja
     title: "Bilang",
     artist: "Putri Clarantika",
     year: "2023",
@@ -72,6 +76,7 @@ export const releases: Release[] = [
   },
   {
     slug: "terlambat-kau-kembali",
+    cover: devDummy("/dummy/cover-terlambat-kau-kembali.png"), // DUMMY, dev saja
     title: "Terlambat Kau Kembali",
     artist: "Suci Arshinta",
     year: "2023",

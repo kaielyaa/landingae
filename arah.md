@@ -284,8 +284,10 @@ rilisan: tampil walau kosong, dengan penjelasan) dan daftar rilisan terkait
 - **Foto hanya tampil kalau ada.** Belum ada foto = layout tipografi penuh,
   bukan kotak "foto belum diupload" di production. Semua placeholder washi
   tape sudah dihapus (2026-09-27)
-- Foto artist kalau ada: `max-w-[420px]` di kolom samping supaya rasio 4:5
-  tidak meledak di layar lebar
+- **Ada foto/cover = foto besar di kolom KIRI** (`minmax(0,420px)`), semua teks
+  bertumpuk di kanan. Tanpa foto = teks kiri, fakta kanan. Dicek dengan dummy
+  2026-09-27: foto di atas fakta membuat kolom kanan jauh lebih tinggi dan
+  menyisakan ruang kosong besar di kiri
 - Cover rilisan: kotak 48px (`rounded-md`) di daftar, besar di detail
 - Logo AE `/apple-touch-icon.png`, Lantuns `/lantunsicon.png` (PNG latar
   putih) — di wadah `h-14 w-14 rounded-md border p-2.5 bg-foreground/[0.03]`

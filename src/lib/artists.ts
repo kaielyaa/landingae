@@ -1,3 +1,5 @@
+import { devDummy } from "@/lib/dummy";
+
 export type ArtistTier = "exclusive" | "collaboration" | "alumni";
 
 export type Artist = {
@@ -51,6 +53,7 @@ export const artists: Artist[] = [
     shortBio:
       "Project remix elektronik yang ngolah ulang lagu jadi versi baru. Tiap track di-rebuild dari instinct — gak ada formula, cuma vibe dan eksperimen.",
     bioAccent: "Setiap lagu punya sisi yang belum dibunyikan.",
+    photo: devDummy("/dummy/artist-db-project.png"), // DUMMY, dev saja
     spotify: "https://open.spotify.com",
     appleMusic: "https://music.apple.com",
   },
@@ -65,6 +68,7 @@ export const artists: Artist[] = [
     slug: "suci-arshinta",
     name: "Suci Arshinta",
     tier: "alumni",
+    photo: devDummy("/dummy/artist-suci-arshinta.png"), // DUMMY, dev saja
     yearStart: 2022,
     yearEnd: 2024,
   },
