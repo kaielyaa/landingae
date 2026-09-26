@@ -158,9 +158,26 @@ teks sudah ada di HTML sejak awal, CSS murni):
 Semua di dalam `prefers-reduced-motion: no-preference`: kalau gerak dikurangi,
 tidak ada animasi **dan tidak ada jeda** — teks langsung tampil.
 
-**Dipertahankan:** chip latar hero bereaksi ke kursor (desktop saja) · stiker
-judul section boleh "menempel" sekali saat pertama terlihat, maksimal satu
-per halaman.
+**Prinsip jumlah (Kaiel 2026-09-27): "jangan too much, tapi bukan berarti
+tidak ada animasi sama sekali."** Gerak dipakai kalau menjelaskan perubahan
+atau meneruskan tanda tangan stiker. Daftar di bawah ini **lengkap** — gerak
+di luar daftar ini tidak ditambahkan tanpa izin Kaiel.
+
+| # | Gerak | Di mana | Kapan |
+|---|---|---|---|
+| 1 | Sambutan hero penuh (di atas) | Home | Saat dibuka |
+| 2 | **Sambutan mini**: kata judul naik + stiker ditempel, ±0,6 dtk | `PageHero` semua halaman lain | Saat dibuka |
+| 3 | **Stiker judul section ditempel** — hanya sapuan warna + miring; teks sudah terbaca sejak awal, tidak ada konten yang disembunyikan | Judul section yang punya stiker | Sekali, saat pertama masuk layar |
+| 4 | **Tracklist hover**: nomor → ikon ▶, cover kecil miring 2°, baris menyala `bg-hover`. Di layar sentuh cukup umpan balik tekan | Semua daftar rilisan/artist | Hover/fokus, 120ms |
+| 5 | **Filter katalog**: baris yang tersisa bergeser mulus, yang keluar memudar | `/catalog` | Saat ganti filter |
+| 6 | **Transisi halaman**: judul/cover di daftar "melayang" jadi judul/cover besar di halaman detail; halaman lain crossfade singkat | Daftar → detail rilisan & artist | Saat navigasi |
+| 7 | Chip latar hero bereaksi ke kursor | Hero Home, perangkat mouse | Kursor mendekat |
+| 8 | Menu mobile masuk berjenjang | Header | Saat dibuka |
+
+Teknis: CSS + satu komponen kecil pendeteksi masuk layar (IntersectionObserver)
+untuk #3; #5 dan #6 lewat `<ViewTransition>` bawaan React di Next 16 (tanpa
+konfigurasi, tanpa dependency; browser yang belum dukung tetap jalan tanpa
+animasi). Semua tunduk pada `prefers-reduced-motion`.
 
 **Sudah dibuang (2026-09-27):** Lenis smooth scroll (dependency dicopot,
 scroll native) · goyang terus-menerus di chip latar · chip melayang di

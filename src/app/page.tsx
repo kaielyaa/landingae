@@ -1,12 +1,18 @@
 import Image from "next/image";
-import Link from "next/link";
+import type { ReactNode } from "react";
+import { CreditList } from "@/components/credit-list";
 import { Hero } from "@/components/home/hero";
-import { ArtistPhotoPlaceholder } from "@/components/artist-photo-placeholder";
 import { InlineTag } from "@/components/inline-tag";
 import { buildPlatformLinks, PlatformLinks } from "@/components/platform-links";
-import { ReleaseCoverThumb } from "@/components/release-cover";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { StampSticker } from "@/components/stamp-sticker";
+import { Tracklist } from "@/components/tracklist";
+import { ButtonLink } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Chip } from "@/components/ui/chip";
+import { Section, SectionHeading, TextLink } from "@/components/ui/section";
+import { Sticker } from "@/components/ui/sticker";
 import { collabRoster, featuredArtist, pastRoster } from "@/lib/artists";
 import { releases } from "@/lib/releases";
 
@@ -18,6 +24,8 @@ export default function Home() {
     throw new Error("Home: tidak ada artist dengan featured:true di src/lib/artists.ts");
   }
 
+  // Ritme section (arah.md): rapat–lega bergantian, latar base/sunken
+  // bergantian. Urutan sengaja bukan hero→fitur→testimoni→CTA.
   return (
     <>
       <SiteHeader />
@@ -25,346 +33,291 @@ export default function Home() {
       <main>
         <Hero />
 
-        {/* ---------- BEHIND THE LABEL — storytelling singkat, bukan
-             card-grid fitur. Develop/Record/Release muncul sebagai chip
-             inline di dalam paragraf, bukan dipisah ke 3 kotak — biar
-             kebaca sebagai satu narasi, bukan daftar layanan. Chip yang
-             sama dipakai di HeroChipField, jadi bahasa visualnya nyambung
-             ke hero. ---------- */}
-        <section
-          id="manifesto"
-          className="relative overflow-hidden border-t border-border bg-surface-2 py-16"
-        >
-          <div className="relative z-10 mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <div className="max-w-[62ch]">
-              <h2 className="text-[clamp(28px,3.8vw,46px)] font-bold leading-[1.15]">
-                Bukan content factory.
-              </h2>
-              <p className="mt-6 text-[17px] leading-[1.8] text-muted">
-                Kami label yang serius — roster kecil, kontrak panjang,
-                fokus ke artist yang siap tumbuh bareng. Tiap rilisan mulai
-                dari{" "}
-                <span className="chip chip-primary mx-0.5 rounded-sm px-2 py-1 leading-[1.05] text-[13px]">
+        {/* MANIFESTO — cerita, bukan grid layanan. Develop/Record/Release
+            jadi stiker di dalam kalimat. */}
+        <Section id="manifesto" tone="sunken" space="tight">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+            <h2 className="text-[clamp(30px,4.2vw,56px)] font-bold leading-[1.1] tracking-tight">
+              Bukan content factory.
+            </h2>
+            <div className="max-w-[60ch]">
+              <p className="text-[17px] leading-[1.8] text-muted">
+                Kami label yang serius — roster kecil, kontrak panjang, fokus
+                ke artist yang siap tumbuh bareng. Tiap rilisan mulai dari{" "}
+                <Sticker tone="primary" size="inline">
                   Develop
-                </span>
-                , lanjut ke{" "}
-                <InlineTag>Record</InlineTag>{" "}
-                yang kualitasnya dijaga ketat, ditutup dengan{" "}
-                <span className="chip chip-accent mx-0.5 rounded-sm px-2 py-1 leading-[1.05] text-[13px]">
+                </Sticker>
+                , lanjut ke <InlineTag>Record</InlineTag> yang kualitasnya
+                dijaga ketat, ditutup dengan{" "}
+                <Sticker tone="accent" size="inline">
                   Release
-                </span>{" "}
-                yang dipikirin matang — bukan sekadar upload. Distribusi
-                Musik ditangani sister company kami, <InlineTag>Lantuns</InlineTag>.
+                </Sticker>{" "}
+                yang dipikirin matang — bukan sekadar upload. Distribusi Musik
+                ditangani sister company kami, <InlineTag>Lantuns</InlineTag>.
+              </p>
+              <p className="mt-6 text-[13px] font-medium text-muted">
+                Sejak 2021 · Indonesia
               </p>
             </div>
           </div>
-        </section>
+        </Section>
 
-        {/* ---------- FEATURED ARTIST — DB Project. Belum ada foto asli,
-             jadi tetap jalur "tanpa gambar" (AGENTS.md): tipografi besar +
-             chip sebagai visual utama, BUKAN gradient-card placeholder —
-             biar gak jadi pola yang diulang-ulang tiap section cuma
-             karena belum ada aset. ---------- */}
-        <section className="border-t border-border bg-background py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-              <div className="max-w-[62ch]">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="chip chip-accent rounded-sm px-2 py-1 text-[12px]">
-                    Live
-                  </span>
-                  <span className="chip rounded-sm border-border px-2 py-1 text-[12px]">
-                    Eksklusif
-                  </span>
-                </div>
-
-                <h2 className="mt-5 text-[clamp(32px,5vw,64px)] font-bold leading-[1.05] tracking-tight">
-                  {featuredArtist.name}
-                </h2>
-                <p className="mt-2 text-[14px] font-semibold text-muted">
-                  {featuredArtist.genre?.join(", ")}
-                  {featuredArtist.yearStart
-                    ? ` · Sejak ${featuredArtist.yearStart}`
-                    : ""}
-                </p>
-
-                <p className="mt-6 text-[17px] leading-[1.8] text-muted">
-                  {featuredArtist.shortBio ?? (
-                    <span className="italic">Belum ada bio buat artist ini.</span>
-                  )}
-                </p>
-
-                {featuredArtist.bioAccent ? (
-                  <p className="mt-6 text-[22px] font-bold leading-[1.35]">
-                    &ldquo;{featuredArtist.bioAccent}&rdquo;
-                  </p>
-                ) : null}
-
-                <div className="mt-8">
-                  <PlatformLinks platforms={buildPlatformLinks(featuredArtist)} />
-                  <Link
-                    href={`/roster/${featuredArtist.slug}`}
-                    className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
-                  >
-                    Lihat profil lengkap →
-                  </Link>
-                </div>
-              </div>
-
-              <ArtistPhotoPlaceholder name={featuredArtist.name} />
-            </div>
+        {/* ARTIST UTAMA — nama artist jadi elemen terbesar section ini.
+            Foto hanya kalau ada; kalau belum, layout tipografi penuh. */}
+        <Section tone="base" space="loose">
+          <div className="flex flex-wrap items-center gap-2">
+            <Chip tone="accent">Live</Chip>
+            <Chip>Eksklusif</Chip>
+            <span className="ml-1 text-[13px] font-medium text-muted">
+              Artist utama
+            </span>
           </div>
-        </section>
 
-        {/* ---------- KATALOG — list ala tracklist/catatan, bukan card
-             grid dengan cover placeholder (belum ada artwork asli). Nomor
-             urut dipakai karena ini beneran daftar terurut (bukan
-             dekorasi), sesuai catatan frontend-design soal numbering. ---------- */}
-        <section className="border-t border-border bg-surface-2 py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div className="max-w-[50ch]">
-                <h2 className="text-[clamp(26px,3.4vw,40px)] font-bold leading-[1.15]">
-                  Dari katalog kami.
-                </h2>
-                <p className="mt-3 text-[15px] leading-[1.7] text-muted">
-                  Distribusi Musik via <InlineTag>Lantuns</InlineTag>.
+          <h2 className="mt-6 text-[clamp(56px,10vw,144px)] font-bold leading-[0.95] tracking-[-0.04em]">
+            {featuredArtist.name}
+          </h2>
+
+          <div className="mt-12 grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+            <div>
+              {featuredArtist.bioAccent ? (
+                <p className="max-w-[24ch] text-[clamp(22px,2.4vw,30px)] font-bold leading-[1.3]">
+                  &ldquo;{featuredArtist.bioAccent}&rdquo;
                 </p>
-              </div>
-              <Link
-                href="/catalog"
-                className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
-              >
-                Lihat semua katalog
-              </Link>
-            </div>
-
-            <ul className="mt-10 divide-y divide-border border-t border-border">
-              {releases.map((r, i) => (
-                <li key={r.slug}>
-                  <Link
-                    href={`/catalog/${r.slug}`}
-                    className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-out hover:bg-hover"
-                  >
-                    <div className="flex min-w-0 items-center gap-5">
-                      <span className="tabular w-6 flex-none text-[13px] font-bold text-muted">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <ReleaseCoverThumb />
-                      <div className="min-w-0">
-                        <p className="truncate text-[16px] font-bold">
-                          {r.title}
-                        </p>
-                        <p className="truncate text-[13px] text-muted">
-                          {r.artist} · {r.releaseType} · {r.year}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="chip chip-accent hidden flex-none rounded-sm px-2 py-1 text-[11px] sm:inline-flex">
-                      {r.tag}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* ---------- ROSTER LAIN — Collaboration (pill) + Past Roster
-             (list), adaptive: 2 kolom kalau dua-duanya ada isinya, full
-             width kalau salah satu kosong. Mekanik diambil dari situs
-             lama (section gabungan yang sama), radius pill tetap ikut
-             sistem kita (chip rounded-sm). ---------- */}
-        <section className="border-t border-border bg-background py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <h2 className="text-[clamp(26px,3.4vw,40px)] font-bold leading-[1.15]">
-                Roster lain.
-              </h2>
-              <Link
-                href="/roster"
-                className="text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
-              >
-                Lihat semua roster
-              </Link>
-            </div>
-
-            <div
-              className={`mt-10 grid gap-10 ${
-                collabRoster.length > 0 && pastRoster.length > 0
-                  ? "lg:grid-cols-2"
-                  : "grid-cols-1"
-              }`}
-            >
-              {collabRoster.length > 0 ? (
-                <div>
-                  <h3 className="text-[13px] font-bold uppercase tracking-wide text-muted">
-                    Kolaborasi
-                  </h3>
-                  <p className="mt-1 text-[13px] text-muted">
-                    Project-based, bukan roster eksklusif.
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {collabRoster.map((c) => (
-                      <span
-                        key={c.slug}
-                        className="chip rounded-sm px-3 py-1.5 text-[13px]"
-                      >
-                        {c.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
               ) : null}
+              <p className="mt-6 max-w-[56ch] text-[17px] leading-[1.8] text-muted">
+                {featuredArtist.shortBio ?? "Belum ada bio untuk artist ini."}
+              </p>
+            </div>
 
-              {pastRoster.length > 0 ? (
-                <div>
-                  <h3 className="text-[13px] font-bold uppercase tracking-wide text-muted">
-                    Pernah jadi bagian
-                  </h3>
-                  <ul className="mt-5 divide-y divide-border border-t border-border">
-                    {pastRoster.map((p) => (
-                      <li key={p.slug}>
-                        <Link
-                          href={`/roster/${p.slug}`}
-                          className="flex items-center justify-between gap-4 py-4 transition-colors duration-fast ease-out hover:bg-hover"
-                        >
-                          <p className="text-[16px] font-bold">{p.name}</p>
-                          <p className="tabular text-[13px] text-muted">
-                            {p.yearStart} — {p.yearEnd}
-                          </p>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <div>
+              {featuredArtist.photo ? (
+                <Image
+                  src={featuredArtist.photo}
+                  alt={`Foto ${featuredArtist.name}`}
+                  width={480}
+                  height={600}
+                  className="mb-10 aspect-[4/5] w-full max-w-[420px] rounded-xl object-cover"
+                />
               ) : null}
+              <CreditList
+                variant="facts"
+                credits={[
+                  { name: "Genre", value: featuredArtist.genre?.join(", ") },
+                  {
+                    name: "Aktif sejak",
+                    value: featuredArtist.yearStart?.toString(),
+                  },
+                  { name: "Status", value: "Roster eksklusif" },
+                ].filter((c) => c.value)}
+              />
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <PlatformLinks platforms={buildPlatformLinks(featuredArtist)} />
+                <TextLink href={`/roster/${featuredArtist.slug}`}>
+                  Lihat profil lengkap
+                </TextLink>
+              </div>
             </div>
           </div>
-        </section>
+        </Section>
 
-        {/* ---------- ANKA GROUP — dua brand, satu ekosistem. ---------- */}
-        <section className="border-t border-border bg-surface-2 py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
-            <h2 className="max-w-[50ch] text-[clamp(26px,3.4vw,40px)] font-bold leading-[1.15]">
-              Dua brand, satu ekosistem.
-            </h2>
+        {/* KATALOG — tracklist bernomor. */}
+        <Section tone="sunken" space="normal">
+          <SectionHeading
+            title={
+              <>
+                Dari <StampSticker tone="primary">katalog</StampSticker> kami.
+              </>
+            }
+            lead={
+              <>
+                Distribusi Musik via <InlineTag>Lantuns</InlineTag>.
+              </>
+            }
+            action={<TextLink href="/catalog">Lihat semua katalog</TextLink>}
+          />
+          <Tracklist
+            className="mt-10"
+            tracks={releases.map((r) => ({
+              href: `/catalog/${r.slug}`,
+              title: r.title,
+              meta: `${r.artist} · ${r.releaseType} · ${r.year}`,
+              tag: r.tag,
+            }))}
+          />
+        </Section>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              <div className="rounded-xl border border-border bg-surface p-7">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 flex-none items-center justify-center rounded-lg border border-border bg-foreground/[0.03] p-2.5">
-                    <Image
-                      src="/apple-touch-icon.png"
-                      alt="Anka Entertainment"
-                      width={36}
-                      height={36}
-                      className="rounded-sm"
-                    />
-                  </div>
-                  <span className="chip chip-primary rounded-sm px-2 py-1 text-[11px]">
-                    Label · Indonesia
-                  </span>
-                </div>
-                <h3 className="mt-4 text-[22px] font-bold">
-                  Anka Entertainment
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.7] text-muted">
-                  Label musik independen. Develop, record, release. Saat
-                  ini kamu ada di sini.
-                </p>
-              </div>
+        {/* ROSTER LAIN — blok kredit: alumni (bisa diklik) + kolaborasi
+            (tidak punya halaman, keputusan Kaiel 2026-08-20). */}
+        {collabRoster.length > 0 || pastRoster.length > 0 ? (
+          <Section tone="base" space="tight">
+            <SectionHeading
+              title="Roster lain."
+              action={<TextLink href="/roster">Lihat semua roster</TextLink>}
+            />
+            <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-20">
+              <CreditList
+                title="Pernah jadi bagian"
+                credits={pastRoster.map((a) => ({
+                  name: a.name,
+                  value: `${a.yearStart} — ${a.yearEnd}`,
+                  href: `/roster/${a.slug}`,
+                }))}
+              />
+              <CreditList
+                title="Kolaborasi"
+                credits={collabRoster.map((a) => ({
+                  name: a.name,
+                  value: "Project-based",
+                }))}
+              />
+            </div>
+          </Section>
+        ) : null}
 
-              <div className="rounded-xl border border-border bg-surface p-7">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 flex-none items-center justify-center rounded-lg border border-border bg-foreground/[0.03] p-2.5">
-                    <Image
-                      src="/lantunsicon.png"
-                      alt="Lantuns"
-                      width={36}
-                      height={36}
-                      className="rounded-sm"
-                    />
-                  </div>
-                  <span className="chip chip-accent rounded-sm px-2 py-1 text-[11px]">
-                    Distribusi · Global
-                  </span>
-                </div>
-                <h3 className="mt-4 text-[22px] font-bold">Lantuns</h3>
-                <p className="mt-2 text-[14px] leading-[1.7] text-muted">
-                  Distribusi musik ke 150+ platform streaming. Katalog
-                  tetap milikmu.
-                </p>
-                <a
-                  href="https://lantuns.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-4 inline-block text-[14px] font-bold text-foreground underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:decoration-foreground"
-                >
+        {/* EKOSISTEM — dua brand sejajar, satu-satunya tempat kartu masuk
+            akal di Home (membandingkan dua hal setara). */}
+        <Section tone="sunken" space="normal">
+          <SectionHeading
+            title="Dua brand, satu ekosistem."
+            lead="Anka Group — PT Anka Sembilan Delapan. Tiap brand berdiri sendiri dengan timnya, tapi saling mendukung."
+            action={<TextLink href="/anka-group">Tentang Anka Group</TextLink>}
+          />
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            <BrandCard
+              logo="/apple-touch-icon.png"
+              name="Anka Entertainment"
+              role="Label · Indonesia"
+              tone="primary"
+              description="Label musik independen. Develop, record, release."
+              footer={<Chip>Kamu sedang di sini</Chip>}
+            />
+            <BrandCard
+              logo="/lantunsicon.png"
+              name="Lantuns"
+              role="Distribusi · Global"
+              tone="accent"
+              description="Distribusi musik ke 150+ platform streaming. Katalog tetap milikmu."
+              footer={
+                <TextLink href="https://lantuns.com" target="_blank" rel="noreferrer">
                   Kunjungi Lantuns
-                </a>
-              </div>
-            </div>
+                </TextLink>
+              }
+            />
           </div>
-        </section>
+        </Section>
 
-        {/* ---------- CTA PENUTUP — dua jalur. ---------- */}
-        <section className="border-t border-border bg-background py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)] text-center">
-            <h2 className="text-[clamp(28px,4vw,48px)] font-bold leading-[1.1]">
-              Siap didengar?
-            </h2>
-            <p className="mx-auto mt-3 max-w-[46ch] text-[15px] leading-[1.7] text-muted">
-              Dua jalur. Pilih yang sesuai posisi kamu sekarang.
-            </p>
-
-            <div className="mx-auto mt-10 grid max-w-[52rem] gap-5 text-left md:grid-cols-2">
-              <div className="rounded-xl border border-border bg-surface p-7">
-                <span className="chip chip-primary rounded-sm px-2 py-1 text-[11px]">
-                  Jalur 01
-                </span>
-                <h3 className="mt-4 text-[18px] font-bold">
-                  Gabung sebagai Artist
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.7] text-muted">
-                  Mau jadi bagian dari roster Anka Entertainment? Kirim
-                  demo, kita ngobrol soal arah dan kerja sama jangka
-                  panjang.
-                </p>
-                <Link
-                  href="/submit"
-                  className="mt-5 inline-block rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground transition-transform duration-fast ease-out hover:-translate-y-0.5"
-                >
+        {/* DUA JALUR — rata kiri, dua baris bernomor, bukan kartu tengah. */}
+        <Section tone="base" space="loose">
+          <SectionHeading
+            title={
+              <>
+                Siap{" "}
+                <StampSticker tone="accent" tilt="right">
+                  didengar
+                </StampSticker>
+                ?
+              </>
+            }
+            lead="Dua jalur. Pilih yang sesuai posisi kamu sekarang."
+          />
+          <ol className="mt-12 divide-y divide-border border-y border-border">
+            <PathRow
+              n={1}
+              title="Gabung sebagai artist"
+              description="Mau jadi bagian dari roster Anka Entertainment? Kirim demo, kita ngobrol soal arah dan kerja sama jangka panjang."
+              action={
+                <ButtonLink href="/submit" size="lg">
                   Kirim Demo
-                </Link>
-              </div>
-
-              <div className="rounded-xl border border-border bg-surface p-7">
-                <span className="chip chip-accent rounded-sm px-2 py-1 text-[11px]">
-                  Jalur 02
-                </span>
-                <h3 className="mt-4 text-[18px] font-bold">
-                  Distribusi Regional
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.7] text-muted">
-                  Mau rilis musik ke 150+ platform streaming global? Kami
-                  handle Distribusi Musik via Lantuns.
-                </p>
-                <a
+                </ButtonLink>
+              }
+            />
+            <PathRow
+              n={2}
+              title="Distribusi musik"
+              description="Mau rilis ke 150+ platform streaming? Distribusi ditangani sister company kami, Lantuns."
+              action={
+                <ButtonLink
                   href="https://lantuns.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-5 inline-block rounded-md bg-foreground px-5 py-2.5 text-[13px] font-bold text-background transition-transform duration-fast ease-out hover:-translate-y-0.5"
+                  variant="invert"
+                  size="lg"
                 >
                   Kunjungi Lantuns
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+                </ButtonLink>
+              }
+            />
+          </ol>
+        </Section>
       </main>
 
       <SiteFooter />
     </>
+  );
+}
+
+function BrandCard({
+  logo,
+  name,
+  role,
+  tone,
+  description,
+  footer,
+}: {
+  logo: string;
+  name: string;
+  role: string;
+  tone: "primary" | "accent";
+  description: string;
+  footer: ReactNode;
+}) {
+  return (
+    <Card className="flex flex-col">
+      <div className="flex items-center gap-4">
+        {/* Logo PNG berlatar putih — wadah bertint tipis supaya tidak
+            menempel ke border (arah.md: Gambar & aset). */}
+        <span className="flex h-14 w-14 flex-none items-center justify-center rounded-md border border-border bg-foreground/[0.03] p-2.5">
+          <Image src={logo} alt="" width={36} height={36} className="rounded-sm" />
+        </span>
+        <div>
+          <h3 className="text-[22px] font-bold leading-tight">{name}</h3>
+          <Chip tone={tone} className="mt-1.5">
+            {role}
+          </Chip>
+        </div>
+      </div>
+      <p className="mt-5 flex-1 text-[15px] leading-[1.7] text-muted">
+        {description}
+      </p>
+      <div className="mt-6">{footer}</div>
+    </Card>
+  );
+}
+
+function PathRow({
+  n,
+  title,
+  description,
+  action,
+}: {
+  n: number;
+  title: string;
+  description: string;
+  action: ReactNode;
+}) {
+  return (
+    <li className="grid gap-4 py-8 md:grid-cols-[3rem_1fr_auto] md:items-start md:gap-8">
+      {/* pt-2: sejajarkan nomor dengan baris pertama judul, bukan tengah blok. */}
+      <span className="text-[13px] font-medium text-muted tabular-nums md:pt-2">
+        {String(n).padStart(2, "0")}
+      </span>
+      <div className="max-w-[56ch]">
+        <h3 className="text-[clamp(22px,2.4vw,28px)] font-bold leading-tight">
+          {title}
+        </h3>
+        <p className="mt-2 text-[15px] leading-[1.7] text-muted">{description}</p>
+      </div>
+      <div className="md:self-center">{action}</div>
+    </li>
   );
 }

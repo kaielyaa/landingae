@@ -198,12 +198,17 @@ Diputar sekali saat Home dibuka. Total ±1,2 detik, tidak menghalangi klik.
 Syarat teknis: teks sudah ada di HTML sejak awal (bukan disuntik JS), jadi
 situs tetap terbaca kalau JS mati dan LCP tidak tertunda lama.
 
-### Gerak yang dipertahankan
-- Chip latar hero bereaksi ke kursor (desktop saja). **Goyang terus-menerus
-  dimatikan** — geraknya cukup saat kursor dekat
+### Gerak di halaman lain (disetujui Kaiel 2026-09-27)
+"Jangan too much, tapi bukan berarti tidak ada animasi sama sekali." Daftar
+lengkap & teknisnya di `arah.md` bagian Gerak. Ringkasnya:
+- Sambutan mini di judul tiap halaman (kata naik + stiker ditempel)
+- Stiker judul section ditempel sekali saat masuk layar (teks tidak disembunyikan)
+- Tracklist bereaksi saat hover: nomor → ▶, cover miring, baris menyala
+- Filter katalog bergeser mulus
+- Transisi halaman: judul/cover dari daftar melayang ke halaman detail
+- Chip latar hero tetap bereaksi ke kursor (desktop); goyang terus-menerus
+  tetap dibuang
 - Hover/fokus 120ms, dropdown/tab 200ms, easing `cubic-bezier(0.16,1,0.3,1)`
-- Stiker judul section boleh "menempel" sekali saat pertama terlihat — satu
-  tempat saja per halaman, bukan animasi scroll di tiap elemen
 
 ### Gerak yang dibuang
 - **Lenis (smooth scroll)** — membajak scroll native, menambah JS di semua

@@ -15,6 +15,9 @@ export type Artist = {
   /** Field di bawah ini SENGAJA kosong (`undefined`) kalau belum ada
    * datanya — halaman detail nunjukkin state kosong yang jujur, bukan
    * ngarang bio/link yang gak ada. Sama prinsipnya kayak `releases.ts`. */
+  /** Foto artist (nanti dari Sanity `photo`). Kosong = layout tipografi
+   * penuh, BUKAN kotak "foto belum diupload" (arah.md: Gambar & aset). */
+  photo?: string;
   shortBio?: string;
   bioAccent?: string;
   spotify?: string;

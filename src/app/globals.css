@@ -281,6 +281,38 @@
   }
 }
 
+/* Stiker yang "ditempel" saat masuk layar — lihat StampSticker. Sengaja di
+   luar @layer supaya menang atas kelas utilitas stiker (bg-primary dst.)
+   tanpa !important. Keyframe-nya kembar dengan sticker-in di
+   home/hero.module.css (modul CSS tidak bisa berbagi keyframe global). */
+[data-stamp="wait"] {
+  background-color: transparent;
+  color: var(--foreground);
+  rotate: 0deg;
+}
+[data-stamp="go"] {
+  background-image: linear-gradient(var(--sweep), var(--sweep));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  animation: stamp-in 760ms var(--ease-out) backwards;
+}
+@keyframes stamp-in {
+  0% {
+    background-color: transparent;
+    background-size: 0% 100%;
+    color: var(--foreground);
+    rotate: 0deg;
+  }
+  55% {
+    background-color: transparent;
+    background-size: 100% 100%;
+    rotate: 0deg;
+  }
+  80% {
+    rotate: calc(var(--tilt) * 2.5);
+  }
+}
+
 /* Tanda tangan: chip — default kalem/outline ("b aja"), nyala warna
    pas jadi status penting atau di-hover ("asik" begitu didekati).
    Dipakai untuk genre, status rilis, kategori katalog. Lihat arah.md. */

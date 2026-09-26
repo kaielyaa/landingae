@@ -44,9 +44,9 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h3 className="text-[12px] font-bold uppercase tracking-wide text-muted">
+      <h2 className="text-[12px] font-bold uppercase tracking-[0.05em] text-muted">
         {title}
-      </h3>
+      </h2>
       <ul className="mt-4 space-y-3">
         {links.map((l) => (
           <li key={l.label}>
@@ -75,7 +75,7 @@ export function SiteFooter() {
             >
               <Image
                 src="/apple-touch-icon.png"
-                alt="Anka Entertainment"
+                alt=""
                 width={24}
                 height={24}
                 className="flex-none"
@@ -94,16 +94,16 @@ export function SiteFooter() {
           <FooterColumn title="Karya" links={karyaLinks} />
 
           <div>
-            <h3 className="text-[12px] font-bold uppercase tracking-wide text-muted">
+            <h2 className="text-[12px] font-bold uppercase tracking-[0.05em] text-muted">
               Kontak
-            </h3>
+            </h2>
             <ul className="mt-4 space-y-3">
               <li>
                 <a
-                  href="mailto:hello@ankaentertainment.com"
+                  href={`mailto:${site.contactEmail}`}
                   className="text-[14px] text-foreground/90 transition-colors duration-fast ease-out hover:text-foreground"
                 >
-                  hello@ankaentertainment.com
+                  {site.contactEmail}
                 </a>
               </li>
               <li className="text-[14px] text-muted">Indonesia</li>
@@ -136,7 +136,6 @@ export function SiteFooter() {
                 {l.label}
               </Link>
             ))}
-            <span className="chip py-1 text-[11px]">Roster: 1 aktif</span>
           </div>
         </div>
       </div>
