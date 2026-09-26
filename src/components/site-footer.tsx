@@ -123,15 +123,17 @@ export function SiteFooter() {
       <div className="border-t border-border">
         <div className="mx-auto flex w-full max-w-[var(--content-max)] flex-wrap items-center justify-between gap-3 px-[var(--page-gutter)] py-6 text-[12px] text-muted">
           <span>
-            © 2026 Anka Entertainment · Part of Anka Group · PT Anka
+            © 2026 Anka Entertainment · Bagian dari Anka Group · PT Anka
             Sembilan Delapan
           </span>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-5">
+            {/* min-h-11: sasaran sentuh 44px di HP; garis bawah supaya
+                terbaca sebagai tautan, bukan teks keterangan. */}
             {legalLinks.map((l) => (
               <Link
                 key={l.label}
                 href={l.href}
-                className="transition-colors duration-fast ease-out hover:text-foreground"
+                className="inline-flex min-h-11 items-center underline decoration-border underline-offset-4 transition-colors duration-fast ease-out hover:text-foreground hover:decoration-foreground"
               >
                 {l.label}
               </Link>

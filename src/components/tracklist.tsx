@@ -1,9 +1,9 @@
-import { Play } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import { Chip } from "@/components/ui/chip";
-import type { Release } from "@/lib/releases";
+import { CATEGORY_LABEL, type Release } from "@/lib/releases";
 import { cn } from "@/lib/utils";
 
 export type Track = {
@@ -11,7 +11,9 @@ export type Track = {
   title: string;
   /** Baris kecil di bawah judul, gaya liner notes: "Artist · Single · 2023". */
   meta: string;
-  /** Status rilis di kanan (disembunyikan <640px). */
+  /** Label kecil di kanan (disembunyikan <640px) — untuk rilisan: kategori
+   * master. Bukan "Streaming": baris ini membuka halaman detail, bukan
+   * platform (Kaiel 2026-09-27). */
   tag?: string;
   /** URL artwork. Kosong = kotak netral. */
   cover?: string;
@@ -36,7 +38,7 @@ export function releaseTracks(
     meta: [withArtist ? r.artist : null, r.releaseType, r.year]
       .filter(Boolean)
       .join(" · "),
-    tag: r.tag,
+    tag: CATEGORY_LABEL[r.category],
     cover: r.cover,
     vtName: releaseTitleVT(r.slug),
   }));
@@ -126,10 +128,14 @@ export function TrackRow({
       </span>
 
       {t.tag ? (
-        <Chip tone="accent" className="hidden flex-none sm:inline-flex">
-          {t.tag}
-        </Chip>
+        <Chip className="hidden flex-none sm:inline-flex">{t.tag}</Chip>
       ) : null}
+
+      {/* Penanda "bisa dibuka" — bergeser saat hover/fokus. */}
+      <ArrowRight
+        aria-hidden
+        className="h-4 w-4 flex-none text-muted transition-[translate,color] duration-fast ease-out group-hover:translate-x-0.5 group-hover:text-foreground group-focus-visible:translate-x-0.5 group-focus-visible:text-foreground"
+      />
     </Link>
   );
 }

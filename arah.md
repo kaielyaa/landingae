@@ -225,9 +225,9 @@ komponen baru. Primitif di `src/components/ui/`, pola tanda tangan di
 | `Chip` | `neutral` · `primary` · `accent` · `warning`; `sm` · `md` · `lg` | Label data (genre, status, kategori). Status selalu dengan teks |
 | `Card` | — | Hanya untuk membandingkan hal sejajar. `rounded-lg`, border |
 | `Section` / `SectionHeading` / `TextLink` | tone `base` · `sunken`; space `tight` · `normal` · `loose` | Lihat Layout & ritme |
-| `Tracklist` | — | Tanda tangan 2. Daftar bernomor + hover ▶ (Gerak #4) |
+| `Tracklist` | `covers` | Tanda tangan 2. Daftar bernomor + hover ▶ (Gerak #4). Kanan: chip **kategori** (bukan "Streaming" — baris membuka detail, bukan platform) + panah → |
 | `PathList` | — | Pilihan jalur bernomor rata kiri + tombol (Home, Layanan) |
-| `CreditList` | `people` · `facts` | Tanda tangan 2. Kiri ··· kanan (garis titik), baris ber-`href` bisa diklik |
+| `CreditList` | `people` · `facts` | Tanda tangan 2. Kiri ··· kanan (garis titik). Baris ber-`href` = panah → (internal) / ↗ (keluar) + nama bergaris bawah saat hover; tanpa `href` = tanpa panah |
 
 `Field` (label + input + error) dibuat saat form Submit dikerjakan — belum
 ada pemakainya.
@@ -293,6 +293,13 @@ rilisan: tampil walau kosong, dengan penjelasan) dan daftar rilisan terkait
   putih) — di wadah `h-14 w-14 rounded-md border p-2.5 bg-foreground/[0.03]`
 - Ikon UI: Lucide. Logo brand (sosmed, Spotify, Apple Music): `react-icons`,
   **monokrom** `currentColor`, bukan warna brand aslinya
+
+## Tanda bisa diklik
+
+Semua yang bisa diklik harus terlihat bisa diklik (Kaiel 2026-09-27): kursor
+tangan di semua `<button>`/`summary` (globals.css — Tailwind v4 tidak
+memberinya), panah di baris daftar yang membuka halaman, tautan teks kecil
+bergaris bawah, sasaran sentuh ≥44px (tautan legal footer `min-h-11`).
 
 ## Copy
 

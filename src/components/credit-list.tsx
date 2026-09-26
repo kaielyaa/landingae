@@ -1,3 +1,4 @@
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { ViewTransition, type CSSProperties } from "react";
 import { Reveal } from "@/components/reveal";
@@ -49,6 +50,8 @@ export function CreditList({
       ) : null}
       <ul>
         {credits.map((c, i) => {
+          const external = c.href ? /^(https?:|mailto:)/.test(c.href) : false;
+          const Arrow = external ? ArrowUpRight : ArrowRight;
           const row = (
             <>
               {c.vtName ? (
@@ -68,6 +71,14 @@ export function CreditList({
                   {c.value}
                 </span>
               ) : null}
+              {/* Baris yang bisa dibuka diberi panah: → halaman di situs ini,
+                  ↗ tautan keluar. */}
+              {c.href ? (
+                <Arrow
+                  aria-hidden
+                  className="ml-3 h-4 w-4 flex-none self-center text-muted transition-[translate,color] duration-fast ease-out group-hover:translate-x-0.5 group-hover:text-foreground"
+                />
+              ) : null}
             </>
           );
           return (
@@ -75,7 +86,9 @@ export function CreditList({
               {c.href ? (
                 <Link
                   href={c.href}
-                  className="-mx-3 flex items-baseline rounded-sm px-3 py-3 transition-colors duration-fast ease-out hover:bg-hover"
+                  target={external && !c.href.startsWith("mailto:") ? "_blank" : undefined}
+                  rel={external ? "noreferrer" : undefined}
+                  className="group -mx-3 flex items-baseline rounded-sm px-3 py-3 transition-colors duration-fast ease-out hover:bg-hover [&>span:first-child]:underline-offset-4 hover:[&>span:first-child]:underline"
                 >
                   {row}
                 </Link>

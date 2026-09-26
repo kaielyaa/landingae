@@ -93,7 +93,6 @@ export default async function ReleaseDetailPage({
 
             <div className="mt-10 flex flex-wrap items-center gap-2">
               <Chip>{CATEGORY_LABEL[release.category]}</Chip>
-              <Chip tone="accent">{release.tag}</Chip>
             </div>
 
             <ViewTransition name={releaseTitleVT(release.slug)} share="morph" default="none">
