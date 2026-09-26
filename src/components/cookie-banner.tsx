@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const CONSENT_KEY = "anka-cookie-consent";
 /** Naikin ini kalau kebijakan cookie berubah signifikan — banner bakal
@@ -24,35 +24,6 @@ type ConsentValue = "accepted" | "declined";
  * beneran ada. */
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  // Selama banner tampil, halaman diberi ruang di bawah setinggi banner
-  // (--cookie-banner-space, dipakai body di globals.css) — supaya konten
-  // paling bawah (tautan legal footer) bisa discroll ke atas banner dan
-  // tetap bisa diklik walau pengunjung belum memilih (Kaiel 2026-09-27).
-  useEffect(() => {
-    const root = document.documentElement;
-    const el = ref.current;
-    if (!visible || !el) {
-      root.style.removeProperty("--cookie-banner-space");
-      return;
-    }
-    const measure = () => {
-      // Tinggi + jarak bawah (bukan posisi layar) — tidak terpengaruh
-      // animasi geser saat banner muncul.
-      const space = el.offsetHeight + parseFloat(getComputedStyle(el).bottom);
-      root.style.setProperty("--cookie-banner-space", `${Math.ceil(space)}px`);
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    window.addEventListener("resize", measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", measure);
-      root.style.removeProperty("--cookie-banner-space");
-    };
-  }, [visible]);
 
   useEffect(() => {
     function scheduleShow() {
@@ -104,7 +75,6 @@ export function CookieBanner() {
 
   return (
     <div
-      ref={ref}
       role="dialog"
       aria-label="Preferensi cookie"
       aria-hidden={!visible}
