@@ -78,13 +78,18 @@ export function CookieBanner() {
       role="dialog"
       aria-label="Preferensi cookie"
       aria-hidden={!visible}
-      className={`fixed inset-x-3 bottom-3 z-40 transition-all duration-slow ease-out md:inset-x-6 md:bottom-6 ${
-        visible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none translate-y-8 opacity-0"
+      // Pembungkus selebar layar selalu tembus klik; hanya kartunya yang
+      // menangkap klik — area transparan di kiri-kanan kartu tidak lagi
+      // menutupi tautan di bawahnya (mis. legal footer).
+      className={`pointer-events-none fixed inset-x-3 bottom-3 z-40 transition-all duration-slow ease-out md:inset-x-6 md:bottom-6 ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
       }`}
     >
-      <div className="mx-auto max-w-2xl rounded-xl border border-border bg-surface p-5 shadow-lg md:p-6">
+      <div
+        className={`mx-auto max-w-2xl rounded-xl border border-border bg-surface p-5 shadow-lg md:p-6 ${
+          visible ? "pointer-events-auto" : ""
+        }`}
+      >
         <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center md:gap-6">
           <p className="text-[14px] leading-[1.7] text-muted">
             Kami pakai cookie minimal untuk fungsi dasar dan analitik
