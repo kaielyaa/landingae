@@ -5,8 +5,8 @@ Nilai visual (warna, font, radius) tetap di `arah.md`. Temuan kecil tetap di
 `catatan.md`. Kalau rencana ini bertentangan dengan `arah.md`, yang dipakai
 yang lebih baru, lalu salah satunya diperbarui.
 
-Ditulis 2026-09-27. Status: **disetujui arahnya, jawaban Kaiel sudah masuk
-(bagian 9). Siap Fase 0.**
+Ditulis 2026-09-27. Status: **Fase 0 selesai (2026-09-27). Berikutnya Fase 1.** Jawaban Kaiel sudah masuk
+(bagian 9).
 
 ---
 
