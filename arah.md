@@ -169,6 +169,7 @@ di luar daftar ini tidak ditambahkan tanpa izin Kaiel.
 | 3b | **Kredit ditulis** — garis titik `CreditList` tergambar dari kiri baris demi baris (110ms), nilai muncul di ujung. Nama tidak pernah disembunyikan | Semua `CreditList` | Sekali, saat pertama masuk layar |
 | 4 | **Tracklist hover**: nomor → ikon ▶, cover kecil miring 2°, baris menyala `bg-hover`. Di layar sentuh cukup umpan balik tekan | Semua daftar rilisan/artist | Hover/fokus, 120ms |
 | 5 | **Filter katalog**: baris masuk/bergeser (VT per baris). Ke kategori kosong: pesan kosong naik (`rise-on-load`) — React tidak memulai VT kalau perubahannya cuma menghapus | `/catalog` | Saat ganti filter |
+| 6a | **Pindah halaman** (`app/template.tsx`): lama memudar 160ms, baru naik 18px 380ms — menutup lompatan scroll ke atas (Kaiel: "jangan jegleg"). Hanya saat segmen pertama berganti | Semua halaman | Saat navigasi |
 | 6 | **Transisi halaman**: judul rilisan & nama artist di daftar melayang jadi h1 detail (`share="morph"`, 420ms, `releaseTitleVT` / `artistNameVT`); sisanya crossfade 200ms; header diam (`site-header`). h1 detail **tanpa** `rise-on-load` — dua animasi di satu elemen bertabrakan | Daftar → detail | Saat navigasi |
 | 7 | Chip latar hero bereaksi ke kursor | Hero Home, perangkat mouse | Kursor mendekat |
 | 8 | Menu mobile masuk berjenjang | Header | Saat dibuka |
@@ -184,6 +185,9 @@ Teknis: #3 lewat `<Reveal>` (IntersectionObserver) + atribut `data-stamp` /
 React bawaan Next 16 (tanpa dependency; browser tanpa dukungan tetap jalan).
 Nama VT harus unik per halaman. Semua tunduk pada `prefers-reduced-motion`.
 
+**Refresh = kembali ke atas** (`ScrollTopOnReload`); Back/Forward dan `#bagian`
+tetap dipulihkan browser.
+
 **Sudah dibuang, jangan dikembalikan:** Lenis · goyang terus-menerus · chip
 melayang di manifesto · foto berayun · panah melompat · animasi scroll di tiap
 elemen.
@@ -194,9 +198,10 @@ elemen.
   Layanan · Tentang · Anka Group; aktif juga di sub-halaman. Aktif = stiker
   invert miring (h-8 `rounded-sm`); hover = teks menguat + garis bawah
 - Kirim Demo (`ButtonLink sm`) **tampil di semua ukuran layar**
-- `h-16`. Transparan di atas; >8px latar solid + border (tanpa blur). Turun
-  lewat 120px menyingkir, naik muncul; fokus keyboard memunculkannya. Jangkar
-  transisi halaman (`viewTransitionName: site-header`)
+- `h-16`, **selalu tampil** (tidak menyingkir). Transparan di atas; >8px
+  `bg-background/80` + `backdrop-blur-md` + border — **pengecualian sadar**
+  dari daftar haram "glass", diminta Kaiel 2026-09-27 (blur menjaga nav tetap
+  terbaca di atas konten). Jangkar transisi halaman (`site-header`)
 - `<1024px`: `[logo+nama] [Kirim Demo] [Menu]`; <360px nama disembunyikan
   visual. Menu = `<dialog>` layar penuh tanpa radius, nav 34px bernomor 01–05,
   masuk berjenjang, tombol tema + email di bawah. Saat dibuka fokus di

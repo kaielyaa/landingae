@@ -20,10 +20,6 @@ const navLinks = [
   { href: "/anka-group", label: "Anka Group" },
 ];
 
-/** Batas scroll sebelum header boleh menyingkir — di atas ini header
- * selalu tampil, biar tidak hilang-muncul saat baru mulai scroll. */
-const HIDE_AFTER = 120;
-
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -53,24 +49,17 @@ function Wordmark({ onNavigate }: { onNavigate?: () => void }) {
 export function SiteHeader() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
+  // Header selalu tampil (Kaiel 2026-09-27: "sticky"); yang berubah cuma
+  // latarnya — transparan di atas hero, agak transparan + blur setelah scroll.
   useEffect(() => {
-    let lastY = window.scrollY;
     let frame = 0;
 
     function update() {
       frame = 0;
-      const y = window.scrollY;
-      setScrolled(y > 8);
-      // Turun → menyingkir, naik → muncul. Selisih kecil diabaikan biar
-      // tidak berkedip karena scroll inersia.
-      if (Math.abs(y - lastY) > 6) {
-        setHidden(y > lastY && y > HIDE_AFTER);
-        lastY = y;
-      }
+      setScrolled(window.scrollY > 8);
     }
 
     function onScroll() {
@@ -106,12 +95,13 @@ export function SiteHeader() {
         // Jangkar transisi halaman — lihat ::view-transition-*(site-header).
         style={{ viewTransitionName: "site-header" }}
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b transition-[translate,background-color,border-color] duration-base ease-out",
+          "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-base ease-out",
+          // Blur = pengecualian sadar dari daftar haram "glass" — diminta
+          // Kaiel; tanpa blur, teks di belakang latar transparan mengganggu
+          // keterbacaan nav.
           scrolled
-            ? "border-border bg-background"
+            ? "border-border bg-background/80 backdrop-blur-md"
             : "border-transparent bg-transparent",
-          // Fokus keyboard di dalam header selalu memunculkannya kembali.
-          hidden && !menuOpen && "-translate-y-full focus-within:translate-y-0",
         )}
       >
         <div className="mx-auto flex h-16 w-full max-w-[var(--content-max)] items-center gap-6 px-[var(--page-gutter)]">

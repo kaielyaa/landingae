@@ -380,6 +380,19 @@
 @keyframes via-blur {
   30% { filter: blur(2px); }
 }
+/* Pindah halaman (template.tsx): lama memudar cepat, baru naik halus. */
+::view-transition-old(.page-out) {
+  animation: page-out 160ms var(--ease-out) both;
+}
+::view-transition-new(.page-in) {
+  animation: page-in 380ms var(--ease-out) 90ms both;
+}
+@keyframes page-out {
+  to { opacity: 0; }
+}
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(18px); }
+}
 /* Header jadi jangkar: tidak ikut bergerak/memudar saat pindah halaman. */
 ::view-transition-group(site-header) {
   animation: none;

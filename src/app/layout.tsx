@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { CookieBanner } from "@/components/cookie-banner";
+import { ScrollTopOnReload } from "@/components/scroll-top-on-reload";
 import { ThemeProvider } from "@/components/theme-provider";
 import { site } from "@/lib/site";
 
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider>
+          <ScrollTopOnReload />
           {children}
           <CookieBanner />
         </ThemeProvider>
