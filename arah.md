@@ -112,9 +112,14 @@ terbaca sebagai sorotan.
 Lebar       : `--content-max` 90rem (108rem ≥1920px, 132rem ≥2560px) +
               `--page-gutter` clamp(1.25rem, 3vw, 3rem). Sama persis dengan
               `landinglantuns` supaya satu ekosistem Anka Group
-Ritme       : section berganti latar `bg-background` / `bg-surface-2`, tanpa
-              border tebal atau bayangan. **[Fase 1]** pola jarak antar-section
-              (lega–rapat) ditetapkan dan ditulis di sini
+Ritme       : komponen `Section` — latar `base` (`bg-background`) / `sunken`
+              (`bg-surface-2`) bergantian, border atas tipis, tanpa bayangan.
+              Jarak: `tight` py-14/20 · `normal` py-20/28 · `loose` py-24/36
+              (mobile/desktop). Rapat dan lega bergantian, bukan seragam
+Judul       : `SectionHeading` — h2 `clamp(30px, 4.2vw, 56px)` maks 20ch,
+              rata kiri, pengantar maks 56ch, tautan teks di kanan. Stiker di
+              judul pakai `StampSticker` (ditempel saat masuk layar); tidak
+              semua judul perlu stiker — Home cuma dua (katalog, didengar)
 Dominan     : Home = headline hero. Halaman lain = judul halaman (`PageHero`);
               detail artist = nama artist; detail rilisan = cover/judul
 Rata        : rata kiri sebagai bawaan. Rata tengah hanya di hero Home
@@ -207,11 +212,45 @@ saat hover). **Jangan dikembalikan.** Animasi scroll di tiap elemen tetap haram.
 - Header `fixed` — halaman yang hero-nya bukan `min-h-dvh` wajib punya
   `pt-32 md:pt-40` di section pertama (sudah di `PageHero`)
 
+## Komponen dasar
+
+Pakai ini dulu sebelum menulis class manual. Beda kecil = varian, bukan
+komponen baru. Primitif di `src/components/ui/`, pola tanda tangan di
+`src/components/`.
+
+| Komponen | Varian | Catatan |
+|---|---|---|
+| `Button` / `ButtonLink` / `buttonStyles()` | `primary` · `invert` · `outline`; `sm` h-9 · `md` h-11 · `lg` h-12 | Radius md. Hover naik 2px. `<button>` untuk aksi, `ButtonLink` untuk pindah halaman |
+| `Sticker` / `stickerTones()` | `primary` · `accent` · `invert`; `display` · `inline`; tilt `left` · `right` · `none` | Tanda tangan 1. Satu-satunya elemen yang boleh miring |
+| `StampSticker` | seperti `Sticker` | Stiker judul section, ditempel saat masuk layar (Gerak #3) |
+| `Chip` | `neutral` · `primary` · `accent` · `warning`; `sm` · `md` · `lg` | Label data (genre, status, kategori). Status selalu dengan teks |
+| `Card` | — | Hanya untuk membandingkan hal sejajar. `rounded-lg`, border |
+| `Section` / `SectionHeading` / `TextLink` | tone `base` · `sunken`; space `tight` · `normal` · `loose` | Lihat Layout & ritme |
+| `Tracklist` | — | Tanda tangan 2. Daftar bernomor + hover ▶ (Gerak #4) |
+| `CreditList` | `people` · `facts` | Tanda tangan 2. Kiri ··· kanan (garis titik), baris ber-`href` bisa diklik |
+
+`Field` (label + input + error) dibuat saat form Submit dikerjakan — belum
+ada pemakainya.
+
+## Home — susunan (Fase 2, 2026-09-27)
+
+| Section | Latar · jarak | Isi |
+|---|---|---|
+| Hero | — | Dikunci, lihat di atas |
+| Manifesto `#manifesto` | sunken · tight | Judul kiri, paragraf kanan (≥1024px). Develop/Record/Release/Lantuns = stiker inline |
+| Artist utama | base · loose | Chip status, **nama `clamp(56px,10vw,144px)` = elemen terbesar section**, kutipan + bio kiri, fakta `CreditList facts` + tombol platform kanan. Foto hanya kalau `artist.photo` ada |
+| Katalog | sunken · normal | `Tracklist` bernomor, stiker "katalog" |
+| Roster lain | base · tight | Dua `CreditList`: alumni (bisa diklik) + kolaborasi (tidak) |
+| Ekosistem | sunken · normal | Dua `Card` brand (satu-satunya kartu di Home) |
+| Dua jalur | base · loose | Stiker "didengar", dua baris bernomor, tombol di kanan — bukan kartu rata tengah |
+
 ## Gambar & aset
 
 - **Foto hanya tampil kalau ada.** Belum ada foto = layout tipografi penuh,
-  bukan kotak "foto belum diupload" di production. **[Fase 2]** placeholder
-  washi tape (`ArtistPhotoPlaceholder`, `PinnedPlaceholder`) diganti
+  bukan kotak "foto belum diupload" di production. Home sudah begini.
+  **[Fase 3]** placeholder washi tape (`ArtistPhotoPlaceholder`,
+  `ReleaseCoverPlaceholder`, `PinnedPlaceholder`) di Roster & Katalog
+  diganti dengan pola yang sama, lalu komponennya dihapus
 - Foto artist kalau ada: `max-w-[420px]` di kolom samping supaya rasio 4:5
   tidak meledak di layar lebar
 - Cover rilisan: kotak 48px (`rounded-md`) di daftar, besar di detail
