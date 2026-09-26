@@ -1,0 +1,94 @@
+/* Animasi masuk hero Home — sambutan sekali saat halaman dibuka (arah.md:
+   gerak). Hanya untuk hero, jadi tinggal di sini, bukan di globals.css.
+
+   Urutan (±1,2 dtk):
+   1. Kata-kata judul naik dari balik garis, berjenjang
+   2. Tiga stiker "ditempel": warna menyapu kiri→kanan, teks berganti warna,
+      lalu miring sedikit melewati rotasi akhirnya dan kembali
+   3. Paragraf + tombol muncul
+   4. Chip genre latar menyebar dari arah tengah
+
+   Semua di dalam no-preference: kalau user minta gerak dikurangi, tidak
+   ada animasi sama sekali — termasuk jeda, jadi teks tidak tertahan
+   tersembunyi. Teks sudah ada di HTML sejak awal (tanpa JS). */
+
+/* Topeng per kata. Padding + margin negatif memperlebar area potong tanpa
+   mengubah tata letak, supaya sudut stiker yang miring tidak terpotong. */
+.mask {
+  display: inline-block;
+  overflow: clip;
+  padding: 0.14em;
+  margin: -0.14em;
+  vertical-align: bottom;
+}
+
+.word {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .word {
+    animation: word-in 560ms var(--ease-out) backwards;
+    animation-delay: var(--d);
+  }
+
+  /* Warna stiker sebagai gambar latar yang ukurannya tumbuh 0 → 100%.
+     Setelah selesai, gambar dan background-color sama warnanya — keadaan
+     akhir identik dengan Sticker biasa. */
+  .sticker {
+    background-image: linear-gradient(var(--sweep), var(--sweep));
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    animation: sticker-in 760ms var(--ease-out) backwards;
+    animation-delay: var(--d);
+  }
+
+  .fadeUp {
+    animation: fade-up 480ms var(--ease-out) backwards;
+    animation-delay: var(--d);
+  }
+
+  .chip {
+    animation: chip-in 620ms var(--ease-out) backwards;
+    animation-delay: var(--d);
+  }
+}
+
+@keyframes word-in {
+  from {
+    translate: 0 calc(100% + 0.3em);
+  }
+}
+
+@keyframes sticker-in {
+  0%,
+  20% {
+    background-color: transparent;
+    background-size: 0% 100%;
+    color: var(--foreground);
+    rotate: 0deg;
+  }
+  62% {
+    background-color: transparent;
+    background-size: 100% 100%;
+    rotate: 0deg;
+  }
+  82% {
+    rotate: calc(var(--tilt) * 2.5);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    translate: var(--fx) var(--fy);
+    scale: 0.85;
+  }
+}

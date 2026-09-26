@@ -35,8 +35,6 @@ Pekerjaan terencana (fase 1–8) ada di `rencana.md`, tidak diulang di sini.
 
 - Tautan "Anka Group" di header & footer masih 404 sampai halamannya
   dibangun di Fase 4
-- Hero di 375px: chip genre latar terpotong tepi layar & menimpa judul —
-  dibereskan bersama animasi masuk hero (Fase 2)
 
 ## Keputusan yang ditunda
 - Embed pemutar Spotify/Apple Music di halaman detail, atau tetap link

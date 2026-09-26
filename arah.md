@@ -131,7 +131,14 @@ primary, Lihat Roster = invert). Chip genre di latar bereaksi ke kursor.
 Tidak ada foto di hero.
 
 Yang boleh diubah: komponen penyusunnya dan animasi masuknya. Isi dan susunan
-tidak.
+tidak. Kode: `src/components/home/hero.tsx` + `hero.module.css`.
+
+**Chip genre latar per ukuran layar** (`hero-chip-field.tsx`):
+- `<768px`: 4 chip saja (Pop, Live di atas judul; Jazz, Hip-Hop di bawah
+  tombol), posisi khusus mobile. Indie, R&B, Folk disembunyikan — di layar
+  sempit judul memenuhi lebar, tidak ada ruang tanpa menimpa teks
+- 768–1023px: posisi desktop, Folk disembunyikan (menimpa titik judul)
+- `≥1024px`: ketujuh chip
 
 ## Gerak
 
@@ -140,13 +147,16 @@ Easing      : `cubic-bezier(0.16, 1, 0.3, 1)`
 Prinsip     : satu momen sambutan di hero, sisanya tenang. CSS saja, tanpa
               library animasi. `prefers-reduced-motion` = langsung keadaan akhir
 
-**[Fase 2] Animasi masuk hero** (±1,2 dtk, sekali per buka Home, tidak
-menghalangi klik, teks sudah ada di HTML sejak awal):
-1. 0–500ms — baris headline naik dari balik garis, per kata, jeda ±50ms
-2. 350–900ms — tiga stiker "ditempel": warna menyapu kiri→kanan, lalu miring
-   ke rotasinya
-3. 800–1100ms — paragraf + tombol muncul (fade + naik 8px)
-4. 900–1200ms — chip genre latar menyebar ke posisinya
+**Animasi masuk hero** (±1,3 dtk, tiap Home dibuka, tidak menghalangi klik,
+teks sudah ada di HTML sejak awal, CSS murni):
+1. 0–860ms — tiap kata naik dari balik garis (topeng per kata), jeda 50ms
+2. 380 / 540 / 700ms — tiga stiker "ditempel" (760ms): warna menyapu
+   kiri→kanan sebagai gambar latar yang tumbuh, teks berganti ke warna
+   stiker, lalu miring 2,5× rotasi akhirnya dan kembali
+3. 820ms paragraf, 900ms tombol, 1150ms panah — fade + naik 8px
+4. 920ms + 45ms per chip — chip genre menyebar dari arah tengah
+Semua di dalam `prefers-reduced-motion: no-preference`: kalau gerak dikurangi,
+tidak ada animasi **dan tidak ada jeda** — teks langsung tampil.
 
 **Dipertahankan:** chip latar hero bereaksi ke kursor (desktop saja) · stiker
 judul section boleh "menempel" sekali saat pertama terlihat, maksimal satu
@@ -168,13 +178,15 @@ saat hover). **Jangan dikembalikan.** Animasi scroll di tiap elemen tetap haram.
 - Tinggi `h-16`. Transparan di atas; setelah scroll >8px latar solid
   `bg-background` + border (tanpa blur kaca). Turun lewat 120px → menyingkir,
   naik → muncul. Fokus keyboard di dalam header selalu memunculkannya
-- `<768px`: `[logo + nama] [Kirim Demo] [Menu]`; di bawah 360px nama brand
-  disembunyikan visual (tetap terbaca pembaca layar)
-- Menu mobile = `<dialog>` modal layar penuh, **tanpa radius** (menutup
+- `<1024px`: `[logo + nama] [Kirim Demo] [Menu]` — di 768px lima item nav
+  tidak muat satu baris. Di bawah 360px nama brand disembunyikan visual
+  (tetap terbaca pembaca layar)
+- Menu mobile/tablet = `<dialog>` modal layar penuh, **tanpa radius** (menutup
   seluruh layar). Baris atas sama dengan header (tombol Menu jadi Tutup di
   posisi yang sama). Nav 34px bold bernomor 01–05 ala tracklist, masuk
   berjenjang 40ms. Bawah: tombol tema berlabel + email. Esc menutup, fokus
-  terkunci, halaman belakang tidak ikut scroll
+  terkunci, halaman belakang tidak ikut scroll. Saat dibuka, fokus ditaruh
+  di `<dialog>`-nya (bukan logo — di HP itu tampil sebagai highlight)
 - Header `fixed` — halaman yang hero-nya bukan `min-h-dvh` wajib punya
   `pt-32 md:pt-40` di section pertama (sudah di `PageHero`)
 

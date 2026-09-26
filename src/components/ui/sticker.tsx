@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type Tone = "primary" | "accent" | "invert";
@@ -35,16 +35,21 @@ export function Sticker({
   size = "display",
   tilt = size === "display" ? "left" : "none",
   className,
+  style,
   children,
 }: {
   tone?: Tone;
   size?: Size;
   tilt?: keyof typeof tilts;
   className?: string;
+  style?: CSSProperties;
   children: ReactNode;
 }) {
   return (
-    <span className={cn(sizes[size], tones[tone], tilts[tilt], className)}>
+    <span
+      className={cn(sizes[size], tones[tone], tilts[tilt], className)}
+      style={style}
+    >
       {children}
     </span>
   );

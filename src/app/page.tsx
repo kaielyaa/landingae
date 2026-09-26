@@ -1,15 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Hero } from "@/components/home/hero";
 import { ArtistPhotoPlaceholder } from "@/components/artist-photo-placeholder";
-import { HeroChipField } from "@/components/hero-chip-field";
 import { InlineTag } from "@/components/inline-tag";
 import { buildPlatformLinks, PlatformLinks } from "@/components/platform-links";
 import { ReleaseCoverThumb } from "@/components/release-cover";
-import { ScrollCue } from "@/components/scroll-cue";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { ButtonLink } from "@/components/ui/button";
-import { Sticker } from "@/components/ui/sticker";
 import { collabRoster, featuredArtist, pastRoster } from "@/lib/artists";
 import { releases } from "@/lib/releases";
 
@@ -26,40 +23,7 @@ export default function Home() {
       <SiteHeader />
 
       <main>
-        {/* ---------- HERO — warna nempel di kata kunci, headline jadi
-             satu-satunya visual utama. Gak ada foto/card terpisah;
-             sesuai brief: kalem/b-aja di permukaan (tipografi netral),
-             "asik"-nya muncul di kata yang sengaja di-highlight. ---------- */}
-        <section className="relative flex min-h-dvh items-center py-24">
-          <HeroChipField />
-
-          <div className="relative z-10 mx-auto max-w-[80rem] px-[var(--page-gutter)] text-center">
-            <h1 className="text-[clamp(34px,7vw,96px)] font-bold leading-[1.3] tracking-tight">
-              Label musik <Sticker tone="primary">independen</Sticker>
-              , <br className="hidden sm:block" />
-              dari{" "}
-              <Sticker tone="accent" tilt="right">
-                pop
-              </Sticker>{" "}
-              sampai <Sticker tone="invert">electronic</Sticker>.
-            </h1>
-            <p className="mx-auto mt-7 max-w-[46ch] text-[16px] leading-[1.65] text-muted">
-              Roster kecil, kontrak panjang. Sejak 2021, kami develop,
-              record, dan release lintas genre — bukan sekadar upload.
-              Distribusi Musik ditangani sister company kami, Lantuns.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-              <ButtonLink href="/submit" size="lg">
-                Kirim Demo
-              </ButtonLink>
-              <ButtonLink href="/roster" variant="invert" size="lg">
-                Lihat Roster
-              </ButtonLink>
-            </div>
-          </div>
-
-          <ScrollCue target="#manifesto" />
-        </section>
+        <Hero />
 
         {/* ---------- BEHIND THE LABEL — storytelling singkat, bukan
              card-grid fitur. Develop/Record/Release muncul sebagai chip

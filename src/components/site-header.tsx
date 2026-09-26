@@ -115,7 +115,7 @@ export function SiteHeader() {
         <div className="mx-auto flex h-16 w-full max-w-[var(--content-max)] items-center gap-6 px-[var(--page-gutter)]">
           <Wordmark />
 
-          <nav aria-label="Utama" className="ml-auto hidden md:block">
+          <nav aria-label="Utama" className="ml-auto hidden lg:block">
             <ul className="flex items-center gap-1">
               {navLinks.map((l) => {
                 const active = isActive(pathname, l.href);
@@ -139,8 +139,8 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          <div className="ml-auto flex items-center gap-2 md:ml-0">
-            <div className="hidden md:block">
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <div className="hidden lg:block">
               <ThemeToggle />
             </div>
             <ButtonLink href="/submit" size="sm">
@@ -153,7 +153,7 @@ export function SiteHeader() {
               aria-haspopup="dialog"
               aria-expanded={menuOpen}
               aria-controls="menu-mobile"
-              className="flex h-9 w-9 flex-none items-center justify-center rounded-md border border-border text-foreground transition-colors duration-fast ease-out hover:bg-hover md:hidden"
+              className="flex h-9 w-9 flex-none items-center justify-center rounded-md border border-border text-foreground transition-colors duration-fast ease-out hover:bg-hover lg:hidden"
             >
               <Menu size={18} aria-hidden />
             </button>
@@ -161,7 +161,8 @@ export function SiteHeader() {
         </div>
       </header>
 
-      {/* Menu mobile: <dialog> modal — fokus terkunci di dalam, Esc
+      {/* Menu mobile & tablet (<1024px — di 768px lima item nav + tombol
+          tidak muat satu baris): <dialog> modal — fokus terkunci di dalam, Esc
           menutup, halaman belakang inert. Isinya ditulis besar bernomor
           seperti tracklist (tanda tangan 2). */}
       <dialog
@@ -170,7 +171,7 @@ export function SiteHeader() {
         aria-label="Menu"
         tabIndex={-1}
         onClose={() => setMenuOpen(false)}
-        className="m-0 h-dvh max-h-none w-full max-w-none bg-background p-0 text-foreground outline-none open:flex open:animate-menu-in open:flex-col backdrop:bg-transparent md:hidden"
+        className="m-0 h-dvh max-h-none w-full max-w-none bg-background p-0 text-foreground outline-none open:flex open:animate-menu-in open:flex-col backdrop:bg-transparent lg:hidden"
       >
         <div className="flex h-16 flex-none items-center gap-6 border-b border-border px-[var(--page-gutter)]">
           <Wordmark onNavigate={closeMenu} />

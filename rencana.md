@@ -5,7 +5,7 @@ Nilai visual (warna, font, radius) tetap di `arah.md`. Temuan kecil tetap di
 `catatan.md`. Kalau rencana ini bertentangan dengan `arah.md`, yang dipakai
 yang lebih baru, lalu salah satunya diperbarui.
 
-Ditulis 2026-09-27. Status: **Fase 0 dan 1 selesai (2026-09-27). Berikutnya Fase 2: Home.** Jawaban Kaiel sudah masuk
+Ditulis 2026-09-27. Status: **Fase 0, 1, dan 2a (hero) selesai (2026-09-27). Berikutnya 2b: section Home lainnya.** Jawaban Kaiel sudah masuk
 (bagian 9).
 
 ---
