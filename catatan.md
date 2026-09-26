@@ -26,9 +26,10 @@ Pekerjaan terencana (fase 1–8) ada di `rencana.md`, tidak diulang di sini.
 - [ ] **FAQ Layanan:** baru 1 dari 5 pertanyaan yang punya jawaban asli.
       Sisanya soal royalti/master — tidak boleh dikarang
 
-- [ ] **Domain produksi:** `site.url` bawaan `https://ankaentertainment.com`
-      (domain lama, expired). Pastikan domain final lalu isi `SITE_URL` —
-      dipakai sitemap, robots, canonical, OpenGraph
+- [ ] **Domain produksi:** `ankaentertainment.com` masih masa pelepasan
+      (Kaiel 2026-09-27) — dibeli lagi saat mau publik. Lalu isi `SITE_URL`
+      (sitemap, robots, canonical, OpenGraph). Bawaan di `site.url` sudah
+      domain ini
 
 ## Utang teknis
 - `public/favicon.ico` kemungkinan masih bawaan Next.js (biner, belum

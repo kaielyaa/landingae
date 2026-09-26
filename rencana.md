@@ -5,7 +5,12 @@ Nilai visual (warna, font, radius) tetap di `arah.md`. Temuan kecil tetap di
 `catatan.md`. Kalau rencana ini bertentangan dengan `arah.md`, yang dipakai
 yang lebih baru, lalu salah satunya diperbarui.
 
-Ditulis 2026-09-27. Status: **Fase 0–5 selesai (2026-09-27). Berikutnya Fase 6 (aset & Sanity — butuh izin paket), Fase 7 (form Submit — ditunda), Fase 8 (pra-deploy).** Jawaban Kaiel sudah masuk
+Ditulis 2026-09-27. Status: **Fase 0–5 selesai + revisi masukan Kaiel (2026-09-27). DITAHAN
+sementara atas keputusan Kaiel:** Fase 6 (Sanity — dikerjakan nanti),
+Fase 7 (form Submit), Fase 8 (pra-deploy — domain ankaentertainment.com masih
+masa pelepasan, dibeli lagi saat mau publik). Sebelum Fase 8 juga perlu:
+pengecekan Definisi Kelar menyeluruh (daftar haram satu per satu, keyboard,
+konten panjang, 768px semua halaman) — selama ini dicek per batch saja. Jawaban Kaiel sudah masuk
 (bagian 9).
 
 ---
