@@ -163,7 +163,7 @@
   --success-subtle:     oklch(0.280 0.055 150);
   --warning-subtle:     oklch(0.300 0.060  80);
   --destructive-subtle: oklch(0.295 0.065  25);
-    --info-subtle:        oklch(0.290 0.060 265);
+  --info-subtle:        oklch(0.290 0.060 265);
   --elev-sm: 0 1px 2px 0 oklch(0 0 0 / 0.32);
   --elev-md: 0 8px 24px -6px oklch(0 0 0 / 0.42);
   --elev-lg: 0 20px 48px -12px oklch(0 0 0 / 0.55);
@@ -183,6 +183,12 @@
   --accent:             var(--pink-600);
   --accent-foreground:  oklch(0.995 0.003 318);
   --accent-subtle:      var(--pink-100);
+  /* Latar status versi terang — tanpa ini, pilihan "terang" di sistem yang
+     gelap tetap memakai latar status gelap (teks hitam di atas cokelat tua). */
+  --success-subtle:     oklch(0.945 0.045 150);
+  --warning-subtle:     oklch(0.955 0.050  80);
+  --destructive-subtle: oklch(0.950 0.045  25);
+  --info-subtle:        oklch(0.950 0.035 265);
   --elev-sm: 0 1px 2px 0 oklch(0.155 0.013 239 / 0.06);
   --elev-md: 0 8px 24px -6px oklch(0.155 0.013 239 / 0.12);
   --elev-lg: 0 20px 48px -12px oklch(0.155 0.013 239 / 0.16);
