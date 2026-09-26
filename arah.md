@@ -172,15 +172,24 @@ di luar daftar ini tidak ditambahkan tanpa izin Kaiel.
 |---|---|---|---|
 | 1 | Sambutan hero penuh (di atas) | Home | Saat dibuka |
 | 2 | **Sambutan mini**: kata judul naik + stiker ditempel, ±0,6 dtk | `PageHero` semua halaman lain | Saat dibuka |
-| 3 | **Stiker judul section ditempel** — hanya sapuan warna + miring; teks sudah terbaca sejak awal, tidak ada konten yang disembunyikan | Judul section yang punya stiker | Sekali, saat pertama masuk layar |
+| 3a | **Stiker ditempel** — sapuan warna + miring; teks terbaca sejak awal | Judul section yang punya stiker; stiker inline dalam satu paragraf/grup ditempel berurutan (jeda 180ms) | Sekali, saat pertama masuk layar |
+| 3b | **Kredit ditulis** — garis titik `CreditList` tergambar dari kiri baris demi baris (110ms), nilai muncul di ujung. Nama tidak pernah disembunyikan | Semua `CreditList` | Sekali, saat pertama masuk layar |
 | 4 | **Tracklist hover**: nomor → ikon ▶, cover kecil miring 2°, baris menyala `bg-hover`. Di layar sentuh cukup umpan balik tekan | Semua daftar rilisan/artist | Hover/fokus, 120ms |
 | 5 | **Filter katalog**: baris yang tersisa bergeser mulus, yang keluar memudar | `/catalog` | Saat ganti filter |
 | 6 | **Transisi halaman**: judul/cover di daftar "melayang" jadi judul/cover besar di halaman detail; halaman lain crossfade singkat | Daftar → detail rilisan & artist | Saat navigasi |
 | 7 | Chip latar hero bereaksi ke kursor | Hero Home, perangkat mouse | Kursor mendekat |
 | 8 | Menu mobile masuk berjenjang | Header | Saat dibuka |
 
-Teknis: CSS + satu komponen kecil pendeteksi masuk layar (IntersectionObserver)
-untuk #3; #5 dan #6 lewat `<ViewTransition>` bawaan React di Next 16 (tanpa
+**Tidak ada section Home yang diam total** (Kaiel 2026-09-27: "biar tidak ada
+bagian yang terlalu diam atau tenggelam") — tiap section punya satu momen:
+hero sambutan · manifesto stiker berurutan · artist kredit ditulis · katalog
+stiker judul + tracklist hover · roster kredit ditulis · ekosistem stiker
+peran brand · dua jalur stiker judul. Pola ini dipakai juga di halaman lain.
+
+Teknis: CSS + `<Reveal>` (IntersectionObserver, `src/components/reveal.tsx`)
+untuk #3 — anak-anaknya menandai diri `data-stamp` / `data-leader` /
+`data-value`, gaya di globals.css; `StampSticker grouped` ikut Reveal
+terdekat; #5 dan #6 lewat `<ViewTransition>` bawaan React di Next 16 (tanpa
 konfigurasi, tanpa dependency; browser yang belum dukung tetap jalan tanpa
 animasi). Semua tunduk pada `prefers-reduced-motion`.
 

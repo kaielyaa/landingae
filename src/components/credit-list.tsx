@@ -1,4 +1,6 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
+import { Reveal } from "@/components/reveal";
 
 export type Credit = {
   name: string;
@@ -14,7 +16,11 @@ export type Credit = {
  *   ("Genre ····· Electronic")
  *
  * Baris ber-`href` bisa diklik; yang tidak, teks biasa (mis. kolaborator
- * yang memang tidak punya halaman). */
+ * yang memang tidak punya halaman).
+ *
+ * Gerak (arah.md #3): saat masuk layar, garis titik tergambar baris demi
+ * baris dan nilainya muncul di ujung — "kredit yang ditulis". Nama tidak
+ * pernah disembunyikan. */
 export function CreditList({
   title,
   credits,
@@ -33,26 +39,31 @@ export function CreditList({
   const [left, right] = variant === "people" ? [strong, soft] : [soft, strong];
 
   return (
-    <div className={className}>
+    <Reveal className={className}>
       {title ? (
         <h3 className="mb-4 text-[13px] font-bold uppercase tracking-[0.05em] text-muted">
           {title}
         </h3>
       ) : null}
       <ul>
-        {credits.map((c) => {
+        {credits.map((c, i) => {
           const row = (
             <>
               <span className={left}>{c.name}</span>
               <span
                 aria-hidden
-                className="mx-3 h-px min-w-6 flex-1 -translate-y-1 border-b border-dotted border-muted/50"
+                data-leader=""
+                className="mx-3 h-px min-w-6 flex-1 origin-left -translate-y-1 border-b border-dotted border-muted/50"
               />
-              {c.value ? <span className={right}>{c.value}</span> : null}
+              {c.value ? (
+                <span data-value="" className={right}>
+                  {c.value}
+                </span>
+              ) : null}
             </>
           );
           return (
-            <li key={c.name}>
+            <li key={c.name} style={{ "--i": i } as CSSProperties}>
               {c.href ? (
                 <Link
                   href={c.href}
@@ -67,6 +78,6 @@ export function CreditList({
           );
         })}
       </ul>
-    </div>
+    </Reveal>
   );
 }

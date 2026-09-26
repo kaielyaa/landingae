@@ -281,20 +281,26 @@
   }
 }
 
-/* Stiker yang "ditempel" saat masuk layar — lihat StampSticker. Sengaja di
-   luar @layer supaya menang atas kelas utilitas stiker (bg-primary dst.)
-   tanpa !important. Keyframe-nya kembar dengan sticker-in di
-   home/hero.module.css (modul CSS tidak bisa berbagi keyframe global). */
-[data-stamp="wait"] {
+/* Gerak saat masuk layar — dipicu <Reveal> (data-reveal wait → go). Di luar
+   @layer supaya menang atas kelas utilitas (bg-primary dst.) tanpa
+   !important. Selektor mencakup elemen Reveal itu sendiri dan turunannya.
+
+   1. Stiker (data-stamp): warna menyapu kiri→kanan, lalu miring & kembali.
+      Keyframe kembar dengan sticker-in di home/hero.module.css (modul CSS
+      tidak bisa berbagi keyframe global).
+   2. Kredit (data-leader / data-value): garis titik tergambar dari kiri,
+      lalu nilainya muncul — baris demi baris lewat --i. */
+:is([data-reveal="wait"][data-stamp], [data-reveal="wait"] [data-stamp]) {
   background-color: transparent;
   color: var(--foreground);
   rotate: 0deg;
 }
-[data-stamp="go"] {
+:is([data-reveal="go"][data-stamp], [data-reveal="go"] [data-stamp]) {
   background-image: linear-gradient(var(--sweep), var(--sweep));
   background-repeat: no-repeat;
   background-size: 100% 100%;
   animation: stamp-in 760ms var(--ease-out) backwards;
+  animation-delay: var(--stamp-delay, 0ms);
 }
 @keyframes stamp-in {
   0% {
@@ -311,6 +317,27 @@
   80% {
     rotate: calc(var(--tilt) * 2.5);
   }
+}
+
+[data-reveal="wait"] [data-leader] {
+  scale: 0 1;
+}
+[data-reveal="wait"] [data-value] {
+  opacity: 0;
+}
+[data-reveal="go"] [data-leader] {
+  animation: leader-draw 560ms var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+[data-reveal="go"] [data-value] {
+  animation: value-in 320ms var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 110ms + 420ms);
+}
+@keyframes leader-draw {
+  from { scale: 0 1; }
+}
+@keyframes value-in {
+  from { opacity: 0; translate: -4px 0; }
 }
 
 /* Tanda tangan: chip — default kalem/outline ("b aja"), nyala warna

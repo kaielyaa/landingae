@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { CreditList } from "@/components/credit-list";
 import { Hero } from "@/components/home/hero";
 import { InlineTag } from "@/components/inline-tag";
+import { Reveal } from "@/components/reveal";
 import { buildPlatformLinks, PlatformLinks } from "@/components/platform-links";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -12,7 +13,6 @@ import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
 import { Section, SectionHeading, TextLink } from "@/components/ui/section";
-import { Sticker } from "@/components/ui/sticker";
 import { collabRoster, featuredArtist, pastRoster } from "@/lib/artists";
 import { releases } from "@/lib/releases";
 
@@ -40,25 +40,33 @@ export default function Home() {
             <h2 className="text-[clamp(30px,4.2vw,56px)] font-bold leading-[1.1] tracking-tight">
               Bukan content factory.
             </h2>
-            <div className="max-w-[60ch]">
+            {/* Empat stiker ditempel berurutan saat paragraf terlihat. */}
+            <Reveal className="max-w-[60ch]">
               <p className="text-[17px] leading-[1.8] text-muted">
                 Kami label yang serius — roster kecil, kontrak panjang, fokus
                 ke artist yang siap tumbuh bareng. Tiap rilisan mulai dari{" "}
-                <Sticker tone="primary" size="inline">
+                <StampSticker grouped tone="primary" size="inline">
                   Develop
-                </Sticker>
-                , lanjut ke <InlineTag>Record</InlineTag> yang kualitasnya
-                dijaga ketat, ditutup dengan{" "}
-                <Sticker tone="accent" size="inline">
+                </StampSticker>
+                , lanjut ke{" "}
+                <StampSticker grouped tone="invert" size="inline" delay={180}>
+                  Record
+                </StampSticker>{" "}
+                yang kualitasnya dijaga ketat, ditutup dengan{" "}
+                <StampSticker grouped tone="accent" size="inline" delay={360}>
                   Release
-                </Sticker>{" "}
+                </StampSticker>{" "}
                 yang dipikirin matang — bukan sekadar upload. Distribusi Musik
-                ditangani sister company kami, <InlineTag>Lantuns</InlineTag>.
+                ditangani sister company kami,{" "}
+                <StampSticker grouped tone="invert" size="inline" delay={540}>
+                  Lantuns
+                </StampSticker>
+                .
               </p>
               <p className="mt-6 text-[13px] font-medium text-muted">
                 Sejak 2021 · Indonesia
               </p>
-            </div>
+            </Reveal>
           </div>
         </Section>
 
@@ -182,7 +190,8 @@ export default function Home() {
             lead="Anka Group — PT Anka Sembilan Delapan. Tiap brand berdiri sendiri dengan timnya, tapi saling mendukung."
             action={<TextLink href="/anka-group">Tentang Anka Group</TextLink>}
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          {/* Label peran tiap brand ditempel sebagai stiker saat terlihat. */}
+          <Reveal className="mt-10 grid gap-5 md:grid-cols-2">
             <BrandCard
               logo="/apple-touch-icon.png"
               name="Anka Entertainment"
@@ -202,8 +211,9 @@ export default function Home() {
                   Kunjungi Lantuns
                 </TextLink>
               }
+              delay={180}
             />
-          </div>
+          </Reveal>
         </Section>
 
         {/* DUA JALUR — rata kiri, dua baris bernomor, bukan kartu tengah. */}
@@ -263,6 +273,7 @@ function BrandCard({
   tone,
   description,
   footer,
+  delay = 0,
 }: {
   logo: string;
   name: string;
@@ -270,6 +281,7 @@ function BrandCard({
   tone: "primary" | "accent";
   description: string;
   footer: ReactNode;
+  delay?: number;
 }) {
   return (
     <Card className="flex flex-col">
@@ -281,9 +293,11 @@ function BrandCard({
         </span>
         <div>
           <h3 className="text-[22px] font-bold leading-tight">{name}</h3>
-          <Chip tone={tone} className="mt-1.5">
-            {role}
-          </Chip>
+          <span className="mt-1.5 block">
+            <StampSticker grouped tone={tone} size="inline" delay={delay}>
+              {role}
+            </StampSticker>
+          </span>
         </div>
       </div>
       <p className="mt-5 flex-1 text-[15px] leading-[1.7] text-muted">
