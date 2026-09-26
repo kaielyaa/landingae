@@ -253,6 +253,11 @@ invert miring, jumlah per kategori; label dari `CATEGORY_LABEL`) → hitungan
 mengikuti URL kalau berubah dari luar (tautan footer). Dibungkus `<Suspense>`
 dengan fallback seluruh katalog supaya HTML statis lengkap.
 
+**Anka Group** — `PageHero` → struktur (pohon kredit: induk → dua cabang,
+garis cabang tergambar saat masuk layar) → satu blok per brand bernomor
+(nama besar, peran = stiker, tagline, isi, daftar "Yang dikerjakan") → visi +
+fakta. Dua brand saja; tidak ada angka hiasan.
+
 **Detail artist / rilisan** — tautan kembali → chip → **h1 = elemen terbesar**
 (`clamp(48–56px … 120–144px)`, `w-fit` untuk morph) → kiri: kutipan/bio atau
 deskripsi + tombol platform; kanan: foto/cover kalau ada + `CreditList facts`

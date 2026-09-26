@@ -33,8 +33,6 @@ Pekerjaan terencana (fase 1–8) ada di `rencana.md`, tidak diulang di sini.
   2026-09-27. Beres kalau `next-themes` rilis perbaikan — menaikkan versi
   perlu izin
 
-- Tautan "Anka Group" di header & footer masih 404 sampai halamannya
-  dibangun di Fase 4
 
 - Turbopack dev kadang menyajikan versi LAMA rute dinamis (`[slug]`) setelah
   berkasnya diubah — tanpa error di log. Kalau tampilan tidak berubah padahal

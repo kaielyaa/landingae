@@ -65,7 +65,9 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "flex flex-wrap items-end justify-between gap-x-10 gap-y-5",
+        // content-start: di dalam grid, baris flex tidak ikut melar setinggi
+        // kolom sebelah (kalau melar, items-end menjatuhkan judul ke dasar).
+        "flex flex-wrap content-start items-end justify-between gap-x-10 gap-y-5",
         className,
       )}
     >
