@@ -25,8 +25,8 @@ const tentangLinks = [
 const karyaLinks = [
   { label: "Roster", href: "/roster" },
   { label: "Katalog", href: "/catalog" },
-  { label: "Karya Produksi", href: "/catalog" },
-  { label: "Cover & Reinterpretasi", href: "/catalog" },
+  { label: "Karya Produksi", href: "/catalog?kategori=production" },
+  { label: "Cover & Reinterpretasi", href: "/catalog?kategori=cover" },
 ];
 
 const legalLinks = [

@@ -103,6 +103,8 @@ export function SiteHeader() {
   return (
     <>
       <header
+        // Jangkar transisi halaman — lihat ::view-transition-*(site-header).
+        style={{ viewTransitionName: "site-header" }}
         className={cn(
           "fixed inset-x-0 top-0 z-50 border-b transition-[translate,background-color,border-color] duration-base ease-out",
           scrolled

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ArtistFeature } from "@/components/artist-feature";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { Tracklist } from "@/components/tracklist";
+import { releaseTracks, Tracklist } from "@/components/tracklist";
 import { Section, SectionHeading, TextLink } from "@/components/ui/section";
 import { artists, getArtistBySlug } from "@/lib/artists";
 import { releases } from "@/lib/releases";
@@ -49,7 +49,9 @@ export default async function ArtistDetailPage({
 
       <main>
         {/* pt-32/md:pt-40: header fixed tidak makan ruang layout. Nama
-            artist = h1 = elemen terbesar halaman, naik saat dibuka. */}
+            artist = h1 = elemen terbesar halaman. Tanpa animasi naik:
+            masuknya lewat morph dari daftar (view transition), dan dua
+            animasi di satu elemen saling tabrak. */}
         <section className="bg-background pb-20 pt-32 md:pb-28 md:pt-40">
           <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
             <TextLink href="/roster" className="text-[13px] text-muted hover:text-foreground">
@@ -59,7 +61,6 @@ export default async function ArtistDetailPage({
               <ArtistFeature
                 artist={artist}
                 nameAs="h1"
-                nameClassName="rise-on-load"
                 showSocials
               />
             </div>
@@ -73,12 +74,7 @@ export default async function ArtistDetailPage({
             <SectionHeading title={`Rilisan dari ${artist.name}.`} />
             <Tracklist
               className="mt-10"
-              tracks={artistReleases.map((r) => ({
-                href: `/catalog/${r.slug}`,
-                title: r.title,
-                meta: `${r.releaseType} · ${r.year}`,
-                tag: r.tag,
-              }))}
+              tracks={releaseTracks(artistReleases, { withArtist: false })}
             />
           </Section>
         ) : null}

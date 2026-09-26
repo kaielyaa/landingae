@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArtistFeature } from "@/components/artist-feature";
+import { ArtistFeature, artistNameVT } from "@/components/artist-feature";
 import { CreditList } from "@/components/credit-list";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
@@ -95,6 +95,7 @@ export default function RosterPage() {
                   name: a.name,
                   value: `${a.yearStart} — ${a.yearEnd}`,
                   href: `/roster/${a.slug}`,
+                  vtName: artistNameVT(a.slug),
                 }))}
               />
             </div>

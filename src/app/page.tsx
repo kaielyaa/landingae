@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { ArtistFeature } from "@/components/artist-feature";
+import { ArtistFeature, artistNameVT } from "@/components/artist-feature";
 import { CreditList } from "@/components/credit-list";
 import { Hero } from "@/components/home/hero";
 import { InlineTag } from "@/components/inline-tag";
@@ -8,7 +8,7 @@ import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StampSticker } from "@/components/stamp-sticker";
-import { Tracklist } from "@/components/tracklist";
+import { releaseTracks, Tracklist } from "@/components/tracklist";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
@@ -99,15 +99,7 @@ export default function Home() {
             }
             action={<TextLink href="/catalog">Lihat semua katalog</TextLink>}
           />
-          <Tracklist
-            className="mt-10"
-            tracks={releases.map((r) => ({
-              href: `/catalog/${r.slug}`,
-              title: r.title,
-              meta: `${r.artist} · ${r.releaseType} · ${r.year}`,
-              tag: r.tag,
-            }))}
-          />
+          <Tracklist className="mt-10" tracks={releaseTracks(releases)} />
         </Section>
 
         {/* ROSTER LAIN — blok kredit: alumni (bisa diklik) + kolaborasi
@@ -125,6 +117,7 @@ export default function Home() {
                   name: a.name,
                   value: `${a.yearStart} — ${a.yearEnd}`,
                   href: `/roster/${a.slug}`,
+                  vtName: artistNameVT(a.slug),
                 }))}
               />
               <CreditList

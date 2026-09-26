@@ -1,92 +1,147 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
-import { ReleaseCoverThumb } from "@/components/release-cover";
-import { releases, type ReleaseCategory } from "@/lib/releases";
+import { useSearchParams } from "next/navigation";
+import { startTransition, useState, ViewTransition } from "react";
+import { releaseTracks, TrackRow } from "@/components/tracklist";
+import { Button } from "@/components/ui/button";
+import { stickerTones } from "@/components/ui/sticker";
+import {
+  CATEGORIES,
+  CATEGORY_LABEL,
+  isReleaseCategory,
+  releases,
+  type ReleaseCategory,
+} from "@/lib/releases";
+import { cn } from "@/lib/utils";
 
-const filters: { key: ReleaseCategory | "all"; label: string }[] = [
-  { key: "all", label: "Semua Rilisan" },
-  { key: "catalog", label: "Katalog" },
-  { key: "production", label: "Produksi" },
-  { key: "cover", label: "Cover" },
-];
+type Filter = ReleaseCategory | "all";
 
+const PARAM = "kategori";
+
+/** Katalog + filter kategori kepemilikan master. Filter disimpan di URL
+ * (`/catalog?kategori=production`) supaya bisa dibagikan dan ditautkan dari
+ * footer. Ganti filter = transisi (arah.md: Gerak #5): baris yang tersisa
+ * bergeser, yang keluar/masuk memudar.
+ *
+ * Dipakai di dalam <Suspense> (useSearchParams); fallback-nya
+ * `CatalogListView` dengan filter "all" supaya HTML statis tetap berisi
+ * seluruh katalog. */
 export function CatalogList() {
-  const [active, setActive] = useState<ReleaseCategory | "all">("all");
+  const raw = useSearchParams().get(PARAM);
+  const fromUrl: Filter = isReleaseCategory(raw) ? raw : "all";
 
+  // Pilihan tombol disimpan bersama nilai URL saat memilih. Kalau URL
+  // berubah dari luar (mis. tautan footer "Karya Produksi" saat sudah di
+  // /catalog), pilihan lama kedaluwarsa dan filter kembali mengikuti URL.
+  const [picked, setPicked] = useState<{ at: string | null; value: Filter }>({
+    at: raw,
+    value: fromUrl,
+  });
+  const active = picked.at === raw ? picked.value : fromUrl;
+
+  function select(next: Filter) {
+    const at = next === "all" ? null : next;
+    startTransition(() => setPicked({ at, value: next }));
+    const url = new URL(window.location.href);
+    if (at) url.searchParams.set(PARAM, at);
+    else url.searchParams.delete(PARAM);
+    window.history.replaceState(null, "", url);
+  }
+
+  return <CatalogListView active={active} onSelect={select} />;
+}
+
+export function CatalogListView({
+  active,
+  onSelect,
+}: {
+  active: Filter;
+  onSelect?: (f: Filter) => void;
+}) {
   const filtered =
     active === "all" ? releases : releases.filter((r) => r.category === active);
+  const tracks = releaseTracks(filtered);
+
+  const filters: { key: Filter; label: string; count: number }[] = [
+    { key: "all", label: "Semua", count: releases.length },
+    ...CATEGORIES.map((c) => ({
+      key: c,
+      label: CATEGORY_LABEL[c],
+      count: releases.filter((r) => r.category === c).length,
+    })),
+  ];
 
   return (
     <div>
-      <div
-        className="flex flex-wrap gap-2"
-        role="tablist"
-        aria-label="Filter katalog"
-      >
+      <div role="group" aria-label="Filter kategori" className="flex flex-wrap gap-2">
         {filters.map((f) => {
-          const isActive = active === f.key;
+          const on = active === f.key;
           return (
             <button
               key={f.key}
               type="button"
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => setActive(f.key)}
-              className={
-                isActive
-                  ? "chip chip-primary rounded-sm px-3 py-1.5 text-[13px]"
-                  : "chip rounded-sm px-3 py-1.5 text-[13px] transition-colors duration-fast ease-out hover:bg-hover"
-              }
+              aria-pressed={on}
+              onClick={() => onSelect?.(f.key)}
+              className={cn(
+                "inline-flex h-9 items-center gap-2 rounded-md border px-3.5 text-[14px] font-medium transition-colors duration-fast ease-out",
+                on
+                  ? cn(stickerTones("invert"), "-rotate-1 border-transparent")
+                  : "border-border text-muted hover:bg-hover hover:text-foreground",
+              )}
             >
               {f.label}
+              <span className={cn("text-[12px] tabular-nums", on ? "opacity-70" : "")}>
+                {f.count}
+              </span>
             </button>
           );
         })}
       </div>
 
-      <p className="tabular mt-6 text-[13px] text-muted">
+      <p className="mt-8 text-[13px] text-muted tabular-nums" aria-live="polite">
         {filtered.length} rilisan
+        {active !== "all" ? ` · ${CATEGORY_LABEL[active]}` : ""}
       </p>
 
-      {filtered.length === 0 ? (
-        <div className="mt-4 rounded-xl border border-dashed border-border py-14 text-center">
-          <p className="text-[15px] font-semibold">Belum ada rilisan di sini</p>
-          <p className="mt-1 text-[14px] text-muted">
-            Coba filter kategori lain.
-          </p>
-        </div>
-      ) : (
-        <ul className="mt-4 divide-y divide-border border-t border-border">
-          {filtered.map((r, i) => (
-            <li key={r.slug}>
-              <Link
-                href={`/catalog/${r.slug}`}
-                className="group flex items-center justify-between gap-6 py-5 transition-colors duration-fast ease-out hover:bg-hover"
-              >
-                <div className="flex min-w-0 items-center gap-5">
-                  <span className="tabular w-6 flex-none text-[13px] font-bold text-muted">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <ReleaseCoverThumb />
-                  <div className="min-w-0">
-                    <p className="truncate text-[16px] font-bold">
-                      {r.title}
-                    </p>
-                    <p className="truncate text-[13px] text-muted">
-                      {r.artist} · {r.releaseType} · {r.year}
-                    </p>
-                  </div>
-                </div>
-                <span className="chip chip-accent hidden flex-none rounded-sm px-2 py-1 text-[11px] sm:inline-flex">
-                  {r.tag}
-                </span>
-              </Link>
+      {/* <ol> selalu ada; tiap baris punya VT sendiri — baris yang masuk
+          dan bergeser dianimasikan saat ganti kategori. */}
+      <ol
+        className={cn(
+          "mt-4 divide-y divide-border",
+          tracks.length > 0 && "border-y border-border",
+        )}
+      >
+        {tracks.map((t, i) => (
+          <ViewTransition key={t.href}>
+            <li>
+              <TrackRow track={t} n={i + 1} />
             </li>
-          ))}
-        </ul>
-      )}
+          </ViewTransition>
+        ))}
+      </ol>
+
+      {/* Keadaan kosong masuk lewat animasi CSS saat dipasang, bukan
+          ViewTransition: React tidak memulai view transition kalau
+          perubahannya cuma menghapus baris (dicek 2026-09-27, tanpa
+          error — startViewTransition tidak dipanggil sama sekali). */}
+      {tracks.length === 0 && active !== "all" ? (
+        <div className="rise-on-load mt-4 border-y border-border py-12">
+          <p className="text-[17px] font-bold">
+            Belum ada rilisan {CATEGORY_LABEL[active]}.
+          </p>
+          <p className="mt-2 max-w-[52ch] text-[15px] leading-[1.7] text-muted">
+            Rilisan di kategori ini akan muncul di sini begitu dirilis.
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-6"
+            onClick={() => onSelect?.("all")}
+          >
+            Lihat semua rilisan
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 }

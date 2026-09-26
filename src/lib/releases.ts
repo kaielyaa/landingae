@@ -1,5 +1,20 @@
 export type ReleaseCategory = "catalog" | "production" | "cover";
 
+/** Label kategori kepemilikan master — satu sumber untuk filter Katalog,
+ * detail rilisan, dan footer. Kunci = nilai skema Sanity; label = bahasa
+ * situs. */
+export const CATEGORY_LABEL: Record<ReleaseCategory, string> = {
+  catalog: "Katalog",
+  production: "Karya Produksi",
+  cover: "Cover & Reinterpretasi",
+};
+
+export const CATEGORIES = Object.keys(CATEGORY_LABEL) as ReleaseCategory[];
+
+export function isReleaseCategory(v: unknown): v is ReleaseCategory {
+  return typeof v === "string" && v in CATEGORY_LABEL;
+}
+
 export type Release = {
   slug: string;
   title: string;
@@ -17,6 +32,9 @@ export type Release = {
    * ada datanya. Isi beneran begitu Sanity terhubung, jangan ngarang di
    * sini duluan. */
   description?: string;
+  /** Artwork (nanti dari Sanity `coverImage`). Kosong = tidak ditampilkan
+   * besar, dan kotak netral kecil di daftar. */
+  cover?: string;
   spotify?: string;
   appleMusic?: string;
   youtube?: string;

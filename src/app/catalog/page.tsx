@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { CatalogList } from "@/components/catalog-list";
+import { Suspense } from "react";
+import { CatalogList, CatalogListView } from "@/components/catalog-list";
 import { PageHero } from "@/components/page-hero";
 import { StampSticker } from "@/components/stamp-sticker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { Section } from "@/components/ui/section";
 
 export const metadata: Metadata = {
   title: "Katalog — Anka Entertainment",
@@ -30,11 +32,13 @@ export default function CatalogPage() {
           description="Kami bagi rilisan ke dalam tiga kategori berdasarkan kepemilikan master — siapa yang pegang hak rekaman menentukan bagaimana kami menyebut karyanya. Distribusi Musik ditangani Lantuns."
         />
 
-        <section className="bg-background py-20">
-          <div className="mx-auto w-full max-w-[var(--content-max)] px-[var(--page-gutter)]">
+        {/* Suspense: CatalogList membaca ?kategori= dari URL. Fallback
+            berisi seluruh katalog, jadi HTML statis tetap lengkap. */}
+        <Section tone="base" space="normal">
+          <Suspense fallback={<CatalogListView active="all" />}>
             <CatalogList />
-          </div>
-        </section>
+          </Suspense>
+        </Section>
       </main>
 
       <SiteFooter />

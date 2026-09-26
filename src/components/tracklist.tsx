@@ -1,7 +1,9 @@
 import { Play } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { ViewTransition } from "react";
 import { Chip } from "@/components/ui/chip";
+import type { Release } from "@/lib/releases";
 import { cn } from "@/lib/utils";
 
 export type Track = {
@@ -11,9 +13,34 @@ export type Track = {
   meta: string;
   /** Status rilis di kanan (disembunyikan <640px). */
   tag?: string;
-  /** Cover kecil 48px. Kosong = kotak netral. */
-  cover?: ReactNode;
+  /** URL artwork. Kosong = kotak netral. */
+  cover?: string;
+  /** Nama view transition judul — pasangannya h1 di halaman detail
+   * (arah.md: Gerak #6). Harus unik per halaman. */
+  vtName?: string;
 };
+
+/** Nama view transition judul rilisan — dipakai daftar & halaman detail. */
+export function releaseTitleVT(slug: string) {
+  return `release-title-${slug}`;
+}
+
+/** Bentuk baku baris rilisan untuk semua daftar. */
+export function releaseTracks(
+  list: Release[],
+  { withArtist = true }: { withArtist?: boolean } = {},
+): Track[] {
+  return list.map((r) => ({
+    href: `/catalog/${r.slug}`,
+    title: r.title,
+    meta: [withArtist ? r.artist : null, r.releaseType, r.year]
+      .filter(Boolean)
+      .join(" · "),
+    tag: r.tag,
+    cover: r.cover,
+    vtName: releaseTitleVT(r.slug),
+  }));
+}
 
 /** Tanda tangan 2: daftar bernomor ala tracklist. Nomor = urutan asli,
  * bukan dekorasi. Hover/fokus (arah.md: Gerak #4): nomor berganti ikon ▶,
@@ -29,42 +56,68 @@ export function Tracklist({
     <ol className={cn("divide-y divide-border border-y border-border", className)}>
       {tracks.map((t, i) => (
         <li key={t.href}>
-          <Link
-            href={t.href}
-            className="group -mx-3 flex items-center gap-4 rounded-sm px-3 py-4 transition-colors duration-fast ease-out hover:bg-hover focus-visible:bg-hover active:bg-hover sm:gap-5"
-          >
-            <span className="relative flex w-6 flex-none justify-center">
-              <span className="text-[13px] font-medium text-muted tabular-nums transition-opacity duration-fast ease-out group-hover:opacity-0 group-focus-visible:opacity-0">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <Play
-                aria-hidden
-                className="absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 fill-current text-foreground opacity-0 transition-opacity duration-fast ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
-              />
-            </span>
-
-            <span className="flex-none transition-[rotate] duration-fast ease-out group-hover:rotate-2 group-focus-visible:rotate-2">
-              {t.cover ?? <CoverBlank />}
-            </span>
-
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-[17px] font-bold">
-                {t.title}
-              </span>
-              <span className="block truncate text-[13px] text-muted">
-                {t.meta}
-              </span>
-            </span>
-
-            {t.tag ? (
-              <Chip tone="accent" className="hidden flex-none sm:inline-flex">
-                {t.tag}
-              </Chip>
-            ) : null}
-          </Link>
+          <TrackRow track={t} n={i + 1} />
         </li>
       ))}
     </ol>
+  );
+}
+
+export function TrackRow({ track: t, n }: { track: Track; n: number }) {
+  // inline-block + w-fit: lebar kotak judul mengikuti teksnya, supaya
+  // morph ke h1 detail berskala sebanding dengan ukuran hurufnya.
+  const title = (
+    <span className="inline-block max-w-full truncate align-top text-[17px] font-bold">
+      {t.title}
+    </span>
+  );
+
+  return (
+    <Link
+      href={t.href}
+      className="group -mx-3 flex items-center gap-4 rounded-sm px-3 py-4 transition-colors duration-fast ease-out hover:bg-hover focus-visible:bg-hover active:bg-hover sm:gap-5"
+    >
+      <span className="relative flex w-6 flex-none justify-center">
+        <span className="text-[13px] font-medium text-muted tabular-nums transition-opacity duration-fast ease-out group-hover:opacity-0 group-focus-visible:opacity-0">
+          {String(n).padStart(2, "0")}
+        </span>
+        <Play
+          aria-hidden
+          className="absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 fill-current text-foreground opacity-0 transition-opacity duration-fast ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
+        />
+      </span>
+
+      <span className="flex-none transition-[rotate] duration-fast ease-out group-hover:rotate-2 group-focus-visible:rotate-2">
+        {t.cover ? (
+          <Image
+            src={t.cover}
+            alt=""
+            width={48}
+            height={48}
+            className="h-12 w-12 rounded-md object-cover"
+          />
+        ) : (
+          <CoverBlank />
+        )}
+      </span>
+
+      <span className="min-w-0 flex-1">
+        {t.vtName ? (
+          <ViewTransition name={t.vtName} share="morph" default="none">
+            {title}
+          </ViewTransition>
+        ) : (
+          title
+        )}
+        <span className="block truncate text-[13px] text-muted">{t.meta}</span>
+      </span>
+
+      {t.tag ? (
+        <Chip tone="accent" className="hidden flex-none sm:inline-flex">
+          {t.tag}
+        </Chip>
+      ) : null}
+    </Link>
   );
 }
 

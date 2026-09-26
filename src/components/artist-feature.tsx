@@ -1,10 +1,16 @@
 import Image from "next/image";
-import type { ReactNode } from "react";
+import { ViewTransition, type ReactNode } from "react";
 import { CreditList, type Credit } from "@/components/credit-list";
 import { buildPlatformLinks, PlatformLinks } from "@/components/platform-links";
 import { buildSocialLinks, SocialIconLinks } from "@/components/social-links";
 import { Chip } from "@/components/ui/chip";
 import type { Artist } from "@/lib/artists";
+
+/** Nama view transition nama artist — pasangan daftar (Home, Roster,
+ * kredit alumni) dengan h1 detail (arah.md: Gerak #6). */
+export function artistNameVT(slug: string) {
+  return `artist-name-${slug}`;
+}
 
 /** Fakta liner notes per tier — hanya yang datanya ada. */
 export function artistFacts(artist: Artist): Credit[] {
@@ -74,11 +80,15 @@ export function ArtistFeature({
         ) : null}
       </div>
 
-      <Name
-        className={`mt-6 text-[clamp(56px,10vw,144px)] font-bold leading-[0.95] tracking-[-0.04em] ${nameClassName ?? ""}`}
-      >
-        {artist.name}
-      </Name>
+      {/* w-fit: kotak mengikuti teks, supaya morph dari daftar berskala
+          sebanding dengan ukuran hurufnya. */}
+      <ViewTransition name={artistNameVT(artist.slug)} share="morph" default="none">
+        <Name
+          className={`mt-6 w-fit max-w-full text-[clamp(56px,10vw,144px)] font-bold leading-[0.95] tracking-[-0.04em] ${nameClassName ?? ""}`}
+        >
+          {artist.name}
+        </Name>
+      </ViewTransition>
 
       <div className="mt-12 grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
         <div>

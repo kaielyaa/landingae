@@ -359,6 +359,47 @@
   from { opacity: 0; translate: -4px 0; }
 }
 
+/* Transisi halaman (arah.md: Gerak #6) — <ViewTransition> React di Next 16.
+   Judul/nama di daftar "melayang" ke h1 halaman detail (share="morph");
+   sisa halaman crossfade singkat. Browser tanpa dukungan: pindah biasa. */
+::view-transition {
+  /* Klik selama transisi tetap sampai ke halaman. */
+  pointer-events: none;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration-base);
+}
+::view-transition-group(.morph) {
+  animation-duration: 420ms;
+  animation-timing-function: var(--ease-out);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+@keyframes via-blur {
+  30% { filter: blur(2px); }
+}
+/* Header jadi jangkar: tidak ikut bergerak/memudar saat pindah halaman. */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
 /* Tanda tangan: chip — default kalem/outline ("b aja"), nyala warna
    pas jadi status penting atau di-hover ("asik" begitu didekati).
    Dipakai untuk genre, status rilis, kategori katalog. Lihat arah.md. */

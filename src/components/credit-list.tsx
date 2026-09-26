@@ -1,11 +1,13 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import { ViewTransition, type CSSProperties } from "react";
 import { Reveal } from "@/components/reveal";
 
 export type Credit = {
   name: string;
   value?: string;
   href?: string;
+  /** Nama view transition kiri (mis. nama artist → h1 profilnya). */
+  vtName?: string;
 };
 
 /** Tanda tangan 2: kredit ala liner notes — kiri, garis titik, kanan.
@@ -49,7 +51,13 @@ export function CreditList({
         {credits.map((c, i) => {
           const row = (
             <>
-              <span className={left}>{c.name}</span>
+              {c.vtName ? (
+                <ViewTransition name={c.vtName} share="morph" default="none">
+                  <span className={left}>{c.name}</span>
+                </ViewTransition>
+              ) : (
+                <span className={left}>{c.name}</span>
+              )}
               <span
                 aria-hidden
                 data-leader=""

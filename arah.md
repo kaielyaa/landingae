@@ -175,8 +175,8 @@ di luar daftar ini tidak ditambahkan tanpa izin Kaiel.
 | 3a | **Stiker ditempel** — sapuan warna + miring; teks terbaca sejak awal | Judul section yang punya stiker; stiker inline dalam satu paragraf/grup ditempel berurutan (jeda 180ms) | Sekali, saat pertama masuk layar |
 | 3b | **Kredit ditulis** — garis titik `CreditList` tergambar dari kiri baris demi baris (110ms), nilai muncul di ujung. Nama tidak pernah disembunyikan | Semua `CreditList` | Sekali, saat pertama masuk layar |
 | 4 | **Tracklist hover**: nomor → ikon ▶, cover kecil miring 2°, baris menyala `bg-hover`. Di layar sentuh cukup umpan balik tekan | Semua daftar rilisan/artist | Hover/fokus, 120ms |
-| 5 | **Filter katalog**: baris yang tersisa bergeser mulus, yang keluar memudar | `/catalog` | Saat ganti filter |
-| 6 | **Transisi halaman**: judul/cover di daftar "melayang" jadi judul/cover besar di halaman detail; halaman lain crossfade singkat | Daftar → detail rilisan & artist | Saat navigasi |
+| 5 | **Filter katalog**: baris masuk/bergeser (VT per baris). Ke kategori kosong: pesan kosong naik (`rise-on-load`) — React tidak memulai VT kalau perubahannya cuma menghapus | `/catalog` | Saat ganti filter |
+| 6 | **Transisi halaman**: judul rilisan & nama artist di daftar melayang jadi h1 detail (`share="morph"`, 420ms, `releaseTitleVT` / `artistNameVT`); sisanya crossfade 200ms; header diam (`site-header`). h1 detail **tanpa** `rise-on-load` — dua animasi di satu elemen bertabrakan | Daftar → detail | Saat navigasi |
 | 7 | Chip latar hero bereaksi ke kursor | Hero Home, perangkat mouse | Kursor mendekat |
 | 8 | Menu mobile masuk berjenjang | Header | Saat dibuka |
 
@@ -186,40 +186,29 @@ hero sambutan · manifesto stiker berurutan · artist kredit ditulis · katalog
 stiker judul + tracklist hover · roster kredit ditulis · ekosistem stiker
 peran brand · dua jalur stiker judul. Pola ini dipakai juga di halaman lain.
 
-Teknis: CSS + `<Reveal>` (IntersectionObserver, `src/components/reveal.tsx`)
-untuk #3 — anak-anaknya menandai diri `data-stamp` / `data-leader` /
-`data-value`, gaya di globals.css; `StampSticker grouped` ikut Reveal
-terdekat; #5 dan #6 lewat `<ViewTransition>` bawaan React di Next 16 (tanpa
-konfigurasi, tanpa dependency; browser yang belum dukung tetap jalan tanpa
-animasi). Semua tunduk pada `prefers-reduced-motion`.
+Teknis: #3 lewat `<Reveal>` (IntersectionObserver) + atribut `data-stamp` /
+`data-leader` / `data-value`, gaya di globals.css. #5–#6 lewat `<ViewTransition>`
+React bawaan Next 16 (tanpa dependency; browser tanpa dukungan tetap jalan).
+Nama VT harus unik per halaman. Semua tunduk pada `prefers-reduced-motion`.
 
-**Sudah dibuang (2026-09-27):** Lenis smooth scroll (dependency dicopot,
-scroll native) · goyang terus-menerus di chip latar · chip melayang di
-manifesto · foto berayun · tombol scroll yang melompat (sekarang diam, bereaksi
-saat hover). **Jangan dikembalikan.** Animasi scroll di tiap elemen tetap haram.
+**Sudah dibuang, jangan dikembalikan:** Lenis · goyang terus-menerus · chip
+melayang di manifesto · foto berayun · panah melompat · animasi scroll di tiap
+elemen.
 
 ## Header — `src/components/site-header.tsx`
 
-- Logo + wordmark = tautan ke Home. Tidak ada item "Beranda"
-- Nav: Roster · Katalog · Layanan · Tentang · Anka Group. Aktif juga untuk
-  sub-halaman (`/roster/db-project` → Roster)
-- Halaman aktif = stiker invert (`stickerTones("invert")` + `-rotate-1`),
-  tinggi 32px `rounded-sm`. Hover: teks menguat + garis bawah
-- Kirim Demo = `ButtonLink size="sm"`, **tampil di semua ukuran layar**
-- Tinggi `h-16`. Transparan di atas; setelah scroll >8px latar solid
-  `bg-background` + border (tanpa blur kaca). Turun lewat 120px → menyingkir,
-  naik → muncul. Fokus keyboard di dalam header selalu memunculkannya
-- `<1024px`: `[logo + nama] [Kirim Demo] [Menu]` — di 768px lima item nav
-  tidak muat satu baris. Di bawah 360px nama brand disembunyikan visual
-  (tetap terbaca pembaca layar)
-- Menu mobile/tablet = `<dialog>` modal layar penuh, **tanpa radius** (menutup
-  seluruh layar). Baris atas sama dengan header (tombol Menu jadi Tutup di
-  posisi yang sama). Nav 34px bold bernomor 01–05 ala tracklist, masuk
-  berjenjang 40ms. Bawah: tombol tema berlabel + email. Esc menutup, fokus
-  terkunci, halaman belakang tidak ikut scroll. Saat dibuka, fokus ditaruh
-  di `<dialog>`-nya (bukan logo — di HP itu tampil sebagai highlight)
-- Header `fixed` — halaman yang hero-nya bukan `min-h-dvh` wajib punya
-  `pt-32 md:pt-40` di section pertama (sudah di `PageHero`)
+- Logo + nama = tautan Home (tanpa item "Beranda"). Nav: Roster · Katalog ·
+  Layanan · Tentang · Anka Group; aktif juga di sub-halaman. Aktif = stiker
+  invert miring (h-8 `rounded-sm`); hover = teks menguat + garis bawah
+- Kirim Demo (`ButtonLink sm`) **tampil di semua ukuran layar**
+- `h-16`. Transparan di atas; >8px latar solid + border (tanpa blur). Turun
+  lewat 120px menyingkir, naik muncul; fokus keyboard memunculkannya. Jangkar
+  transisi halaman (`viewTransitionName: site-header`)
+- `<1024px`: `[logo+nama] [Kirim Demo] [Menu]`; <360px nama disembunyikan
+  visual. Menu = `<dialog>` layar penuh tanpa radius, nav 34px bernomor 01–05,
+  masuk berjenjang, tombol tema + email di bawah. Saat dibuka fokus di
+  `<dialog>`-nya (bukan logo — di HP tampil sebagai highlight)
+- Header `fixed`: section pertama tiap halaman wajib `pt-32 md:pt-40`
 
 ## Komponen dasar
 
@@ -244,36 +233,38 @@ komponen baru. Primitif di `src/components/ui/`, pola tanda tangan di
 `Field` (label + input + error) dibuat saat form Submit dikerjakan — belum
 ada pemakainya.
 
-## Home — susunan (Fase 2, 2026-09-27)
+## Susunan halaman
 
-| Section | Latar · jarak | Isi |
-|---|---|---|
-| Hero | — | Dikunci, lihat di atas |
-| Manifesto `#manifesto` | sunken · tight | Judul kiri, paragraf kanan (≥1024px). Develop/Record/Release/Lantuns = stiker inline |
-| Artist utama | base · loose | Chip status, **nama `clamp(56px,10vw,144px)` = elemen terbesar section**, kutipan + bio kiri, fakta `CreditList facts` + tombol platform kanan. Foto hanya kalau `artist.photo` ada |
-| Katalog | sunken · normal | `Tracklist` bernomor, stiker "katalog" |
-| Roster lain | base · tight | Dua `CreditList`: alumni (bisa diklik) + kolaborasi (tidak) |
-| Ekosistem | sunken · normal | Dua `Card` brand (satu-satunya kartu di Home) |
-| Dua jalur | base · loose | Stiker "didengar", dua baris bernomor, tombol di kanan — bukan kartu rata tengah |
+**Home** — Hero (dikunci) → Manifesto `#manifesto` (sunken·tight, judul kiri,
+paragraf kanan, 4 stiker inline berurutan) → Artist utama (`ArtistFeature`,
+base·loose) → Katalog (`Tracklist`, sunken·normal, stiker "katalog") → Roster
+lain (dua `CreditList`, base·tight) → Ekosistem (dua `Card`, satu-satunya kartu
+di Home, sunken·normal) → Dua jalur (baris bernomor, base·loose, stiker
+"didengar").
 
-## Roster — susunan (Fase 3a, 2026-09-27)
+**Roster** — `PageHero` → tiap artist aktif = `ArtistFeature` (base·loose) →
+Kolaborasi (judul kiri + `CreditList` kanan, tak bisa diklik) → Pernah jadi
+bagian (sama, bisa diklik). Kosong: kolaborasi/alumni disembunyikan, aktif
+kosong = kalimat penjelas.
 
-- `/roster`: `PageHero` (stiker "banyak", "tepat") → tiap artist aktif =
-  `ArtistFeature` (base · loose) → Kolaborasi (sunken · tight, judul kiri +
-  `CreditList` kanan, tidak bisa diklik) → Pernah jadi bagian (judul kiri +
-  `CreditList` bisa diklik). Kolaborasi/alumni disembunyikan kalau kosong;
-  aktif kosong = kalimat penjelas + arahan ke Instagram
-- `/roster/[slug]`: tautan kembali → `ArtistFeature` dengan nama sebagai
-  **h1 = elemen terbesar halaman** (`rise-on-load`) + ikon sosmed → Rilisan
-  (`Tracklist`, disembunyikan kalau kosong). Field kosong ditulis jujur
-  ("Belum ada bio", "Link streaming belum dipasang")
+**Katalog** — `PageHero` → filter (tombol `aria-pressed`, aktif = stiker
+invert miring, jumlah per kategori; label dari `CATEGORY_LABEL`) → hitungan
+(`aria-live`) → `Tracklist`. Filter disimpan di `?kategori=` dan tetap
+mengikuti URL kalau berubah dari luar (tautan footer). Dibungkus `<Suspense>`
+dengan fallback seluruh katalog supaya HTML statis lengkap.
+
+**Detail artist / rilisan** — tautan kembali → chip → **h1 = elemen terbesar**
+(`clamp(48–56px … 120–144px)`, `w-fit` untuk morph) → kiri: kutipan/bio atau
+deskripsi + tombol platform; kanan: foto/cover kalau ada + `CreditList facts`
+(artist di detail rilisan bisa diklik ke profil). Lalu Kredit (field milik
+rilisan: tampil walau kosong, dengan penjelasan) dan daftar rilisan terkait
+(disembunyikan kalau kosong).
 
 ## Gambar & aset
 
 - **Foto hanya tampil kalau ada.** Belum ada foto = layout tipografi penuh,
-  bukan kotak "foto belum diupload" di production. Home & Roster sudah
-  begini (`ArtistPhotoPlaceholder` dihapus). **[Fase 3b]**
-  `ReleaseCoverPlaceholder` + `PinnedPlaceholder` di Katalog menyusul
+  bukan kotak "foto belum diupload" di production. Semua placeholder washi
+  tape sudah dihapus (2026-09-27)
 - Foto artist kalau ada: `max-w-[420px]` di kolom samping supaya rasio 4:5
   tidak meledak di layar lebar
 - Cover rilisan: kotak 48px (`rounded-md`) di daftar, besar di detail
